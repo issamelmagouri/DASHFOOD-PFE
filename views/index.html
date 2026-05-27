@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DashFood - Livraison de repas à domicile</title>
+    <meta name="description" content="Commandez vos plats préférés et faites-vous livrer rapidement">
+    <link rel="icon" type="image/png" href="/assets/logos/logo.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar Premium -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="/" class="navbar-logo">
+                    <img src="/assets/logos/logo.png" alt="DashFood" class="logo-img" style="height: 36px !important; width: auto !important;">
+                </a>
+
+                <!-- Actions de navigation - Dynamique selon statut connexion -->
+                <div class="navbar-actions">
+                    <!-- Boutons pour utilisateurs non connectés -->
+                    <div id="guestActions" class="guest-actions">
+                        <a href="/login" class="btn btn-outline">Connexion</a>
+                        <a href="/register" class="btn btn-primary">Inscription</a>
+                    </div>
+
+                    <!-- Bouton profil pour clients connectés (caché par défaut) -->
+                    <div id="clientProfile" class="client-profile" style="display: none;">
+                        <button class="profile-btn" id="profileBtn">
+                            <svg class="profile-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span class="profile-name" id="profileName">Client</span>
+                            <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+
+                        <!-- Dropdown Menu Premium -->
+                        <div class="profile-dropdown" id="profileDropdown">
+                            <div class="dropdown-header">
+                                <div class="dropdown-user-info">
+                                    <div class="dropdown-avatar">
+                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </div>
+                                    <div class="dropdown-user-text">
+                                        <div class="dropdown-user-name" id="dropdownFullName">Utilisateur</div>
+                                        <div class="dropdown-user-email" id="dropdownEmail">email@example.com</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="dropdown-divider"></div>
+
+                            <div class="dropdown-menu">
+                                <a href="/profile.html" class="dropdown-item">
+                                    <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <span>Mon profil</span>
+                                </a>
+
+                                <a href="/mes-commandes.html" class="dropdown-item">
+                                    <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <span>Mes commandes</span>
+                                </a>
+
+                                <a href="/dashpoints.html" class="dropdown-item">
+                                    <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <span>Mes DashPoints</span>
+                                </a>
+                            </div>
+
+                            <div class="dropdown-divider"></div>
+
+                            <button class="dropdown-item dropdown-logout" id="logoutBtn">
+                                <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <polyline points="16 17 21 12 16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <line x1="21" y1="12" x2="9" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <span>Déconnexion</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section Premium -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-grid">
+                <!-- Hero Content Left -->
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        Savourez la <span class="text-accent">diversité</span><br>
+                        depuis chez vous
+                    </h1>
+                    <p class="hero-subtitle">
+                        Découvrez une sélection de restaurants d'exception et faites-vous livrer vos plats préférés en quelques minutes. Une expérience culinaire unique à portée de main.
+                    </p>
+
+                    <div class="hero-search-wrapper">
+                        <div class="search-pill-bar">
+                            <svg class="pin-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#F31753"/>
+                            </svg>
+                            <input type="text" placeholder="Entrez votre adresse de livraison" class="location-input">
+                            <div class="vertical-divider"></div>
+                            <button class="position-btn">
+                                <svg class="gps-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12" cy="12" r="8" stroke="#8BC34A" stroke-width="2" fill="none"/>
+                                    <circle cx="12" cy="12" r="3" fill="#8BC34A"/>
+                                    <line x1="12" y1="2" x2="12" y2="6" stroke="#8BC34A" stroke-width="2"/>
+                                    <line x1="12" y1="18" x2="12" y2="22" stroke="#8BC34A" stroke-width="2"/>
+                                    <line x1="2" y1="12" x2="6" y2="12" stroke="#8BC34A" stroke-width="2"/>
+                                    <line x1="18" y1="12" x2="22" y2="12" stroke="#8BC34A" stroke-width="2"/>
+                                </svg>
+                                Ma position
+                            </button>
+                            <button class="confirm-btn">Confirmer →</button>
+                        </div>
+
+                        <div class="hero-action-cards">
+                            <a href="/restaurants.html" class="action-card">
+                                <div class="card-icon-circle pink-circle">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M8.1 13.34l2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z" fill="#F31753"/>
+                                    </svg>
+                                </div>
+                                <div class="card-text">
+                                    <div class="card-title">Découvrir les restaurants</div>
+                                    <div class="card-subtitle">Des milliers de saveurs près de chez vous</div>
+                                </div>
+                                <div class="card-arrow">→</div>
+                            </a>
+                            <a href="/commander.html" class="action-card" data-auth-required="true">
+                                <div class="card-icon-circle green-circle">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M18 6h-2c0-2.21-1.79-4-4-4S8 3.79 8 6H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6-2c1.1 0 2 .9 2 2h-4c0-1.1.9-2 2-2zm6 16H6V8h12v12z" fill="#8BC34A"/>
+                                    </svg>
+                                </div>
+                                <div class="card-text">
+                                    <div class="card-title">Commande</div>
+                                    <div class="card-subtitle">Rapide, simple et délicieux</div>
+                                </div>
+                                <div class="card-arrow green-arrow">→</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Image Slider Right -->
+                <div class="hero-image-container">
+                    <div class="food-slider">
+                        <div class="slider-wrapper">
+                            <img src="/assets/images/platanimation1.png" alt="Plat délicieux" class="slider-img active">
+                            <img src="/assets/images/platanimation2.png" alt="Plat savoureux" class="slider-img">
+                            <img src="/assets/images/platannimation3.png" alt="Plat appétissant" class="slider-img">
+                        </div>
+
+                        <!-- Floating Card -->
+                        <div class="floating-card">
+                            <div class="card-icon">
+                                <i class="fas fa-motorcycle"></i>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-title">Livraison gratuite</div>
+                                <div class="card-subtitle">Dès 20€ d'achat</div>
+                            </div>
+                        </div>
+
+                        <!-- Slider Dots -->
+                        <div class="slider-indicators">
+                            <span class="indicator active" data-index="0"></span>
+                            <span class="indicator" data-index="1"></span>
+                            <span class="indicator" data-index="2"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Loyalty Program Ultra Premium -->
+    <section class="loyalty-section">
+        <div class="loyalty-wrapper">
+            <div class="loyalty-grid">
+                <!-- Left Column - Text -->
+                <div class="loyalty-left">
+                    <div class="loyalty-label">PROGRAMME EXCLUSIF</div>
+                    <h2 class="loyalty-main-title">Chaque repas vous rapproche d'un avantage</h2>
+                    <p class="loyalty-body">
+                        Gagnez des DashPoints à chaque commande. Débloquez des réductions exclusives, des livraisons offertes et des accès prioritaires aux restaurants partenaires.
+                    </p>
+
+                    <div class="loyalty-benefits">
+                        <div class="benefit-row">
+                            <svg class="check-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="#8BC34A"/>
+                            </svg>
+                            <span>Livraison gratuite dès 500 points</span>
+                        </div>
+                        <div class="benefit-row">
+                            <svg class="check-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="#8BC34A"/>
+                            </svg>
+                            <span>Réductions exclusives membres Gold</span>
+                        </div>
+                        <div class="benefit-row">
+                            <svg class="check-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="#8BC34A"/>
+                            </svg>
+                            <span>Accès prioritaire aux nouveaux restaurants</span>
+                        </div>
+                    </div>
+
+                    <!-- Bouton CTA dynamique (change selon connexion) -->
+                    <button class="loyalty-cta" id="loyaltyCTA">
+                        <span id="loyaltyCTAText">Rejoindre le programme</span>
+                        <span>→</span>
+                    </button>
+                </div>
+
+                <!-- Right Column - Carte DashPoints Dynamique -->
+                <div class="loyalty-right">
+                    <div class="card-glow"></div>
+
+                    <!-- Container pour carte DashPoints premium (dynamique) -->
+                    <div id="dashpointsCardContainer" class="dashpoints-card-wrapper">
+                        <!-- La carte sera injectée ici par JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Immersive Navigation Cards -->
+    <section class="nav-cards-section">
+        <div class="nav-header">
+            <p class="nav-label">UNE PLATEFORME, TROIS EXPÉRIENCES</p>
+        </div>
+        <div class="nav-cards-grid">
+            <a href="/restaurants.html" class="nav-card-link">
+                <div class="nav-card">
+                    <img src="/assets/images/restaurant-kitchen.png" alt="Restaurants" class="nav-card-image">
+                    <div class="nav-card-overlay"></div>
+                    <div class="nav-card-content">
+                        <p class="nav-card-label">RESTAURANTS</p>
+                        <h3 class="nav-card-title">Les plats de vos restaurants préférés, livrés chez vous</h3>
+                        <span class="nav-card-cta">Explorer →</span>
+                    </div>
+                </div>
+            </a>
+            <a href="/livreur-dashboard.html" class="nav-card-link">
+                <div class="nav-card">
+                    <img src="/assets/images/delivery-rider.png" alt="Livreur" class="nav-card-image">
+                    <div class="nav-card-overlay"></div>
+                    <div class="nav-card-content">
+                        <p class="nav-card-label">LIVREURS</p>
+                        <h3 class="nav-card-title">Livrez avec DashFood et gagnez en liberté</h3>
+                        <span class="nav-card-cta">Rejoindre →</span>
+                    </div>
+                </div>
+            </a>
+            <a href="/foodparty.html" class="nav-card-link" data-auth-required="true">
+                <div class="nav-card">
+                    <img src="/assets/images/Commande groupée.png" alt="Food Party" class="nav-card-image">
+                    <div class="nav-card-overlay"></div>
+                    <div class="nav-card-content">
+                        <p class="nav-card-label">FOOD PARTY</p>
+                        <h3 class="nav-card-title">Commandez ensemble, même à distance</h3>
+                        <span class="nav-card-cta">Découvrir →</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image">
+                    <img src="/assets/images/chefprepare .png" alt="Chef préparant des plats" class="about-img">
+                </div>
+                <div class="about-content">
+                    <h2 class="section-title">Des chefs passionnés pour votre plaisir</h2>
+                    <p class="about-text">
+                        Nous collaborons avec les meilleurs restaurants et chefs de votre région pour vous offrir une expérience culinaire d'exception. Chaque plat est préparé avec des ingrédients frais et de qualité supérieure.
+                    </p>
+                    <p class="about-text">
+                        Notre engagement : vous garantir des saveurs authentiques, une fraîcheur optimale et un service irréprochable du restaurant jusqu'à votre table.
+                    </p>
+                    <ul class="about-list">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            Ingrédients frais sélectionnés quotidiennement
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            Chefs certifiés et expérimentés
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            Respect strict des normes d'hygiène
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            Préparation à la commande pour plus de fraîcheur
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Delivery Tracking Section -->
+    <section class="delivery-tracking-section">
+        <div class="delivery-container">
+            <div class="delivery-top-label">
+                <span class="label-line"></span>
+                <span>— SERVICE SIGNATURE  •  ÉDITION MAISON —</span>
+                <span class="label-line"></span>
+            </div>
+
+            <div class="delivery-card-wrapper">
+                <!-- Left Column - Text Content -->
+                <div class="delivery-left">
+                    <div class="delivery-text-top">
+                        <div class="delivery-italic-label">— l'art de la livraison —</div>
+
+                        <h2 class="delivery-headline">
+                            <span class="line-normal">Suivez votre commande,</span><br>
+                            <span class="line-italic-gold">du fourneau &</span><br>
+                            <span class="line-mix"><span class="italic-gold">jusqu'à</span> votre porte.</span>
+                        </h2>
+
+                        <div class="delivery-divider"></div>
+
+                        <p class="delivery-body">
+                            Vos plats favoris, livrés en un éclair. Observez, en direct, le moment où votre coursier prend la commande, suivez son trajet sur la carte, et recevez une notification dès qu'il s'approche de chez vous.
+                        </p>
+
+                        <div class="delivery-steps">
+                            <div class="delivery-step">
+                                <div class="step-number">I.</div>
+                                <div class="step-content">
+                                    <div class="step-title">PRÉPARATION AU RESTAURANT</div>
+                                    <div class="step-subtitle">Vos plats sont assemblés avec soin par le chef.</div>
+                                </div>
+                            </div>
+                            <div class="delivery-step">
+                                <div class="step-number">II.</div>
+                                <div class="step-content">
+                                    <div class="step-title">EN ROUTE</div>
+                                    <div class="step-subtitle">Suivez le coursier, minute par minute.</div>
+                                </div>
+                            </div>
+                            <div class="delivery-step">
+                                <div class="step-number">III.</div>
+                                <div class="step-content">
+                                    <div class="step-title">BIENTÔT À VOTRE PORTE</div>
+                                    <div class="step-subtitle">Une notification discrète vous prévient.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="delivery-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">23min</div>
+                            <div class="stat-label">DÉLAI MOYEN</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">98%</div>
+                            <div class="stat-label">LIVRÉES À TEMPS</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">4,9/5</div>
+                            <div class="stat-label">NOTE COURSIERS</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column - Interactive Map -->
+                <div class="delivery-right">
+                    <img
+                      src="assets/images/dashfood-map-tracking.png"
+                      alt="DashFood live tracking map"
+                      style="
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        display: block;
+                        border-radius: 0 28px 28px 0;
+                      "
+                    />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Premium -->
+    <section class="testimonials-section">
+        <div class="container">
+            <div class="section-header-center">
+                <h2 class="section-title">Ce que disent nos clients</h2>
+                <p class="section-subtitle">Plus de 10 000 clients satisfaits nous font confiance</p>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="quote-icon">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <p class="testimonial-text">
+                        Une expérience exceptionnelle ! Les plats arrivent toujours chauds et la livraison est ultra rapide. Je recommande vivement DashFood.
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-image">JD</div>
+                        <div class="author-details">
+                            <div class="author-name">Julie Dupont</div>
+                            <div class="author-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="quote-icon">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <p class="testimonial-text">
+                        La qualité des restaurants partenaires est remarquable. On retrouve nos plats préférés avec une fraîcheur incomparable.
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-image">ML</div>
+                        <div class="author-details">
+                            <div class="author-name">Marc Laurent</div>
+                            <div class="author-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="quote-icon">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <p class="testimonial-text">
+                        Le concept Food Party est génial pour les soirées entre amis. On partage les frais et tout le monde est content !
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-image">SB</div>
+                        <div class="author-details">
+                            <div class="author-name">Sophie Bernard</div>
+                            <div class="author-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Premium -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col footer-brand">
+                    <img src="/assets/logos/logo.png" alt="DashFood" class="footer-logo">
+                    <p class="footer-description">
+                        DashFood, votre partenaire de confiance pour une expérience de livraison de repas exceptionnelle.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-title">DashFood</h4>
+                    <ul class="footer-links">
+                        <li><a href="/restaurants.html">Restaurants</a></li>
+                        <li><a href="/foodparty.html" data-auth-required="true">Food Party</a></li>
+                        <li><a href="/contact.html">Contact</a></li>
+                        <li><a href="#">À propos</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-title">Professionnels</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Devenir restaurant partenaire</a></li>
+                        <li><a href="#">Devenir livreur</a></li>
+                        <li><a href="#">Espace restaurant</a></li>
+                        <li><a href="#">Espace livreur</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-title">Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Centre d'aide</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Conditions générales</a></li>
+                        <li><a href="#">Politique de confidentialité</a></li>
+                        <li><a href="#">Mentions légales</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 DashFood. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/auth.js"></script>
+    <!-- Navbar dynamique avec gestion intelligente des rôles -->
+    <script src="/js/navbar.js"></script>
+    <!-- Section DashPoints dynamique (utilisateur connecté vs carousel marketing) -->
+    <script src="/js/loyalty-section.js"></script>
+</body>
+</html>

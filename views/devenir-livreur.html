@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devenir Livreur - DashFood</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --red: #F31753;
+            --green: #8BC34A;
+            --black: #111111;
+            --gray: #5F6368;
+            --light-gray: #F5F5F5;
+            --border: #E0E0E0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #FFFFFF;
+            color: var(--black);
+        }
+
+        /* Navbar */
+        .navbar {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--black);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--red);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        .btn-outline {
+            border: 1px solid var(--border);
+            color: var(--black);
+            background: white;
+        }
+
+        .btn-outline:hover {
+            background: var(--light-gray);
+        }
+
+        .btn-primary {
+            background: var(--red);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #d4103f;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #F7F8FA 0%, #FFFFFF 100%);
+            padding: 80px 0;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 52px;
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 24px;
+            color: var(--black);
+        }
+
+        .hero-content .highlight {
+            color: var(--red);
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            color: var(--gray);
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        .hero-image {
+            position: relative;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 16px;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 38px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 16px;
+            color: var(--black);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 16px;
+            color: var(--gray);
+            margin-bottom: 48px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .benefit-card {
+            background: var(--light-gray);
+            padding: 32px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .benefit-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--red);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 28px;
+            color: white;
+        }
+
+        .benefit-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--black);
+        }
+
+        .benefit-card p {
+            font-size: 14px;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 80px 0;
+            background: var(--light-gray);
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-top: 48px;
+        }
+
+        .step {
+            background: white;
+            padding: 32px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -20px;
+            left: 32px;
+            width: 40px;
+            height: 40px;
+            background: var(--red);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .step h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            margin-top: 12px;
+            color: var(--black);
+        }
+
+        .step p {
+            font-size: 14px;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        /* Application Form */
+        .application-form {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .form-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 40px;
+            background: var(--light-gray);
+            border-radius: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--black);
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--red);
+            box-shadow: 0 0 0 3px rgba(243, 23, 83, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--red);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 8px;
+            position: relative;
+        }
+
+        .submit-btn:hover {
+            background: #d4103f;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(243, 23, 83, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .spinner {
+            display: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .submit-btn.loading .spinner {
+            display: block;
+        }
+
+        .submit-btn.loading .btn-text {
+            opacity: 0;
+        }
+
+        /* Message Banner */
+        .message-banner {
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .message-banner.success {
+            background: #E8F5E9;
+            color: #2E7D32;
+            border: 1px solid #A5D6A7;
+        }
+
+        .message-banner.error {
+            background: #FFEBEE;
+            color: #C62828;
+            border: 1px solid #EF9A9A;
+        }
+
+        .message-banner.info {
+            background: #E3F2FD;
+            color: #1565C0;
+            border: 1px solid #90CAF9;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .hero-content h1 {
+                font-size: 40px;
+            }
+
+            .benefits-grid, .steps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="/" class="logo">Dash<span>Food</span></a>
+            <div class="nav-actions">
+                <a href="/login" class="btn btn-outline">Connexion</a>
+                <a href="/" class="btn btn-primary">Accueil</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Livrez avec <span class="highlight">DashFood</span></h1>
+                <p>Rejoignez notre équipe de livreurs et gagnez de l'argent selon votre disponibilité. Travaillez quand vous voulez, où vous voulez.</p>
+                <a href="#formulaire" class="btn btn-primary" style="display: inline-block;">Postuler maintenant</a>
+            </div>
+            <div class="hero-image">
+                <img src="/assets/images/delivery-rider.png" alt="Livreur DashFood">
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="benefits">
+        <div class="container">
+            <h2 class="section-title">Pourquoi devenir livreur DashFood ?</h2>
+            <p class="section-subtitle">Des avantages concrets pour votre quotidien</p>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">&#8986;</div>
+                    <h3>Horaires flexibles</h3>
+                    <p>Choisissez vos horaires de travail et travaillez selon votre disponibilité.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">&#128176;</div>
+                    <h3>Revenus attractifs</h3>
+                    <p>Gagnez jusqu'à 15-20€/heure avec les pourboires et bonus inclus.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">&#128176;</div>
+                    <h3>Paiement rapide</h3>
+                    <p>Recevez vos paiements chaque semaine directement sur votre compte.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">Comment ça marche ?</h2>
+            <p class="section-subtitle">Devenez livreur en 3 étapes simples</p>
+
+            <div class="steps-grid">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Postulez en ligne</h3>
+                    <p>Remplissez le formulaire de candidature ci-dessous avec vos informations.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Validation du profil</h3>
+                    <p>Notre équipe examine votre candidature sous 48h maximum.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Commencez à livrer</h3>
+                    <p>Une fois validé, téléchargez l'app et commencez à gagner de l'argent.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Application Form -->
+    <section class="application-form" id="formulaire">
+        <div class="container">
+            <h2 class="section-title">Formulaire de candidature</h2>
+            <p class="section-subtitle">Remplissez ce formulaire pour rejoindre DashFood</p>
+
+            <div class="form-container">
+                <!-- Message Banner -->
+                <div class="message-banner" id="messageBanner"></div>
+
+                <form id="applicationForm">
+                    <div class="form-group">
+                        <label for="city">Ville *</label>
+                        <input type="text" id="city" name="city" class="form-input" required placeholder="Paris">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="age">Âge *</label>
+                            <input type="number" id="age" name="age" class="form-input" required placeholder="25" min="18">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="transportType">Moyen de transport *</label>
+                            <select id="transportType" name="transportType" class="form-select" required>
+                                <option value="">Sélectionnez...</option>
+                                <option value="velo">Vélo</option>
+                                <option value="scooter">Scooter</option>
+                                <option value="voiture">Voiture</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="experience">Expérience en livraison *</label>
+                            <select id="experience" name="experience" class="form-select" required>
+                                <option value="">Sélectionnez...</option>
+                                <option value="oui">Oui</option>
+                                <option value="non">Non</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="availability">Disponibilité *</label>
+                            <select id="availability" name="availability" class="form-select" required>
+                                <option value="">Sélectionnez...</option>
+                                <option value="temps-plein">Temps plein</option>
+                                <option value="temps-partiel">Temps partiel</option>
+                                <option value="week-ends">Week-ends uniquement</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <span class="btn-text">Envoyer ma candidature</span>
+                        <div class="spinner"></div>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script src="/js/devenir-livreur.js"></script>
+</body>
+</html>

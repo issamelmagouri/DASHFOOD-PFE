@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - DashFood</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --red: #F31753;
+            --green: #8BC34A;
+            --black: #111111;
+            --gray: #5F6368;
+            --light-gray: #F5F5F5;
+            --border: #E0E0E0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #F7F8FA;
+            color: var(--black);
+        }
+
+        /* Layout */
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: white;
+            border-right: 1px solid var(--border);
+            padding: 24px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--black);
+            text-decoration: none;
+            padding: 0 24px;
+            margin-bottom: 32px;
+            display: block;
+        }
+
+        .sidebar-logo span {
+            color: var(--red);
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 4px;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            padding: 12px 24px;
+            color: var(--gray);
+            text-decoration: none;
+            transition: all 0.2s;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            background: var(--light-gray);
+            color: var(--red);
+        }
+
+        .sidebar-nav a.active {
+            border-left: 3px solid var(--red);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 32px;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        /* Delivery Requests Section */
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .badge {
+            background: var(--red);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Table */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--light-gray);
+        }
+
+        th {
+            padding: 12px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--gray);
+            border-bottom: 2px solid var(--border);
+        }
+
+        td {
+            padding: 16px 12px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        tbody tr:hover {
+            background: var(--light-gray);
+        }
+
+        /* Status Badge */
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-pending {
+            background: #FFF3E0;
+            color: #F57C00;
+        }
+
+        .status-accepted {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .status-rejected {
+            background: #FFEBEE;
+            color: #C62828;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-action {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-accept {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .btn-accept:hover {
+            background: #2E7D32;
+            color: white;
+        }
+
+        .btn-reject {
+            background: #FFEBEE;
+            color: #C62828;
+        }
+
+        .btn-reject:hover {
+            background: #C62828;
+            color: white;
+        }
+
+        .btn-action:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 48px 24px;
+            color: var(--gray);
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 48px;
+            color: var(--gray);
+        }
+
+        /* Message */
+        .message {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .message.success {
+            background: #E8F5E9;
+            color: #2E7D32;
+            border: 1px solid #A5D6A7;
+        }
+
+        .message.error {
+            background: #FFEBEE;
+            color: #C62828;
+            border: 1px solid #EF9A9A;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 0;
+                overflow: hidden;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <a href="/" class="sidebar-logo">Dash<span>Food</span></a>
+
+            <ul class="sidebar-nav">
+                <li><a href="/admin-dashboard.html" class="active">Demandes livreurs</a></li>
+                <li><a href="#">Statistiques</a></li>
+                <li><a href="#">Utilisateurs</a></li>
+                <li><a href="#">Restaurants</a></li>
+                <li><a href="#">Commandes</a></li>
+                <li><a href="#" id="logoutBtn">Déconnexion</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Demandes de livreur</h1>
+                <p>Gérez les candidatures pour devenir livreur DashFood</p>
+            </div>
+
+            <!-- Message -->
+            <div class="message" id="message"></div>
+
+            <!-- Delivery Requests Section -->
+            <section class="section">
+                <div class="section-title">
+                    <span>Candidatures en attente</span>
+                    <span class="badge" id="pendingCount">0</span>
+                </div>
+
+                <div id="requestsContainer">
+                    <div class="loading">
+                        Chargement des demandes...
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        /**
+         * Gestion du dashboard admin - Demandes livreurs
+         */
+
+        // Vérifier si l'utilisateur est admin
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAdminAccess();
+            loadDeliveryRequests();
+            setupLogout();
+        });
+
+        /**
+         * Vérifie que l'utilisateur est admin
+         */
+        function checkAdminAccess() {
+            const token = localStorage.getItem('dashfood_token');
+            const userStr = localStorage.getItem('dashfood_user');
+
+            if (!token || !userStr) {
+                window.location.href = '/login';
+                return;
+            }
+
+            try {
+                const user = JSON.parse(userStr);
+                if (user.role !== 'admin') {
+                    window.location.href = '/';
+                    return;
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                window.location.href = '/login';
+            }
+        }
+
+        /**
+         * Charge les demandes de livreur
+         */
+        async function loadDeliveryRequests() {
+            const container = document.getElementById('requestsContainer');
+            const pendingCountEl = document.getElementById('pendingCount');
+
+            try {
+                const token = localStorage.getItem('dashfood_token');
+
+                const response = await fetch('/api/delivery/requests', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success && data.requests) {
+                    const pendingRequests = data.requests.filter(req => req.deliveryRequestStatus === 'pending');
+                    pendingCountEl.textContent = pendingRequests.length;
+
+                    if (data.requests.length === 0) {
+                        container.innerHTML = `
+                            <div class="empty-state">
+                                <div class="empty-state-icon">📋</div>
+                                <p>Aucune demande de livreur pour le moment</p>
+                            </div>
+                        `;
+                    } else {
+                        displayRequests(data.requests);
+                    }
+                } else {
+                    throw new Error(data.message || 'Erreur de chargement');
+                }
+
+            } catch (error) {
+                console.error('Erreur:', error);
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <p>Erreur lors du chargement des demandes</p>
+                    </div>
+                `;
+            }
+        }
+
+        /**
+         * Affiche les demandes dans un tableau
+         */
+        function displayRequests(requests) {
+            const container = document.getElementById('requestsContainer');
+
+            const tableHTML = `
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Email</th>
+                                <th>Téléphone</th>
+                                <th>Ville</th>
+                                <th>Âge</th>
+                                <th>Transport</th>
+                                <th>Expérience</th>
+                                <th>Disponibilité</th>
+                                <th>Date</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${requests.map(req => `
+                                <tr>
+                                    <td>${req.fullName}</td>
+                                    <td>${req.email}</td>
+                                    <td>${req.phone}</td>
+                                    <td>${req.deliveryInfo?.city || '-'}</td>
+                                    <td>${req.deliveryInfo?.age || '-'}</td>
+                                    <td>${req.deliveryInfo?.transportType || '-'}</td>
+                                    <td>${req.deliveryInfo?.experience || '-'}</td>
+                                    <td>${req.deliveryInfo?.availability || '-'}</td>
+                                    <td>${req.deliveryInfo?.requestDate ? new Date(req.deliveryInfo.requestDate).toLocaleDateString('fr-FR') : '-'}</td>
+                                    <td>
+                                        <span class="status-badge status-${req.deliveryRequestStatus}">
+                                            ${getStatusText(req.deliveryRequestStatus)}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        ${req.deliveryRequestStatus === 'pending' ? `
+                                            <div class="action-buttons">
+                                                <button class="btn-action btn-accept" onclick="acceptRequest('${req._id}')">
+                                                    Accepter
+                                                </button>
+                                                <button class="btn-action btn-reject" onclick="rejectRequest('${req._id}')">
+                                                    Refuser
+                                                </button>
+                                            </div>
+                                        ` : '-'}
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            container.innerHTML = tableHTML;
+        }
+
+        /**
+         * Convertit le statut en texte français
+         */
+        function getStatusText(status) {
+            const statusMap = {
+                'pending': 'En attente',
+                'accepted': 'Accepté',
+                'rejected': 'Refusé'
+            };
+            return statusMap[status] || status;
+        }
+
+        /**
+         * Accepte une demande de livreur
+         */
+        async function acceptRequest(userId) {
+            if (!confirm('Êtes-vous sûr de vouloir accepter cette candidature ?')) {
+                return;
+            }
+
+            try {
+                const token = localStorage.getItem('dashfood_token');
+
+                const response = await fetch(`/api/delivery/accept/${userId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showMessage('success', 'Candidature acceptée ! L\'utilisateur est maintenant livreur.');
+                    loadDeliveryRequests(); // Recharger la liste
+                } else {
+                    showMessage('error', data.message || 'Erreur lors de l\'acceptation');
+                }
+
+            } catch (error) {
+                console.error('Erreur:', error);
+                showMessage('error', 'Erreur de connexion au serveur');
+            }
+        }
+
+        /**
+         * Refuse une demande de livreur
+         */
+        async function rejectRequest(userId) {
+            if (!confirm('Êtes-vous sûr de vouloir refuser cette candidature ?')) {
+                return;
+            }
+
+            try {
+                const token = localStorage.getItem('dashfood_token');
+
+                const response = await fetch(`/api/delivery/reject/${userId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showMessage('success', 'Candidature refusée');
+                    loadDeliveryRequests(); // Recharger la liste
+                } else {
+                    showMessage('error', data.message || 'Erreur lors du refus');
+                }
+
+            } catch (error) {
+                console.error('Erreur:', error);
+                showMessage('error', 'Erreur de connexion au serveur');
+            }
+        }
+
+        /**
+         * Affiche un message
+         */
+        function showMessage(type, text) {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = text;
+            messageEl.className = `message ${type}`;
+            messageEl.style.display = 'block';
+
+            // Masquer après 5 secondes
+            setTimeout(() => {
+                messageEl.style.display = 'none';
+            }, 5000);
+        }
+
+        /**
+         * Configure le bouton de déconnexion de l'admin
+         * Supprime complètement la session et redirige vers l'accueil
+         */
+        function setupLogout() {
+            document.getElementById('logoutBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+
+                // Confirmation avant déconnexion
+                if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
+
+                    // ===== ÉTAPE 1 : Supprimer le token JWT =====
+                    // Le token JWT permet l'authentification auprès du backend
+                    localStorage.removeItem('dashfood_token');
+
+                    // ===== ÉTAPE 2 : Supprimer les données utilisateur =====
+                    // Données contenant : fullName, email, role, etc.
+                    localStorage.removeItem('dashfood_user');
+
+                    // ===== ÉTAPE 3 : Nettoyer sessionStorage =====
+                    // Par précaution, supprimer aussi les données de sessionStorage
+                    sessionStorage.removeItem('dashfood_token');
+                    sessionStorage.removeItem('dashfood_user');
+
+                    // ===== ÉTAPE 4 : Log de déconnexion =====
+                    console.log('✅ Déconnexion admin réussie - Session supprimée');
+
+                    // ===== ÉTAPE 5 : Redirection vers la page d'accueil =====
+                    // L'utilisateur arrive sur index.html avec navbar par défaut
+                    window.location.href = '/';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

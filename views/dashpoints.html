@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DashPoints - Programme de Fidélité | DashFood</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Palette DashFood officielle */
+            --bg-primary: #F7F8F2;
+            --green-primary: #8BC34A;
+            --red-cta: #F31753;
+            --text-primary: #17162E;
+            --text-secondary: #5C5C74;
+            --white: #FFFFFF;
+            --border-light: #E5E5E5;
+
+            /* Niveaux de fidélité */
+            --bronze: #CD7F32;
+            --silver: #C0C0C0;
+            --gold: #FFD700;
+            --platinum: #E5E4E2;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            /* EXACTEMENT la même couleur que le hero - #F5F1E8 */
+            background: #F5F1E8 !important;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* === FORCER LE MÊME FOND PARTOUT === */
+        html {
+            background: #F5F1E8 !important;
+        }
+
+        /* ===== NAVBAR STYLES ===== */
+        .navbar {
+            background: #FFFFFF;
+            border-bottom: 1px solid #F0F0F0;
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-logo img {
+            height: 36px;
+            width: auto;
+        }
+
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Bouton retour style capsule */
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            background: white;
+            border: 1.5px solid #E8E8E8;
+            border-radius: 24px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .profile-btn:hover {
+            border-color: #F31753;
+            box-shadow: 0 2px 8px rgba(243, 23, 83, 0.1);
+            transform: translateY(-1px);
+        }
+
+        /* IMPORTANT : Icône flèche avec taille fixe */
+        .profile-icon {
+            width: 18px !important;
+            height: 18px !important;
+            min-width: 18px !important;
+            min-height: 18px !important;
+            max-width: 18px !important;
+            max-height: 18px !important;
+            color: #5F6368;
+            flex-shrink: 0 !important;
+            display: block !important;
+        }
+
+        .profile-name {
+            color: #111111;
+            font-weight: 500;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* ===== Container ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            /* Pas de background - transparent pour uniformité */
+            background: transparent;
+        }
+
+        /* ===== HERO SECTION LUXE (style maison de luxe, pas SaaS) ===== */
+        .hero-dashpoints-luxury {
+            /* EXACTEMENT la même couleur - #F5F1E8 - AUCUNE variation */
+            background: #F5F1E8 !important;
+            padding: 5rem 0 6rem;
+            margin: 0;
+        }
+
+        .hero-dashpoints-luxury .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* === Label en haut avec ligne === */
+        .hero-luxury-label {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-luxury-line {
+            width: 80px;
+            height: 1px;
+            background: #B8966D;
+        }
+
+        .hero-luxury-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #B8966D;
+        }
+
+        /* === Grand titre éditorial === */
+        .hero-luxury-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 72px;
+            font-weight: 400;
+            line-height: 1.2;
+            color: #17162E;
+            margin-bottom: 2rem;
+            max-width: 700px;
+        }
+
+        /* Mots en italique vert */
+        .hero-luxury-title .green-italic {
+            font-style: italic;
+            color: #8BC34A;
+            font-weight: 400;
+        }
+
+        /* Symbole & en doré */
+        .hero-luxury-title .ampersand {
+            color: #B8966D;
+            font-weight: 300;
+            font-style: normal;
+        }
+
+        /* === Paragraphe descriptif === */
+        .hero-luxury-description {
+            font-family: 'Inter', sans-serif;
+            font-size: 17px;
+            line-height: 1.7;
+            color: #5C5C74;
+            max-width: 620px;
+            margin-bottom: 0;
+        }
+
+        /* === RESPONSIVE HERO LUXE === */
+        @media (max-width: 992px) {
+            .hero-luxury-title {
+                font-size: 56px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-dashpoints-luxury {
+                padding: 3.5rem 0 4rem;
+            }
+
+            .hero-luxury-line {
+                width: 60px;
+            }
+
+            .hero-luxury-label {
+                margin-bottom: 2rem;
+            }
+
+            .hero-luxury-title {
+                font-size: 42px;
+                line-height: 1.25;
+            }
+
+            .hero-luxury-description {
+                font-size: 16px;
+            }
+        }
+
+        /* ===== DashPoints Premium Card Container ===== */
+        .loyalty-card-container {
+            margin: 4rem 0 4rem; /* Augmenté pour séparer du hero */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* ===== CARTE DASHPOINTS PREMIUM - STYLE DÉFINITIF FORCÉ ===== */
+        .dashpoints-premium-card {
+            /* === DIMENSIONS === */
+            width: 420px !important;
+            height: 252px !important;
+
+            /* === FOND BLEU NUIT FONCÉ (GRADIENT SIMPLE ET FORCÉ) === */
+            background: linear-gradient(135deg, #0E1B33 0%, #102A4C 50%, #163B5F 100%) !important;
+
+            /* === BORDURE === */
+            border-radius: 28px !important;
+            border: none !important;
+
+            /* === PADDING === */
+            padding: 32px 36px 30px 36px !important;
+
+            /* === OMBRES PREMIUM === */
+            box-shadow: 0 30px 60px rgba(14, 27, 51, 0.35) !important;
+
+            /* === STRUCTURE === */
+            position: relative !important;
+            overflow: hidden !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
+
+            /* === TRANSITIONS === */
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+
+            /* === FORCER L'OPACITÉ === */
+            opacity: 1 !important;
+
+            /* === ANNULER TOUS FILTRES === */
+            filter: none !important;
+            backdrop-filter: none !important;
+        }
+
+        /* === EFFET HOVER === */
+        .dashpoints-premium-card:hover {
+            transform: translateY(-6px) rotateX(2deg) !important;
+            box-shadow: 0 35px 65px rgba(14, 27, 51, 0.45) !important;
+        }
+
+        /* === REFLET LUMINEUX TRÈS SUBTIL (optionnel, peut être supprimé si problème) === */
+        .dashpoints-premium-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse 400px 300px at 60% 30%, rgba(255, 255, 255, 0.02) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        /* === TOUS LES ENFANTS AU-DESSUS DU ::before === */
+        .dashpoints-premium-card > * {
+            position: relative !important;
+            z-index: 2 !important;
+        }
+
+        /* === RÈGLE ULTRA-SPÉCIFIQUE POUR FORCER LE STYLE (au cas où) === */
+        .loyalty-card-container .dashpoints-premium-card {
+            background: linear-gradient(135deg, #0E1B33 0%, #102A4C 50%, #163B5F 100%) !important;
+            opacity: 1 !important;
+            filter: none !important;
+        }
+
+        /* === Header de la carte === */
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* ===== STYLES ENFANTS CARTE DASHPOINTS ===== */
+
+        /* === Header === */
+        .dashpoints-premium-card .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* === Logo DashFood === */
+        .dashpoints-premium-card .card-logo {
+            display: flex !important;
+            align-items: center !important;
+        }
+
+        .dashpoints-premium-card .card-logo img {
+            height: 28px !important;
+            width: auto !important;
+            opacity: 1 !important;
+            filter: brightness(1.15) contrast(1.1) !important;
+        }
+
+        /* === Icône feuille verte === */
+        .dashpoints-premium-card .card-icon {
+            width: 30px !important;
+            height: 30px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .dashpoints-premium-card .card-icon svg {
+            width: 24px !important;
+            height: 24px !important;
+            opacity: 0.9 !important;
+        }
+
+        /* === Centre : Points === */
+        .dashpoints-premium-card .points-display {
+            text-align: left !important;
+            margin: 22px 0 20px 0 !important;
+        }
+
+        .dashpoints-premium-card .points-number {
+            font-size: 60px !important;
+            font-weight: 800 !important;
+            color: #FFFFFF !important;
+            line-height: 1 !important;
+            margin-bottom: 9px !important;
+            letter-spacing: -1.8px !important;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        /* Classe spéciale pour les nombres longs (Silver et Gold) */
+        .dashpoints-premium-card .points-number.long {
+            font-size: 42px !important;
+            line-height: 1.05 !important;
+            letter-spacing: -1px !important;
+        }
+
+        .dashpoints-premium-card .points-label {
+            font-size: 12.5px !important;
+            color: rgba(255, 255, 255, 0.75) !important;
+            font-weight: 500 !important;
+            letter-spacing: 0.5px !important;
+        }
+
+        /* === Footer === */
+        .dashpoints-premium-card .card-footer {
+            margin-top: auto !important;
+        }
+
+        .dashpoints-premium-card .card-footer-divider {
+            height: 1px !important;
+            background: rgba(255, 255, 255, 0.2) !important;
+            margin-bottom: 10px !important; /* Réduit pour remonter le contenu */
+        }
+
+        .dashpoints-premium-card .card-footer-content {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 1.2rem !important; /* Réduit pour colonnes moins écartées */
+            align-items: start !important; /* Alignement sur la même ligne */
+        }
+
+        .dashpoints-premium-card .footer-col {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 5px !important; /* Augmenté légèrement pour meilleur espacement */
+        }
+
+        .dashpoints-premium-card .footer-label {
+            font-size: 9px !important;
+            font-weight: 600 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 1.4px !important;
+            color: rgba(255, 255, 255, 0.5) !important;
+        }
+
+        .dashpoints-premium-card .footer-value {
+            font-size: 13px !important;
+            font-weight: 300 !important; /* Plus léger pour look raffiné */
+            color: #FFFFFF !important;
+            letter-spacing: 0.3px !important;
+        }
+
+        /* === RESPONSIVE (FORCÉ) === */
+        @media (max-width: 768px) {
+            .dashpoints-premium-card {
+                width: 100% !important;
+                max-width: 400px !important;
+                height: 232px !important;
+                padding: 28px 32px 26px 32px !important; /* Padding bottom augmenté */
+                /* Re-forcer le gradient sur mobile */
+                background: linear-gradient(135deg, #0E1B33 0%, #102A4C 50%, #163B5F 100%) !important;
+            }
+
+            .dashpoints-premium-card .card-logo img {
+                height: 26px !important;
+            }
+
+            .dashpoints-premium-card .card-icon svg {
+                width: 22px !important;
+                height: 22px !important;
+            }
+
+            .dashpoints-premium-card .points-number {
+                font-size: 52px !important;
+                color: #FFFFFF !important;
+            }
+
+            /* Classe spéciale pour les nombres longs sur mobile */
+            .dashpoints-premium-card .points-number.long {
+                font-size: 34px !important;
+            }
+
+            .dashpoints-premium-card .footer-value {
+                font-size: 12px !important;
+                font-weight: 300 !important; /* Cohérent avec desktop */
+                color: #FFFFFF !important;
+            }
+
+            .dashpoints-premium-card .card-footer-divider {
+                margin-bottom: 9px !important; /* Cohérent avec desktop */
+            }
+
+            .dashpoints-premium-card .card-footer-content {
+                gap: 1rem !important; /* Gap réduit pour mobile */
+            }
+        }
+
+        /* ===== Stats Grid ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            /* Carte blanche très légère sur fond beige */
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            transition: all 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.75);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* ===== How to Earn Section (Comment gagner des DashPoints) ===== */
+        .earn-section {
+            margin: 5rem 0;
+            padding: 3rem;
+            /* Fond transparent, pas de carte blanche */
+            background: transparent;
+            border-radius: 24px;
+        }
+
+        .earn-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .earn-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .earn-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Grille des façons de gagner des points */
+        .earn-methods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Carte individuelle pour chaque méthode */
+        .earn-card {
+            /* Carte blanche légère sur fond beige */
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(8px);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Effet hover premium */
+        .earn-card:hover {
+            background: rgba(255, 255, 255, 0.7);
+            border-color: var(--green-primary);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(139, 195, 74, 0.15);
+        }
+
+        /* Badge de points en haut à droite */
+        .earn-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, var(--green-primary) 0%, #7AB339 100%);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(139, 195, 74, 0.3);
+        }
+
+        /* Titre de la méthode */
+        .earn-card-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            padding-right: 80px;
+        }
+
+        /* Description de la méthode */
+        .earn-card-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Icône décorative (petite pastille colorée) */
+        .earn-card::before {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(139, 195, 74, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* Variantes de couleurs pour différencier les types de bonus */
+        .earn-card.special::before {
+            background: radial-gradient(circle, rgba(243, 23, 83, 0.08) 0%, transparent 70%);
+        }
+
+        .earn-card.special:hover {
+            border-color: var(--red-cta);
+            box-shadow: 0 8px 24px rgba(243, 23, 83, 0.15);
+        }
+
+        .earn-card.special .earn-badge {
+            background: linear-gradient(135deg, var(--red-cta) 0%, #D4103F 100%);
+            box-shadow: 0 2px 8px rgba(243, 23, 83, 0.3);
+        }
+
+        /* Animation d'apparition au scroll (optionnel) */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .earn-card {
+            animation: fadeInUp 0.6s ease both;
+        }
+
+        /* Décalage de l'animation pour effet cascade */
+        .earn-card:nth-child(1) { animation-delay: 0.05s; }
+        .earn-card:nth-child(2) { animation-delay: 0.1s; }
+        .earn-card:nth-child(3) { animation-delay: 0.15s; }
+        .earn-card:nth-child(4) { animation-delay: 0.2s; }
+        .earn-card:nth-child(5) { animation-delay: 0.25s; }
+        .earn-card:nth-child(6) { animation-delay: 0.3s; }
+        .earn-card:nth-child(7) { animation-delay: 0.35s; }
+        .earn-card:nth-child(8) { animation-delay: 0.4s; }
+        .earn-card:nth-child(9) { animation-delay: 0.45s; }
+        .earn-card:nth-child(10) { animation-delay: 0.5s; }
+        .earn-card:nth-child(11) { animation-delay: 0.55s; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .earn-section {
+                padding: 2rem 1.5rem;
+                margin: 3rem 0;
+            }
+
+            .earn-title {
+                font-size: 28px;
+            }
+
+            .earn-methods-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== Section ===== */
+        .section {
+            margin: 4rem 0;
+            /* Forcer le même fond uniforme - #F5F1E8 */
+            background: transparent;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+        }
+
+        /* ===== Rewards Grid ===== */
+        .rewards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .reward-card {
+            /* Carte blanche légère sur fond beige */
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .reward-card:hover {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: var(--green-primary);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(139, 195, 74, 0.15);
+        }
+
+        .reward-card.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .reward-card.locked:hover {
+            transform: none;
+            background: rgba(255, 255, 255, 0.6);
+            border-color: rgba(255, 255, 255, 0.7);
+        }
+
+        .reward-cost {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--green-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .reward-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .reward-description {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .reward-btn {
+            width: 100%;
+            padding: 10px;
+            background: var(--green-primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .reward-btn:hover {
+            background: #7AB339;
+        }
+
+        .reward-btn:disabled {
+            background: #E0E0E0;
+            color: #999;
+            cursor: not-allowed;
+        }
+
+        /* ===== History ===== */
+        .history-list {
+            /* Carte blanche légère sur fond beige */
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            overflow: hidden;
+        }
+
+        .history-item {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-item:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .history-info {
+            flex: 1;
+        }
+
+        .history-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .history-date {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .history-points {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .history-points.earned {
+            color: var(--green-primary);
+        }
+
+        .history-points.redeemed {
+            color: var(--red-cta);
+        }
+
+        /* ===== VARIANTES DE COULEUR POUR LES NIVEAUX (utilise la même carte) ===== */
+
+        /* Grid pour les 4 niveaux */
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2.5rem;
+            margin-top: 3.5rem;
+            padding: 0 2.5rem;
+            max-width: 1920px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Container pour chaque niveau (carte + contenu dessous) */
+        .level-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        /* Variante Bronze - cuivre métallique premium ultra-réaliste */
+        .dashpoints-premium-card.bronze {
+            background:
+                linear-gradient(135deg, rgba(255, 240, 220, 0.12) 0%, transparent 35%),
+                linear-gradient(135deg, rgba(255, 255, 255, 0.05) 15%, transparent 50%),
+                linear-gradient(135deg, #6B3E25 0%, #8B5234 20%, #A86847 40%, #C08560 60%, #9D6445 80%, #7A4830 100%) !important;
+        }
+
+        /* Reflet diagonal premium pour bronze - effet métallique cuivré */
+        .dashpoints-premium-card.bronze::before {
+            background:
+                radial-gradient(ellipse at 30% 20%, rgba(255, 225, 190, 0.18) 0%, transparent 55%),
+                linear-gradient(135deg, rgba(255, 235, 205, 0.12) 0%, transparent 45%) !important;
+        }
+
+        /* Variante Silver - aluminium premium avec effet métallisé froid réaliste */
+        .dashpoints-premium-card.silver {
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, transparent 40%),
+                linear-gradient(135deg, rgba(220, 230, 240, 0.08) 20%, transparent 55%),
+                linear-gradient(135deg, #7D8289 0%, #9BA2AA 20%, #B8BFC6 40%, #D4DAE0 60%, #ADB4BB 80%, #8A9099 100%) !important;
+        }
+
+        /* Reflet diagonal premium pour silver - effet aluminium métallisé */
+        .dashpoints-premium-card.silver::before {
+            background:
+                radial-gradient(ellipse at 35% 25%, rgba(255, 255, 255, 0.22) 0%, transparent 50%),
+                linear-gradient(135deg, rgba(240, 245, 250, 0.15) 0%, transparent 50%) !important;
+        }
+
+        /* Variante Gold - or luxe premium ultra-sophistiqué */
+        .dashpoints-premium-card.gold {
+            background:
+                linear-gradient(135deg, rgba(255, 250, 235, 0.14) 0%, transparent 38%),
+                linear-gradient(135deg, rgba(255, 245, 215, 0.06) 18%, transparent 52%),
+                linear-gradient(135deg, #9A7510 0%, #B89228 20%, #D4AD42 40%, #E8C668 60%, #CDAF48 80%, #AD8E25 100%) !important;
+        }
+
+        /* Reflet diagonal premium pour gold - effet or métallique */
+        .dashpoints-premium-card.gold::before {
+            background:
+                radial-gradient(ellipse at 32% 22%, rgba(255, 248, 220, 0.2) 0%, transparent 52%),
+                linear-gradient(135deg, rgba(255, 245, 210, 0.13) 0%, transparent 48%) !important;
+        }
+
+        /* Variante Platinum - bleu nuit bancaire premium ultra-luxe */
+        .dashpoints-premium-card.platinum {
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, transparent 35%),
+                linear-gradient(135deg, rgba(180, 200, 230, 0.04) 20%, transparent 50%),
+                linear-gradient(135deg, #041426 0%, #081E3D 20%, #0C2855 40%, #10346E 60%, #0D2750 80%, #071D3E 100%) !important;
+        }
+
+        /* Reflet diagonal premium pour platinum - glossy doux sophistiqué */
+        .dashpoints-premium-card.platinum::before {
+            background:
+                radial-gradient(ellipse at 28% 18%, rgba(200, 220, 245, 0.1) 0%, transparent 48%),
+                linear-gradient(135deg, rgba(180, 210, 240, 0.06) 0%, transparent 45%) !important;
+        }
+
+        /* Texte NOIR pour Silver et Gold (premium luxe) */
+        .dashpoints-premium-card.silver .points-number,
+        .dashpoints-premium-card.gold .points-number {
+            color: #1A1A1A !important;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3) !important;
+        }
+
+        .dashpoints-premium-card.silver .points-label,
+        .dashpoints-premium-card.gold .points-label {
+            color: rgba(26, 26, 26, 0.65) !important;
+        }
+
+        .dashpoints-premium-card.silver .footer-label,
+        .dashpoints-premium-card.gold .footer-label {
+            color: rgba(26, 26, 26, 0.45) !important;
+        }
+
+        .dashpoints-premium-card.silver .footer-value,
+        .dashpoints-premium-card.gold .footer-value {
+            color: #1A1A1A !important;
+        }
+
+        /* Ombres premium ultra-réalistes pour chaque carte */
+        .dashpoints-premium-card.bronze {
+            box-shadow:
+                0 24px 48px rgba(107, 62, 37, 0.28),
+                0 10px 20px rgba(122, 72, 48, 0.18),
+                0 4px 8px rgba(139, 82, 52, 0.12),
+                inset 0 1px 0 rgba(255, 240, 220, 0.12) !important;
+        }
+
+        .dashpoints-premium-card.bronze:hover {
+            box-shadow:
+                0 28px 56px rgba(107, 62, 37, 0.35),
+                0 14px 28px rgba(122, 72, 48, 0.24),
+                0 6px 12px rgba(139, 82, 52, 0.16),
+                inset 0 1px 0 rgba(255, 240, 220, 0.15) !important;
+        }
+
+        .dashpoints-premium-card.silver {
+            box-shadow:
+                0 24px 48px rgba(125, 130, 137, 0.32),
+                0 10px 20px rgba(155, 162, 170, 0.22),
+                0 4px 8px rgba(184, 191, 198, 0.14),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+        }
+
+        .dashpoints-premium-card.silver:hover {
+            box-shadow:
+                0 28px 56px rgba(125, 130, 137, 0.42),
+                0 14px 28px rgba(155, 162, 170, 0.3),
+                0 6px 12px rgba(184, 191, 198, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.24) !important;
+        }
+
+        .dashpoints-premium-card.gold {
+            box-shadow:
+                0 24px 48px rgba(154, 117, 16, 0.34),
+                0 10px 20px rgba(184, 146, 40, 0.24),
+                0 4px 8px rgba(212, 173, 66, 0.16),
+                inset 0 1px 0 rgba(255, 250, 235, 0.14) !important;
+        }
+
+        .dashpoints-premium-card.gold:hover {
+            box-shadow:
+                0 28px 56px rgba(154, 117, 16, 0.44),
+                0 14px 28px rgba(184, 146, 40, 0.32),
+                0 6px 12px rgba(212, 173, 66, 0.22),
+                inset 0 1px 0 rgba(255, 250, 235, 0.18) !important;
+        }
+
+        .dashpoints-premium-card.platinum {
+            box-shadow:
+                0 24px 48px rgba(4, 20, 38, 0.4),
+                0 10px 20px rgba(8, 30, 61, 0.28),
+                0 4px 8px rgba(12, 40, 85, 0.18),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .dashpoints-premium-card.platinum:hover {
+            box-shadow:
+                0 28px 56px rgba(4, 20, 38, 0.5),
+                0 14px 28px rgba(8, 30, 61, 0.36),
+                0 6px 12px rgba(12, 40, 85, 0.24),
+                inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+        }
+
+        /* ===== CONTENU SOUS LES CARTES - STYLE ÉDITORIAL LUXE ===== */
+
+        .level-content {
+            text-align: left;
+            padding: 0 0.5rem;
+        }
+
+        /* Numéro romain - style éditorial raffiné */
+        .level-roman {
+            font-family: 'Playfair Display', serif;
+            font-size: 15px;
+            font-style: italic;
+            font-weight: 400;
+            color: #B8966D;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.3px;
+        }
+
+        /* Nom du niveau - PETITES CAPITALES ESPACÉES */
+        .level-name {
+            font-family: 'Inter', sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            color: #17162E;
+            margin-bottom: 0.85rem;
+        }
+
+        /* Tagline - italique serif premium */
+        .level-tagline {
+            font-family: 'Playfair Display', serif;
+            font-size: 15px;
+            font-style: italic;
+            font-weight: 400;
+            color: #6B6B6B;
+            line-height: 1.5;
+            margin-bottom: 2.2rem;
+        }
+
+        /* Liste d'avantages - TRÈS AÉRÉE */
+        .level-benefits {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 2.5rem 0;
+        }
+
+        .level-benefits li {
+            font-family: 'Inter', sans-serif;
+            font-size: 13.5px;
+            font-weight: 400;
+            color: #4A4A4A;
+            line-height: 1.7;
+            padding: 0.7rem 0;
+            padding-left: 1.8rem;
+            position: relative;
+        }
+
+        /* Checkmark vert */
+        .level-benefits li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            top: 0.7rem;
+            color: #8BC34A;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        /* Seuil d'accès - petites capitales espacées, opacité réduite */
+        .level-threshold {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #17162E;
+            opacity: 0.4;
+            margin-top: 1.5rem;
+        }
+
+        /* ===== Empty State ===== */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state p {
+            font-size: 15px;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 992px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .rewards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .levels-grid {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 0 1.5rem;
+                gap: 2rem;
+            }
+
+            .level-container {
+                gap: 2rem;
+            }
+
+            .level-name {
+                font-size: 16px;
+                letter-spacing: 2px;
+            }
+
+            .level-benefits li {
+                font-size: 12.5px;
+            }
+
+            .hero-luxury-title {
+                font-size: 56px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 36px;
+            }
+
+            /* SUPPRIMÉ : règle .points-number qui écrasait le style de la carte */
+
+            .stats-grid,
+            .rewards-grid,
+            .levels-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .levels-grid {
+                padding: 0 1.5rem;
+                gap: 2.5rem;
+            }
+
+            .level-container {
+                gap: 2rem;
+            }
+
+            .level-name {
+                font-size: 15px;
+                letter-spacing: 1.8px;
+            }
+
+            .level-tagline {
+                font-size: 14px;
+            }
+
+            .level-benefits li {
+                font-size: 12.5px;
+                padding: 0.6rem 0;
+            }
+
+            .level-threshold {
+                font-size: 10px;
+            }
+
+            .hero-luxury-title {
+                font-size: 42px;
+            }
+
+            .hero-luxury-description {
+                font-size: 15px;
+            }
+
+            .section-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar Premium (EXACTEMENT comme index.html) -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="/" class="navbar-logo">
+                    <img src="/assets/logos/logo.png" alt="DashFood" class="logo-img" style="height: 36px !important; width: auto !important;">
+                </a>
+
+                <!-- Actions de navigation -->
+                <div class="navbar-actions">
+                    <!-- Bouton Retour à l'accueil (Style identique au profile-btn) -->
+                    <a href="/" class="profile-btn">
+                        <svg class="profile-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="profile-name">Retour à l'accueil</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Luxe DashPoints (style maison de luxe) -->
+    <section class="hero-dashpoints-luxury">
+        <div class="container">
+            <!-- Label avec ligne -->
+            <div class="hero-luxury-label">
+                <div class="hero-luxury-line"></div>
+                <span class="hero-luxury-text">PROGRAMME SIGNATURE • DASHPOINTS</span>
+            </div>
+
+            <!-- Grand titre éditorial -->
+            <h1 class="hero-luxury-title">
+                Quatre niveaux,<br>
+                <span class="green-italic">un seul</span> <span class="ampersand">&</span> même<br>
+                <span class="green-italic">art de vivre.</span>
+            </h1>
+
+            <!-- Paragraphe descriptif -->
+            <p class="hero-luxury-description">
+                À chaque commande, vous cumulez des DashPoints. Plus vous montez, plus l'expérience s'affine : livraisons offertes, accès aux tables d'exception, attentions discrètes du chef.
+            </p>
+        </div>
+    </section>
+
+    <!-- Loyalty Card Premium -->
+    <div class="container">
+        <!-- Carte DashPoints Premium Ultra -->
+        <div class="loyalty-card-container">
+            <div class="dashpoints-premium-card">
+                <!-- Header : Logo + Icône -->
+                <div class="card-header">
+                    <!-- Logo DashFood (image PNG) -->
+                    <div class="card-logo">
+                        <img src="/assets/logos/logo.png" alt="DashFood">
+                    </div>
+
+                    <!-- Icône feuille verte premium (SVG minimaliste) -->
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22L6.66 19.7C7.14 19.87 7.64 20 8 20C19 20 22 3 22 3C21 5 14 5.25 9 6.25C4 7.25 2 11.5 2 13.5C2 15.5 3.75 17.25 3.75 17.25C7 8 17 8 17 8Z" fill="#8BC34A"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Centre : Gros nombre de points -->
+                <div class="points-display">
+                    <div class="points-number" id="pointsNumber">0</div>
+                    <div class="points-label">DashPoints accumulés</div>
+                </div>
+
+                <!-- Bas : Footer avec NIVEAU et MEMBRE DEPUIS -->
+                <div class="card-footer">
+                    <!-- Ligne de séparation -->
+                    <div class="card-footer-divider"></div>
+
+                    <!-- Contenu : 2 colonnes -->
+                    <div class="card-footer-content">
+                        <!-- Colonne gauche : NIVEAU -->
+                        <div class="footer-col">
+                            <div class="footer-label">NIVEAU</div>
+                            <div class="footer-value" id="footerLevel">Bronze</div>
+                        </div>
+
+                        <!-- Colonne droite : MEMBRE DEPUIS -->
+                        <div class="footer-col">
+                            <div class="footer-label">MEMBRE DEPUIS</div>
+                            <div class="footer-value" id="memberSince">Mai 2026</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalEarned">0</div>
+                <div class="stat-label">Points gagnés au total</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalOrders">0</div>
+                <div class="stat-label">Commandes effectuées</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalSpent">0 MAD</div>
+                <div class="stat-label">Montant total dépensé</div>
+            </div>
+        </div>
+
+        <!-- ===== Section : Comment gagner plus de DashPoints ===== -->
+        <section class="earn-section">
+            <!-- Header de la section -->
+            <div class="earn-header">
+                <h2 class="earn-title">Comment gagner plus de DashPoints ?</h2>
+                <p class="earn-subtitle">Multipliez vos points grâce à vos commandes, vos avis et vos actions sur DashFood.</p>
+            </div>
+
+            <!-- Grille des méthodes pour gagner des points -->
+            <div class="earn-methods-grid">
+
+                <!-- 1. Première commande (Bonus spécial) -->
+                <div class="earn-card special">
+                    <div class="earn-badge">+100</div>
+                    <h3 class="earn-card-title">Première commande</h3>
+                    <p class="earn-card-description">Bonus offert lors de votre première commande livrée avec succès.</p>
+                </div>
+
+                <!-- 2. Avis restaurant -->
+                <div class="earn-card">
+                    <div class="earn-badge">+25</div>
+                    <h3 class="earn-card-title">Avis restaurant</h3>
+                    <p class="earn-card-description">Partagez votre expérience et notez votre restaurant préféré.</p>
+                </div>
+
+                <!-- 3. Avis livreur -->
+                <div class="earn-card">
+                    <div class="earn-badge">+25</div>
+                    <h3 class="earn-card-title">Avis livreur</h3>
+                    <p class="earn-card-description">Évaluez la qualité du service de livraison de votre livreur.</p>
+                </div>
+
+                <!-- 4. Food Party créée (Bonus spécial) -->
+                <div class="earn-card special">
+                    <div class="earn-badge">+150</div>
+                    <h3 class="earn-card-title">Food Party créée</h3>
+                    <p class="earn-card-description">Organisez une commande groupée et profitez d'un super bonus.</p>
+                </div>
+
+                <!-- 5. 5 commandes/mois -->
+                <div class="earn-card">
+                    <div class="earn-badge">+200</div>
+                    <h3 class="earn-card-title">5 commandes/mois</h3>
+                    <p class="earn-card-description">Atteignez 5 commandes livrées dans le mois pour débloquer ce bonus.</p>
+                </div>
+
+                <!-- 6. 10 commandes/mois (Bonus spécial) -->
+                <div class="earn-card special">
+                    <div class="earn-badge">+500</div>
+                    <h3 class="earn-card-title">10 commandes/mois</h3>
+                    <p class="earn-card-description">Devenez un client régulier avec 10 commandes mensuelles.</p>
+                </div>
+
+                <!-- 7. 15 commandes/mois (Bonus spécial) -->
+                <div class="earn-card special">
+                    <div class="earn-badge">+1000</div>
+                    <h3 class="earn-card-title">15 commandes/mois</h3>
+                    <p class="earn-card-description">Champion DashFood ! Recevez le bonus ultime de fidélité.</p>
+                </div>
+
+                <!-- 8. Parrainage (Bonus spécial) -->
+                <div class="earn-card special">
+                    <div class="earn-badge">+300</div>
+                    <h3 class="earn-card-title">Parrainage</h3>
+                    <p class="earn-card-description">Invitez vos amis et gagnez des points à chaque inscription.</p>
+                </div>
+
+                <!-- 9. 3 jours consécutifs -->
+                <div class="earn-card">
+                    <div class="earn-badge">+100</div>
+                    <h3 class="earn-card-title">3 jours consécutifs</h3>
+                    <p class="earn-card-description">Commandez 3 jours d'affilée et débloquez ce bonus régularité.</p>
+                </div>
+
+                <!-- 10. 7 jours consécutifs (Bonus spécial) -->
+                <div class="earn-card special">
+                    <div class="earn-badge">+500</div>
+                    <h3 class="earn-card-title">7 jours consécutifs</h3>
+                    <p class="earn-card-description">Une semaine complète de commandes ? Vous méritez ce bonus !</p>
+                </div>
+
+                <!-- 11. Anniversaire (Bonus spécial) -->
+                <div class="earn-card special">
+                    <div class="earn-badge">+300</div>
+                    <h3 class="earn-card-title">Anniversaire</h3>
+                    <p class="earn-card-description">DashFood vous offre un cadeau spécial le jour de votre anniversaire.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Rewards Section -->
+        <section class="section">
+            <h2 class="section-title">Récompenses disponibles</h2>
+            <div class="rewards-grid">
+                <div class="reward-card" data-cost="500">
+                    <div class="reward-cost">500</div>
+                    <div class="reward-title">Livraison gratuite</div>
+                    <div class="reward-description">Valable sur votre prochaine commande</div>
+                    <button class="reward-btn" onclick="redeemReward(500, 'Livraison gratuite')">Échanger</button>
+                </div>
+
+                <div class="reward-card" data-cost="1000">
+                    <div class="reward-cost">1000</div>
+                    <div class="reward-title">Réduction 20 MAD</div>
+                    <div class="reward-description">À utiliser sur commande min. 100 MAD</div>
+                    <button class="reward-btn" onclick="redeemReward(1000, 'Réduction 20 MAD')">Échanger</button>
+                </div>
+
+                <div class="reward-card" data-cost="2000">
+                    <div class="reward-cost">2000</div>
+                    <div class="reward-title">Réduction 50 MAD</div>
+                    <div class="reward-description">À utiliser sur commande min. 200 MAD</div>
+                    <button class="reward-btn" onclick="redeemReward(2000, 'Réduction 50 MAD')">Échanger</button>
+                </div>
+
+                <div class="reward-card" data-cost="5000">
+                    <div class="reward-cost">5000</div>
+                    <div class="reward-title">Bon premium 150 MAD</div>
+                    <div class="reward-description">Sans minimum d'achat requis</div>
+                    <button class="reward-btn" onclick="redeemReward(5000, 'Bon premium 150 MAD')">Échanger</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- History Section -->
+        <section class="section">
+            <h2 class="section-title">Historique des points</h2>
+            <div class="history-list" id="historyList">
+                <div class="empty-state">
+                    <p>Aucune transaction pour le moment</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Levels Section -->
+        <section class="section">
+            <h2 class="section-title">Niveaux de fidélité</h2>
+
+            <div class="levels-grid">
+
+                <!-- BRONZE -->
+                <div class="level-container">
+                <div class="dashpoints-premium-card bronze" id="levelBronze">
+                    <!-- Header : Logo + Icône -->
+                    <div class="card-header">
+                        <!-- Logo DashFood (image PNG) -->
+                        <div class="card-logo">
+                            <img src="/assets/logos/logo.png" alt="DashFood">
+                        </div>
+
+                        <!-- Icône feuille verte premium (SVG minimaliste) -->
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22L6.66 19.7C7.14 19.87 7.64 20 8 20C19 20 22 3 22 3C21 5 14 5.25 9 6.25C4 7.25 2 11.5 2 13.5C2 15.5 3.75 17.25 3.75 17.25C7 8 17 8 17 8Z" fill="#8BC34A"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Centre : Gros nombre de points -->
+                    <div class="points-display">
+                        <div class="points-number">0 — 1 999</div>
+                        <div class="points-label">DashPoints accumulés</div>
+                    </div>
+
+                    <!-- Bas : Footer avec NIVEAU et MEMBRE DEPUIS -->
+                    <div class="card-footer">
+                        <!-- Ligne de séparation -->
+                        <div class="card-footer-divider"></div>
+
+                        <!-- Contenu : 2 colonnes -->
+                        <div class="card-footer-content">
+                            <!-- Colonne gauche : NIVEAU -->
+                            <div class="footer-col">
+                                <div class="footer-label">NIVEAU</div>
+                                <div class="footer-value">Bronze</div>
+                            </div>
+
+                            <!-- Colonne droite : MEMBRE DEPUIS -->
+                            <div class="footer-col">
+                                <div class="footer-label">MEMBRE DEPUIS</div>
+                                <div class="footer-value">Mai 2026</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenu sous la carte Bronze -->
+                <div class="level-content">
+                    <div class="level-roman">I.</div>
+                    <div class="level-name">BRONZE</div>
+                    <div class="level-tagline">Bienvenue à table.</div>
+
+                    <ul class="level-benefits">
+                        <li>500 pts — Livraison gratuite (prochaine commande)</li>
+                        <li>1 000 pts — Réduction 20 MAD (min. 100 MAD)</li>
+                        <li>Suivi en direct du coursier</li>
+                    </ul>
+
+                    <div class="level-threshold">0 pt — SEUIL D'ENTRÉE</div>
+                </div>
+                </div>
+
+                <!-- SILVER -->
+                <div class="level-container">
+                <div class="dashpoints-premium-card silver" id="levelSilver">
+                    <!-- Header : Logo + Icône -->
+                    <div class="card-header">
+                        <!-- Logo DashFood (image PNG) -->
+                        <div class="card-logo">
+                            <img src="/assets/logos/logo.png" alt="DashFood">
+                        </div>
+
+                        <!-- Icône feuille verte premium (SVG minimaliste) -->
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22L6.66 19.7C7.14 19.87 7.64 20 8 20C19 20 22 3 22 3C21 5 14 5.25 9 6.25C4 7.25 2 11.5 2 13.5C2 15.5 3.75 17.25 3.75 17.25C7 8 17 8 17 8Z" fill="#8BC34A"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Centre : Gros nombre de points -->
+                    <div class="points-display">
+                        <div class="points-number long">2 000 — 5 999</div>
+                        <div class="points-label">DashPoints accumulés</div>
+                    </div>
+
+                    <!-- Bas : Footer avec NIVEAU et MEMBRE DEPUIS -->
+                    <div class="card-footer">
+                        <!-- Ligne de séparation -->
+                        <div class="card-footer-divider"></div>
+
+                        <!-- Contenu : 2 colonnes -->
+                        <div class="card-footer-content">
+                            <!-- Colonne gauche : NIVEAU -->
+                            <div class="footer-col">
+                                <div class="footer-label">NIVEAU</div>
+                                <div class="footer-value">Silver</div>
+                            </div>
+
+                            <!-- Colonne droite : MEMBRE DEPUIS -->
+                            <div class="footer-col">
+                                <div class="footer-label">MEMBRE DEPUIS</div>
+                                <div class="footer-value">Mai 2026</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenu sous la carte Silver -->
+                <div class="level-content">
+                    <div class="level-roman">II.</div>
+                    <div class="level-name">SILVER</div>
+                    <div class="level-tagline">Le rythme s'installe.</div>
+
+                    <ul class="level-benefits">
+                        <li>1 000 pts — Réduction 20 MAD (min. 100 MAD)</li>
+                        <li>2 000 pts — Réduction 50 MAD (min. 200 MAD)</li>
+                        <li>Plat surprise du chef offert chaque mois</li>
+                    </ul>
+
+                    <div class="level-threshold">2 000 pts — SEUIL D'ACCÈS</div>
+                </div>
+                </div>
+
+                <!-- GOLD -->
+                <div class="level-container">
+                <div class="dashpoints-premium-card gold" id="levelGold">
+                    <!-- Header : Logo + Icône -->
+                    <div class="card-header">
+                        <!-- Logo DashFood (image PNG) -->
+                        <div class="card-logo">
+                            <img src="/assets/logos/logo.png" alt="DashFood">
+                        </div>
+
+                        <!-- Icône feuille verte premium (SVG minimaliste) -->
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22L6.66 19.7C7.14 19.87 7.64 20 8 20C19 20 22 3 22 3C21 5 14 5.25 9 6.25C4 7.25 2 11.5 2 13.5C2 15.5 3.75 17.25 3.75 17.25C7 8 17 8 17 8Z" fill="#8BC34A"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Centre : Gros nombre de points -->
+                    <div class="points-display">
+                        <div class="points-number long">6 000 — 14 999</div>
+                        <div class="points-label">DashPoints accumulés</div>
+                    </div>
+
+                    <!-- Bas : Footer avec NIVEAU et MEMBRE DEPUIS -->
+                    <div class="card-footer">
+                        <!-- Ligne de séparation -->
+                        <div class="card-footer-divider"></div>
+
+                        <!-- Contenu : 2 colonnes -->
+                        <div class="card-footer-content">
+                            <!-- Colonne gauche : NIVEAU -->
+                            <div class="footer-col">
+                                <div class="footer-label">NIVEAU</div>
+                                <div class="footer-value">Gold</div>
+                            </div>
+
+                            <!-- Colonne droite : MEMBRE DEPUIS -->
+                            <div class="footer-col">
+                                <div class="footer-label">MEMBRE DEPUIS</div>
+                                <div class="footer-value">Mai 2026</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenu sous la carte Gold -->
+                <div class="level-content">
+                    <div class="level-roman">III.</div>
+                    <div class="level-name">GOLD</div>
+                    <div class="level-tagline">Le client de la maison.</div>
+
+                    <ul class="level-benefits">
+                        <li>2 000 pts — Réduction 50 MAD (min. 200 MAD)</li>
+                        <li>5 000 pts — Bon premium 150 MAD (sans minimum)</li>
+                        <li>Accès aux tables signature en avant-première</li>
+                    </ul>
+
+                    <div class="level-threshold">6 000 pts — SEUIL D'ACCÈS</div>
+                </div>
+                </div>
+
+                <!-- PLATINUM -->
+                <div class="level-container">
+                <div class="dashpoints-premium-card platinum" id="levelPlatinum">
+                    <!-- Header : Logo + Icône -->
+                    <div class="card-header">
+                        <!-- Logo DashFood (image PNG) -->
+                        <div class="card-logo">
+                            <img src="/assets/logos/logo.png" alt="DashFood">
+                        </div>
+
+                        <!-- Icône feuille verte premium (SVG minimaliste) -->
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22L6.66 19.7C7.14 19.87 7.64 20 8 20C19 20 22 3 22 3C21 5 14 5.25 9 6.25C4 7.25 2 11.5 2 13.5C2 15.5 3.75 17.25 3.75 17.25C7 8 17 8 17 8Z" fill="#8BC34A"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Centre : Gros nombre de points -->
+                    <div class="points-display">
+                        <div class="points-number">15 000+</div>
+                        <div class="points-label">DashPoints accumulés</div>
+                    </div>
+
+                    <!-- Bas : Footer avec NIVEAU et MEMBRE DEPUIS -->
+                    <div class="card-footer">
+                        <!-- Ligne de séparation -->
+                        <div class="card-footer-divider"></div>
+
+                        <!-- Contenu : 2 colonnes -->
+                        <div class="card-footer-content">
+                            <!-- Colonne gauche : NIVEAU -->
+                            <div class="footer-col">
+                                <div class="footer-label">NIVEAU</div>
+                                <div class="footer-value">Platinum</div>
+                            </div>
+
+                            <!-- Colonne droite : MEMBRE DEPUIS -->
+                            <div class="footer-col">
+                                <div class="footer-label">MEMBRE DEPUIS</div>
+                                <div class="footer-value">Mai 2026</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenu sous la carte Platinum -->
+                <div class="level-content">
+                    <div class="level-roman">IV.</div>
+                    <div class="level-name">PLATINUM</div>
+                    <div class="level-tagline">Sur invitation seulement.</div>
+
+                    <ul class="level-benefits">
+                        <li>5 000 pts — Bon premium 150 MAD (sans minimum)</li>
+                        <li>Tous les bons précédents cumulables</li>
+                        <li>Conciergerie personnelle, 24 h / 24</li>
+                    </ul>
+
+                    <div class="level-threshold">15 000 pts — SEUIL D'ACCÈS</div>
+                </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Effet scroll navbar
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 20) {
+                navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.06)';
+            } else {
+                navbar.style.boxShadow = 'none';
+            }
+        });
+    </script>
+    <script src="/js/dashpoints.js"></script>
+</body>
+</html>

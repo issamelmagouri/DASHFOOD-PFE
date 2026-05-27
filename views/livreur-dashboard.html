@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DashFood - Livreur Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/livreur.css">
+
+    <style>
+        /* Message d'accès refusé */
+        .access-denied-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .access-denied-card {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .access-denied-card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: #F31753;
+            margin-bottom: 16px;
+        }
+
+        .access-denied-card p {
+            font-size: 16px;
+            color: #5F6368;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <!-- Overlay d'accès refusé -->
+    <div class="access-denied-overlay" id="accessDeniedOverlay">
+        <div class="access-denied-card">
+            <h2>Accès réservé aux livreurs DashFood</h2>
+            <p>Cette page est uniquement accessible aux partenaires livreurs. Vous allez être redirigé...</p>
+        </div>
+    </div>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <a href="/" class="sidebar-logo">Dash<span>Food</span></a>
+
+            <ul class="sidebar-nav">
+                <li><a href="/livreur-dashboard.html" class="active">Tableau de bord</a></li>
+                <li><a href="/livreur-livraisons.html">Mes livraisons</a></li>
+                <li><a href="#" id="livreurProfile">Mon profil</a></li>
+                <li><a href="#" id="livreurGains">Mes gains</a></li>
+                <li><a href="#" id="livreurLogout">Déconnexion</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <div>
+                    <h1>Tableau de bord</h1>
+                    <p id="welcomeMessage">Bienvenue, livreur DashFood</p>
+                </div>
+                <div class="status-indicator">
+                    <span class="status-badge status-active">Actif</span>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #E8F5E9;">
+                        <span style="color: #2E7D32;">📦</span>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Livraisons aujourd'hui</h3>
+                        <p class="stat-value" id="todayDeliveries">0</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #FFF3E0;">
+                        <span style="color: #F57C00;">🚚</span>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Livraisons totales</h3>
+                        <p class="stat-value" id="totalDeliveries">0</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #E3F2FD;">
+                        <span style="color: #1565C0;">💰</span>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Gains aujourd'hui</h3>
+                        <p class="stat-value" id="todayEarnings">0€</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #F3E5F5;">
+                        <span style="color: #7B1FA2;">⭐</span>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Note moyenne</h3>
+                        <p class="stat-value" id="avgRating">5.0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Available Orders Section -->
+            <section class="section">
+                <div class="section-title">
+                    <span>Commandes disponibles</span>
+                    <span class="badge" id="availableCount">0</span>
+                </div>
+
+                <div id="availableOrdersContainer">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📋</div>
+                        <p>Aucune commande disponible pour le moment</p>
+                        <p style="font-size: 12px; color: #9E9E9E; margin-top: 8px;">Les nouvelles commandes apparaîtront ici automatiquement</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Current Delivery Section -->
+            <section class="section">
+                <div class="section-title">
+                    <span>Livraison en cours</span>
+                </div>
+
+                <div id="currentDeliveryContainer">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">✅</div>
+                        <p>Aucune livraison en cours</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --red: #F31753;
+            --green: #8BC34A;
+            --black: #111111;
+            --gray: #5F6368;
+            --light-gray: #F5F5F5;
+            --border: #E0E0E0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #F7F8FA;
+            color: var(--black);
+        }
+
+        /* Layout */
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: white;
+            border-right: 1px solid var(--border);
+            padding: 24px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--black);
+            text-decoration: none;
+            padding: 0 24px;
+            margin-bottom: 32px;
+            display: block;
+        }
+
+        .sidebar-logo span {
+            color: var(--red);
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 4px;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            padding: 12px 24px;
+            color: var(--gray);
+            text-decoration: none;
+            transition: all 0.2s;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            background: var(--light-gray);
+            color: var(--red);
+        }
+
+        .sidebar-nav a.active {
+            border-left: 3px solid var(--red);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 32px;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .status-indicator {
+            text-align: right;
+        }
+
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-active {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .stat-content h3 {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--gray);
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--black);
+        }
+
+        /* Section */
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .badge {
+            background: var(--red);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 48px 24px;
+            color: var(--gray);
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 0;
+                overflow: hidden;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <!-- Script de protection d'accès -->
+    <script>
+        /**
+         * Vérifie que l'utilisateur connecté est bien un livreur
+         * Redirige sinon vers login ou devenir-livreur
+         */
+        (function() {
+            const token = localStorage.getItem('dashfood_token');
+            const userStr = localStorage.getItem('dashfood_user');
+
+            // Si non connecté, rediriger vers login
+            if (!token || !userStr) {
+                window.location.href = '/login';
+                return;
+            }
+
+            try {
+                const user = JSON.parse(userStr);
+
+                // Si le rôle n'est pas livreur
+                if (user.role !== 'livreur') {
+                    // Afficher le message
+                    const overlay = document.getElementById('accessDeniedOverlay');
+                    if (overlay) {
+                        overlay.style.display = 'flex';
+                    }
+
+                    // Rediriger après 2 secondes
+                    setTimeout(() => {
+                        window.location.href = '/devenir-livreur';
+                    }, 2000);
+                    return;
+                }
+
+                // Si livreur, continuer normalement
+                console.log('Accès autorisé au dashboard livreur');
+
+            } catch (error) {
+                console.error('Erreur lors de la vérification:', error);
+                window.location.href = '/login';
+            }
+        })();
+    </script>
+
+    <script src="/js/main.js"></script>
+    <script src="/js/livreur-dashboard.js"></script>
+</body>
+</html>
