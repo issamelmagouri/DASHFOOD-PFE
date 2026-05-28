@@ -2396,7 +2396,7 @@ nav img {
 /* Header de la carte */
 .dashpoints-premium-card .card-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
 }
 
@@ -2416,21 +2416,26 @@ nav img {
 /* Icône feuille verte - positionnement absolu dans le coin supérieur droit */
 .dashpoints-premium-card .card-icon {
     position: absolute !important;
-    top: 34px !important;
-    right: 38px !important;
-    width: 18px !important;
-    height: 18px !important;
+    top: 32px !important;
+    right: 36px !important;
+    width: 22px !important;
+    height: 22px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     background: none !important;
     border: none !important;
     border-radius: 0 !important;
+    transform: rotate(-15deg) !important;
+    left: auto !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    z-index: 5 !important;
 }
 
 .dashpoints-premium-card .card-icon svg {
-    width: 18px !important;
-    height: 18px !important;
+    width: 22px !important;
+    height: 22px !important;
     opacity: 0.9 !important;
 }
 
@@ -2685,15 +2690,18 @@ nav img {
     }
 
     .dashpoints-premium-card .card-icon {
-        top: 34px !important;
+        top: 28px !important;
         right: 32px !important;
-        width: 16px !important;
-        height: 16px !important;
+        width: 20px !important;
+        height: 20px !important;
+        left: auto !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
     }
 
     .dashpoints-premium-card .card-icon svg {
-        width: 16px !important;
-        height: 16px !important;
+        width: 20px !important;
+        height: 20px !important;
     }
 
     .dashpoints-premium-card .points-number {

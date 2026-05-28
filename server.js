@@ -9,6 +9,7 @@ const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const deliveryRoutes = require('./routes/deliveryRoutes');
 const dashpointsRoutes = require('./routes/dashpointsRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/auth', authRoutes);
 app.use('/api/delivery', deliveryRoutes); // Routes pour les demandes de livreur
 app.use('/api/dashpoints', dashpointsRoutes); // Routes pour le programme de fidélité
+app.use('/api/users', userRoutes); // Routes pour le profil utilisateur
 
 // Routes pour servir les pages HTML
 app.get('/', (req, res) => {
@@ -78,6 +80,15 @@ app.get('/dashpoints', (req, res) => {
 
 app.get('/dashpoints.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'dashpoints.html'));
+});
+
+// Route profil utilisateur
+app.get('/profile', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'profile.html'));
+});
+
+app.get('/profile.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'profile.html'));
 });
 
 // Démarrage du serveur

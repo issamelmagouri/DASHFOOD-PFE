@@ -5,6 +5,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Le nom complet est requis']
   },
+  firstName: {
+    type: String
+  },
+  lastName: {
+    type: String
+  },
   email: {
     type: String,
     required: [true, 'L\'email est requis'],
@@ -20,6 +26,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'L\'adresse est requise']
   },
+  city: {
+    type: String
+  },
+  dateOfBirth: {
+    type: Date
+  },
   password: {
     type: String,
     required: [true, 'Le mot de passe est requis']
@@ -32,6 +44,25 @@ const userSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  // preferences utilisateur
+  preferences: {
+    notifications: {
+      type: Boolean,
+      default: true
+    },
+    promotions: {
+      type: Boolean,
+      default: true
+    },
+    newsletter: {
+      type: Boolean,
+      default: false
+    },
+    analytics: {
+      type: Boolean,
+      default: true
+    }
   },
   // Champs pour candidature livreur
   deliveryRequest: {

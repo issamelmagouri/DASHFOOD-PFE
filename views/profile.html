@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Profil - DashFood</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/profile.css">
+</head>
+<body>
+
+    <!-- Container principal -->
+    <div class="profile-container">
+
+        <!-- Sidebar gauche -->
+        <aside class="profile-sidebar">
+            <div class="sidebar-content">
+                <!-- Avatar et infos utilisateur -->
+                <div class="user-card">
+                    <div class="user-avatar" id="userAvatar">M</div>
+                    <h3 class="user-name" id="userName">med benktib</h3>
+                    <p class="user-email" id="userEmail">issam.elmagouri@etu.uae.ac.ma</p>
+                </div>
+
+                <!-- Menu navigation -->
+                <nav class="sidebar-menu">
+                    <a href="/profile" class="menu-item active">
+                        <svg class="menu-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span>Mon profil</span>
+                    </a>
+
+                    <a href="/orders.html" class="menu-item">
+                        <svg class="menu-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2M9 2h6v4H9V2z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span>Mes commandes</span>
+                    </a>
+
+                    <a href="/dashpoints" class="menu-item">
+                        <svg class="menu-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span>Mes DashPoints</span>
+                    </a>
+
+                    <a href="#address-section" class="menu-item">
+                        <svg class="menu-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span>Mon adresse</span>
+                    </a>
+
+                    <a href="#notifications-section" class="menu-item">
+                        <svg class="menu-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span>Notifications</span>
+                    </a>
+
+                    <a href="#security-section" class="menu-item">
+                        <svg class="menu-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 15v2M9 11V7a3 3 0 0 1 6 0v4" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span>Sécurité</span>
+                    </a>
+                </nav>
+
+                <!-- Deconnexion -->
+                <button class="logout-btn" id="logoutBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <span>Déconnexion</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Contenu principal -->
+        <main class="profile-main">
+
+            <!-- Header -->
+            <header class="profile-header">
+                <!-- Breadcrumb -->
+                <div class="breadcrumb">
+                    <a href="/">ACCUEIL</a>
+                    <span class="breadcrumb-separator">/</span>
+                    <span>Mon compte</span>
+                </div>
+
+                <!-- Label -->
+                <div class="page-label">
+                    <span class="label-line"></span>
+                    <span class="label-text">MON COMPTE • PROFIL SIGNATURE</span>
+                </div>
+
+                <!-- Titre principal -->
+                <h1 class="page-title">
+                    Bonjour, <span class="title-name" id="headerName">Med</span> <span class="title-ampersand">&</span> bienvenue <span class="title-italic">à la maison</span>.
+                </h1>
+
+                <!-- Description -->
+                <p class="page-description">
+                    Gérez vos informations, suivez vos commandes, vos DashPoints et vos préférences en un seul endroit. Votre maison numérique, soignée comme nos plats.
+                </p>
+            </header>
+
+            <!-- Section Informations personnelles -->
+            <section class="profile-section" id="info-section">
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-label-wrapper">
+                            <span class="section-label-line"></span>
+                            <span class="section-label">INFORMATIONS PERSONNELLES •</span>
+                        </div>
+                        <h2 class="section-title">
+                            Vos <span class="section-title-italic">coordonnées</span>
+                        </h2>
+                        <p class="section-subtitle">Ces informations sont visibles uniquement par vous et nos coursiers.</p>
+                    </div>
+
+                    <div class="section-content">
+                        <!-- Mode lecture -->
+                        <div id="infoReadMode" class="info-display">
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label class="info-label">PRÉNOM</label>
+                                    <p class="info-value" id="displayFirstName">Med</p>
+                                </div>
+                                <div class="info-item">
+                                    <label class="info-label">NOM</label>
+                                    <p class="info-value" id="displayLastName">Benktib</p>
+                                </div>
+                                <div class="info-item">
+                                    <label class="info-label">ADRESSE E-MAIL</label>
+                                    <p class="info-value" id="displayEmail">issam.elmagouri@etu.uae.ac.ma</p>
+                                    <span class="verified-badge">✓ Vérifiée</span>
+                                </div>
+                                <div class="info-item">
+                                    <label class="info-label">TÉLÉPHONE</label>
+                                    <p class="info-value" id="displayPhone">+212 6 12 34 56 78</p>
+                                    <span class="verified-badge">✓ Vérifié</span>
+                                </div>
+                                <div class="info-item">
+                                    <label class="info-label">DATE DE NAISSANCE</label>
+                                    <p class="info-value" id="displayDateOfBirth">14 mars 2002</p>
+                                    <span class="verified-badge locked-badge" id="birthDateLockedBadge" style="display: none; color: #B8966D;">🔒 Verrouillée</span>
+                                    <small id="birthDateLockMessage" style="display: none; font-size: 12px; color: #5C5C74; margin-top: 0.5rem; line-height: 1.5;">La date de naissance est utilisée pour le bonus anniversaire et ne peut pas être modifiée.</small>
+                                </div>
+                                <div class="info-item">
+                                    <label class="info-label">VILLE</label>
+                                    <p class="info-value" id="displayCity">Tétouan, Maroc</p>
+                                </div>
+                            </div>
+
+                            <button class="edit-btn" id="editInfoBtn">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                <span>MODIFIER</span>
+                            </button>
+                        </div>
+
+                        <!-- Mode edition -->
+                        <div id="infoEditMode" class="info-edit" style="display: none;">
+                            <div class="info-grid">
+                                <div class="input-group">
+                                    <label>PRÉNOM</label>
+                                    <input type="text" id="editFirstName" placeholder="Votre prénom">
+                                </div>
+                                <div class="input-group">
+                                    <label>NOM</label>
+                                    <input type="text" id="editLastName" placeholder="Votre nom">
+                                </div>
+                                <div class="input-group">
+                                    <label>ADRESSE E-MAIL</label>
+                                    <input type="email" id="editEmail" placeholder="votre@email.com">
+                                </div>
+                                <div class="input-group">
+                                    <label>TÉLÉPHONE</label>
+                                    <input type="tel" id="editPhone" placeholder="+212 6 XX XX XX XX">
+                                </div>
+                                <div class="input-group" id="birthDateInputGroup">
+                                    <label>DATE DE NAISSANCE <span id="birthDateLockedLabel" style="display: none; font-size: 10px; color: #B8966D; font-weight: 400;">• VERROUILLÉE</span></label>
+                                    <input type="date" id="editDateOfBirth">
+                                    <small id="birthDateEditMessage" style="display: none; font-size: 12px; color: #5C5C74; margin-top: 0.5rem;">Cette date ne pourra plus être modifiée après enregistrement (bonus anniversaire).</small>
+                                </div>
+                                <div class="input-group">
+                                    <label>VILLE</label>
+                                    <input type="text" id="editCity" placeholder="Votre ville">
+                                </div>
+                            </div>
+
+                            <div class="edit-actions">
+                                <button class="cancel-btn" id="cancelInfoBtn">Annuler</button>
+                                <button class="save-btn" id="saveInfoBtn">
+                                    <span>Enregistrer les modifications</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section Adresse -->
+            <section class="profile-section" id="address-section">
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-label-wrapper">
+                            <span class="section-label-line"></span>
+                            <span class="section-label">ADRESSE DE LIVRAISON •</span>
+                        </div>
+                        <h2 class="section-title">
+                            Votre <span class="section-title-italic">adresse</span> enregistrée
+                        </h2>
+                        <p class="section-subtitle">L'adresse où nous livrons vos commandes.</p>
+                    </div>
+
+                    <div class="section-content">
+                        <!-- Mode lecture -->
+                        <div id="addressReadMode" class="address-display">
+                            <div class="address-card">
+                                <label class="address-label">Domicile</label>
+                                <p class="address-text" id="displayAddress">14 Avenue Mohammed V, Résidence Al Andalous, Apt 8<br>93000 Tétouan, Maroc</p>
+                            </div>
+
+                            <button class="edit-btn" id="editAddressBtn">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                <span>MODIFIER</span>
+                            </button>
+                        </div>
+
+                        <!-- Mode edition -->
+                        <div id="addressEditMode" class="address-edit" style="display: none;">
+                            <div class="input-group">
+                                <label>ADRESSE COMPLÈTE</label>
+                                <textarea id="editAddress" rows="3" placeholder="Numéro, rue, résidence, appartement..."></textarea>
+                            </div>
+                            <div class="input-group">
+                                <label>VILLE</label>
+                                <input type="text" id="editAddressCity" placeholder="Votre ville">
+                            </div>
+
+                            <div class="edit-actions">
+                                <button class="cancel-btn" id="cancelAddressBtn">Annuler</button>
+                                <button class="save-btn" id="saveAddressBtn">
+                                    <span>Enregistrer l'adresse</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section Notifications -->
+            <section class="profile-section" id="notifications-section">
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-label-wrapper">
+                            <span class="section-label-line"></span>
+                            <span class="section-label">PRÉFÉRENCES •</span>
+                        </div>
+                        <h2 class="section-title">
+                            Notifications <span class="title-ampersand">&</span> <span class="section-title-italic">confidentialité</span>
+                        </h2>
+                        <p class="section-subtitle">Choisissez ce que vous souhaitez recevoir et comment.</p>
+                    </div>
+
+                    <div class="section-content">
+                        <div class="preferences-list">
+                            <!-- Notifications temps reel -->
+                            <div class="preference-item">
+                                <div class="preference-info">
+                                    <h3 class="preference-title">Suivi des commandes en temps réel</h3>
+                                    <p class="preference-desc">Recevez des notifications push lorsque votre coursier est en route et à proximité.</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="prefNotifications" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+
+                            <!-- Promotions -->
+                            <div class="preference-item">
+                                <div class="preference-info">
+                                    <h3 class="preference-title">Promotions & nouveautés</h3>
+                                    <p class="preference-desc">Soyez informé des nouveaux restaurants et des offres exclusives membres Gold.</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="prefPromotions" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+
+                            <!-- Newsletter -->
+                            <div class="preference-item">
+                                <div class="preference-info">
+                                    <h3 class="preference-title">Newsletter hebdomadaire</h3>
+                                    <p class="preference-desc">Notre billet du dimanche : tables remarquées, sélections du chef, événements.</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="prefNewsletter">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+
+                            <!-- Analytics -->
+                            <div class="preference-item">
+                                <div class="preference-info">
+                                    <h3 class="preference-title">Partage de données analytiques</h3>
+                                    <p class="preference-desc">Nous aide à améliorer l'application. Aucune donnée personnelle n'est partagée.</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="prefAnalytics" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section Sécurité -->
+            <section class="profile-section" id="security-section">
+                <div class="section-card danger-zone">
+                    <div class="section-header">
+                        <div class="section-label-wrapper">
+                            <span class="section-label-line danger"></span>
+                            <span class="section-label danger">ZONE SENSIBLE •</span>
+                        </div>
+                        <h2 class="section-title danger">
+                            Fermeture <span class="section-title-italic">du compte</span>
+                        </h2>
+                        <p class="section-subtitle">Ces actions sont définitives. Prenez votre temps avant de confirmer.</p>
+                    </div>
+
+                    <div class="section-content">
+                        <div class="danger-content">
+                            <p class="danger-warning">
+                                La suppression de votre compte effacera vos informations, vos adresses, vos préférences et vos DashPoints accumulés.
+                            </p>
+
+                            <button class="delete-account-btn" id="deleteAccountBtn">
+                                SUPPRIMER MON COMPTE
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="/js/profile.js"></script>
+</body>
+</html>
