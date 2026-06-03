@@ -88,7 +88,7 @@ const userSchema = new mongoose.Schema({
 
   // ===== SYSTÈME DASHPOINTS - PROGRAMME DE FIDÉLITÉ =====
 
-  // Points actuels disponibles pour échanger contre des récompenses
+  // Points actuels disponibles pour  echanger 
   // 1 MAD dépensé = 1 DashPoint gagné (après livraison)
   dashPoints: {
     type: Number,
@@ -97,8 +97,7 @@ const userSchema = new mongoose.Schema({
   },
 
   // Total de TOUS les points gagnés depuis la création du compte
-  // Ce nombre ne diminue JAMAIS (même après échange de récompenses)
-  // Utilisé pour calculer le niveau de fidélité
+  
   totalPointsEarned: {
     type: Number,
     default: 0,
@@ -160,7 +159,7 @@ userSchema.methods.updateLoyaltyLevel = function() {
   }
 };
 
-// ===== MÉTHODE : Ajouter des DashPoints =====
+//  MÉTHODE : Ajouter des DashPoints 
 userSchema.methods.addDashPoints = function(amount, description, orderId = null) {
   // Ajouter les points disponibles
   this.dashPoints += amount;

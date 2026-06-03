@@ -2,19 +2,19 @@
 
 Application de livraison de repas en ligne.
 
-## Technologies
+## Technologies que on va utilise 
 
 - **Backend** : Node.js + Express
-- **Frontend** : HTML5, CSS3, JavaScript vanilla
+- **Frontend** : HTML5 CSS3 JavaScript vanillaaaa
 - **Base de données** : MongoDB
-- **Temps réel** : Socket.io
+- **Temps réel** : Socket.io et aussi Leaflet OpenStreetMap
 
 ## Structure du projet
 
-```
+
 DASHFOOD/
 ├── data/              # Données de test
-├── public/            # Fichiers statiques (CSS, JS, assets)
+├── public/            # Fichiers statiques (CSS, JS, assets cela contient les images le logoansi de suite ) 
 ├── views/             # Pages HTML
 ├── routes/            # Routes Express
 ├── controllers/       # Contrôleurs
@@ -23,30 +23,7 @@ DASHFOOD/
 ├── config/            # Configuration
 ├── socket/            # Gestion Socket.io
 └── server.js          # Point d'entrée
-```
-
-## Installation
-
-```bash
-npm install
-```
-
-## Démarrage
-
-```bash
-npm run dev
-```
 
 Le serveur démarre sur http://localhost:3000
 
-## Fonctionnalités prévues
-
-- Catalogue de restaurants
-- Commande en ligne
-- Suivi en temps réel
-- Gestion multi-rôles (Client, Restaurant, Livreur, Admin)
-- Notifications temps réel
-
-## Statut
-
-Projet en cours de développement - Structure initiale créée.
+#

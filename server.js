@@ -1,5 +1,5 @@
-// Point d'entrée du serveur Express
-// Configuration du serveur, middlewares, routes et Socket.io
+// Point d entrée du serveur Express
+// Configuration du serveur middlewares etroutes et Socket.io
 
 require('dotenv').config();
 const express = require('express');
@@ -73,7 +73,14 @@ app.get('/livreur-livraisons.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'livreur-livraisons.html'));
 });
 
-// Route DashPoints (Programme de fidélité)
+
+
+
+
+
+
+
+// Route DashPoints (le Programme de fidelite)
 app.get('/dashpoints', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'dashpoints.html'));
 });

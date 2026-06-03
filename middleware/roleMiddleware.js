@@ -22,7 +22,7 @@ const checkRole = (allowedRoles) => {
       const token = authHeader.substring(7);
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       
-      // Récupérer l'utilisateur
+      // Recupérer l'utilisateur
       const user = await User.findById(decoded.id);
       
       if (!user) {
