@@ -55,20 +55,25 @@ const userSchema = new mongoose.Schema({
       type: Boolean,
       default: true
     },
+    // recevoir des email depuis dashfood nouveau restau etc
     newsletter: {
       type: Boolean,
       default: false
-    },
+    },//Partage des données d utilisation comme playts prefere et le temps passe pour la livraison pour ameliration au futur 
     analytics: {
       type: Boolean,
       default: true
     }
   },
   // Champs pour candidature livreur
+
+  //cela signifie que tous les utilisateurs créés auront automatiquement :
   deliveryRequest: {
     type: Boolean,
     default: false
   },
+
+    //cela signifie
   deliveryRequestStatus: {
     type: String,
     enum: ['pending', 'accepted', 'rejected'],
@@ -80,6 +85,31 @@ const userSchema = new mongoose.Schema({
     transportType: String, // vélo, scooter, voiture
     experience: String, // oui, non
     availability: String, // temps plein, temps partiel, week-ends
+    requestDate: {
+      type: Date,
+      default: Date.now
+    }
+  },
+
+  // Champs pour candidature restaurant partenaire
+  restaurantRequest: {
+    type: Boolean,
+    default: false
+  },
+  restaurantRequestStatus: {
+    type: String,
+    enum: ['pending', 'accepted', 'rejected'],
+    default: null
+  },
+  restaurantInfo: {
+    restaurantName: String,
+    cuisineType: String,
+    city: String,
+    address: String,
+    phone: String,
+    email: String,
+    openingHours: String,
+    description: String,
     requestDate: {
       type: Date,
       default: Date.now

@@ -27,9 +27,55 @@ router.put('/accept/:userId',
 );
 
 // PUT /api/delivery/reject/:userId - Refuser une demande (Admin uniquement)
-router.put('/reject/:userId', 
-  checkRole(['admin']), 
+router.put('/reject/:userId',
+  checkRole(['admin']),
   deliveryController.rejectDeliveryRequest
+);
+
+/**
+ * Routes pour la gestion des livraisons (Livreur uniquement)
+ */
+
+// GET /api/delivery/available - Récupérer les livraisons disponibles
+router.get('/available',
+  authMiddleware,
+  checkRole(['livreur']),
+  deliveryController.getAvailableDeliveries
+);
+
+// GET /api/delivery/my-current - Récupérer la livraison en cours du livreur
+router.get('/my-current',
+  authMiddleware,
+  checkRole(['livreur']),
+  deliveryController.getMyCurrentDelivery
+);
+
+// POST /api/delivery/accept/:deliveryId - Accepter une livraison
+router.post('/accept/:deliveryId',
+  authMiddleware,
+  checkRole(['livreur']),
+  deliveryController.acceptDelivery
+);
+
+// PUT /api/delivery/status/:deliveryId - Mettre à jour le statut d'une livraison
+router.put('/status/:deliveryId',
+  authMiddleware,
+  checkRole(['livreur']),
+  deliveryController.updateDeliveryStatus
+);
+
+// GET /api/delivery/my-stats - Récupérer les statistiques du livreur
+router.get('/my-stats',
+  authMiddleware,
+  checkRole(['livreur']),
+  deliveryController.getMyStats
+);
+
+// GET /api/delivery/my-history - Récupérer l'historique des livraisons
+router.get('/my-history',
+  authMiddleware,
+  checkRole(['livreur']),
+  deliveryController.getMyHistory
 );
 
 module.exports = router;

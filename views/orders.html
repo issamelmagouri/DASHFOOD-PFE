@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Commandes - DashFood</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/orders.css">
+</head>
+<body>
+
+    <!-- ===== NAVBAR PREMIUM ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="/" class="navbar-logo">
+                    <img src="/assets/logos/logo.png" alt="DashFood" class="logo-img" style="height: 36px !important; width: auto !important;">
+                </a>
+
+                <!-- Actions de navigation - Dynamique selon statut connexion -->
+                <div class="navbar-actions">
+                    <!-- Boutons pour utilisateurs non connectés -->
+                    <div id="guestActions" class="guest-actions">
+                        <a href="/login" class="btn btn-outline">Connexion</a>
+                        <a href="/register" class="btn btn-primary">Inscription</a>
+                    </div>
+
+                    <!-- Bouton profil pour clients connectés (caché par défaut) -->
+                    <div id="clientProfile" class="client-profile" style="display: none;">
+                        <button class="profile-btn" id="profileBtn">
+                            <svg class="profile-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span class="profile-name" id="profileName">Client</span>
+                            <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+
+                        <!-- Dropdown Menu Premium -->
+                        <div class="profile-dropdown" id="profileDropdown">
+                            <div class="dropdown-header">
+                                <div class="dropdown-user-info">
+                                    <div class="dropdown-avatar">
+                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </div>
+                                    <div class="dropdown-user-text">
+                                        <div class="dropdown-user-name" id="dropdownFullName">Utilisateur</div>
+                                        <div class="dropdown-user-email" id="dropdownEmail">email@example.com</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="dropdown-divider"></div>
+
+                            <div class="dropdown-menu">
+                                <a href="/profile.html" class="dropdown-item">
+                                    <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <span>Mon profil</span>
+                                </a>
+
+                                <a href="/orders.html" class="dropdown-item">
+                                    <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <span>Mes commandes</span>
+                                </a>
+
+                                <a href="/dashpoints.html" class="dropdown-item">
+                                    <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <span>Mes DashPoints</span>
+                                </a>
+                            </div>
+
+                            <div class="dropdown-divider"></div>
+
+                            <button class="dropdown-item dropdown-logout" id="logoutBtn">
+                                <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <polyline points="16 17 21 12 16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <line x1="21" y1="12" x2="9" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <span>Déconnexion</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== MAIN CONTAINER ===== -->
+    <div class="orders-container">
+
+        <!-- Header -->
+        <div class="orders-header">
+            <div class="header-content">
+                <!-- Breadcrumb -->
+                <div class="breadcrumb">
+                    <a href="/index.html" class="breadcrumb-link">ACCUEIL</a>
+                    <span class="breadcrumb-separator">/</span>
+                    <span class="breadcrumb-current">MES COMMANDES</span>
+                </div>
+
+                <!-- Label -->
+                <div class="header-label">MES COMMANDES - EXPÉRIENCE SIGNATURE •</div>
+
+                <!-- Title -->
+                <h1 class="orders-title">Vos expériences <span class="title-italic">DashFood</span>.</h1>
+                <p class="orders-subtitle">Retrouvez vos commandes passées, suivez vos livraisons et revivez vos meilleures expériences culinaires.</p>
+
+                <!-- Decorative line -->
+                <div class="title-underline"></div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="orders-filters">
+            <div class="filters-container">
+                <div class="filters-left">
+                    <button class="filter-btn active" data-filter="all">Toutes</button>
+                    <button class="filter-btn" data-filter="active">En cours</button>
+                    <button class="filter-btn" data-filter="delivered">Livrées</button>
+                    <button class="filter-btn" data-filter="cancelled">Annulées</button>
+                </div>
+                <div class="filters-right">
+                    <span class="orders-count"><span id="countAll">0</span> <span class="count-label">commandes</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Message Banner -->
+        <div id="messageBanner" class="message-banner" style="display: none;"></div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="loading-state" style="display: none;">
+            <div class="spinner-large"></div>
+            <p>Chargement de vos commandes...</p>
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <div class="empty-icon">
+                <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                    <circle cx="40" cy="40" r="38" stroke="#E5E0D3" stroke-width="2"/>
+                    <path d="M30 35L40 25L50 35" stroke="#B8966D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <rect x="32" y="35" width="16" height="20" rx="2" stroke="#B8966D" stroke-width="2"/>
+                    <circle cx="40" cy="45" r="3" fill="#8BC34A"/>
+                </svg>
+            </div>
+            <h3 class="empty-title">Aucune commande pour le moment</h3>
+            <p class="empty-text">Découvrez nos restaurants partenaires et passez votre première commande</p>
+            <a href="/index.html#restaurants" class="empty-btn">
+                <span class="btn-text">Découvrir les restaurants</span>
+                <div class="btn-circle">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M7 13L13 7M13 7H8M13 7V12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+            </a>
+        </div>
+
+        <!-- Orders Content -->
+        <div id="ordersContent" class="orders-content" style="display: none;">
+
+            <!-- Section En Livraison -->
+            <div id="activeOrdersSection" class="orders-section active-section" style="display: none;">
+                <div class="section-header-orders">
+                    <div class="section-header-left">
+                        <h2 class="section-title-orders">En <span class="title-italic">livraison</span></h2>
+                        <p class="section-subtitle">Vos commandes en cours, suivies en temps réel.</p>
+                    </div>
+                    <div class="section-header-right">
+                        <span class="live-badge">
+                            <span class="live-dot"></span>
+                            EN DIRECT
+                        </span>
+                    </div>
+                </div>
+                <div id="activeOrdersList" class="orders-grid">
+                    <!-- Commandes en cours seront insérées ici -->
+                </div>
+            </div>
+
+            <!-- Section Historique -->
+            <div id="historySection" class="orders-section history-section" style="display: none;">
+                <div class="section-header-orders">
+                    <div class="section-header-left">
+                        <h2 class="section-title-orders">Historique <span class="title-italic">des commandes</span></h2>
+                        <p class="section-subtitle">Vos expériences précédentes, à revivre quand vous le souhaitez.</p>
+                    </div>
+                </div>
+                <div id="historyOrdersList" class="orders-grid">
+                    <!-- Historique sera inséré ici -->
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Hidden counters for JS -->
+    <span id="countActive" style="display: none;">0</span>
+    <span id="countDelivered" style="display: none;">0</span>
+    <span id="countCancelled" style="display: none;">0</span>
+
+    <!-- JavaScript -->
+    <script src="/js/navbar.js"></script>
+    <script src="/js/orders.js"></script>
+
+</body>
+</html>

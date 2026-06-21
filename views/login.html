@@ -4,435 +4,124 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion - DashFood</title>
+    <meta name="description" content="Connectez-vous à votre compte DashFood">
+    <link rel="icon" type="image/png" href="/assets/logos/logo.png">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --cream: #F8F7F4;
-            --black: #111111;
-            --red: #F31753;
-            --green: #8BC34A;
-            --gray: #5F6368;
-            --light-gray: #E8E8E8;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        .auth-container {
-            display: flex;
-            height: 100vh;
-        }
-
-        /* Left Panel */
-        .left-panel {
-            width: 40%;
-            background: linear-gradient(135deg, #111111 0%, #1a1a1a 100%);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 60px;
-            color: white;
-        }
-
-        .left-panel::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(139,195,74,0.08)" stroke-width="2"/></svg>');
-            background-size: 100px;
-            opacity: 0.3;
-        }
-
-        .logo-section {
-            position: absolute;
-            top: 40px;
-            left: 60px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            z-index: 2;
-        }
-
-        .logo-icon {
-            width: 32px;
-            height: 32px;
-            background: var(--green);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 18px;
-            color: white;
-        }
-
-        .logo-text {
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            font-weight: 700;
-            color: white;
-        }
-
-        .left-content {
-            z-index: 2;
-            max-width: 400px;
-        }
-
-        .left-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 48px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-
-        .left-subtitle {
-            font-size: 16px;
-            color: #b0b0b0;
-            line-height: 1.6;
-        }
-
-        /* Right Panel */
-        .right-panel {
-            width: 60%;
-            background: white;
-            padding: 60px 80px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            animation: slideIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .form-header {
-            margin-bottom: 40px;
-        }
-
-        .form-label-small {
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--red);
-            margin-bottom: 12px;
-            display: block;
-        }
-
-        .form-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--black);
-            margin-bottom: 8px;
-        }
-
-        /* Success/Error Messages */
-        .message-banner {
-            padding: 16px 20px;
-            border-radius: 12px;
-            margin-bottom: 24px;
-            font-size: 14px;
-            font-weight: 500;
-            display: none;
-            animation: slideDown 0.4s ease;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .message-banner.success {
-            background: #E8F5E9;
-            color: #2E7D32;
-            border: 1px solid #A5D6A7;
-        }
-
-        .message-banner.error {
-            background: #FFEBEE;
-            color: #C62828;
-            border: 1px solid #EF9A9A;
-        }
-
-        /* Form */
-        .login-form {
-            animation: fadeInStagger 0.8s ease;
-        }
-
-        @keyframes fadeInStagger {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--black);
-            margin-bottom: 8px;
-        }
-
-        .input-wrapper {
-            position: relative;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1.5px solid var(--light-gray);
-            border-radius: 12px;
-            font-family: 'Inter', sans-serif;
-            font-size: 15px;
-            color: var(--black);
-            transition: all 0.2s ease;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--red);
-            box-shadow: 0 0 0 3px rgba(243, 23, 83, 0.08);
-        }
-
-        .form-input.error {
-            border-color: #EF5350;
-        }
-
-        .toggle-password {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--gray);
-            font-size: 18px;
-            padding: 4px;
-        }
-
-        .forgot-password {
-            text-align: right;
-            margin-top: -12px;
-            margin-bottom: 24px;
-        }
-
-        .forgot-password a {
-            font-size: 13px;
-            color: var(--red);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .forgot-password a:hover {
-            text-decoration: underline;
-        }
-
-        .error-message {
-            font-size: 12px;
-            color: #EF5350;
-            margin-top: 6px;
-            display: none;
-            animation: slideDown 0.3s ease;
-        }
-
-        .error-message.show {
-            display: block;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 16px;
-            background: var(--red);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            margin-top: 8px;
-            position: relative;
-        }
-
-        .submit-btn:hover {
-            background: #d4103f;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(243, 23, 83, 0.3);
-        }
-
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .spinner {
-            display: none;
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 0.6s linear infinite;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        @keyframes spin {
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        .submit-btn.loading .spinner {
-            display: block;
-        }
-
-        .submit-btn.loading .btn-text {
-            opacity: 0;
-        }
-
-        .bottom-link {
-            text-align: center;
-            margin-top: 24px;
-            font-size: 14px;
-            color: var(--gray);
-        }
-
-        .bottom-link a {
-            color: var(--red);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .bottom-link a:hover {
-            text-decoration: underline;
-        }
-
-        /* Responsive */
-        @media (max-width: 992px) {
-            .auth-container {
-                flex-direction: column;
-            }
-
-            .left-panel {
-                width: 100%;
-                min-height: 300px;
-                padding: 40px;
-            }
-
-            .right-panel {
-                width: 100%;
-                padding: 40px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
-    <div class="auth-container">
-        <!-- Left Panel -->
-        <div class="left-panel">
-            <div class="logo-section">
-                <div class="logo-icon">D</div>
-                <span class="logo-text">DashFood</span>
+
+    <!-- Navbar Premium DashFood -->
+    <nav class="login-navbar">
+        <div class="navbar-container">
+            <a href="/" class="navbar-logo">
+                <img src="/assets/logos/logo.png" alt="DashFood" class="logo-img">
+            </a>
+
+            <div class="navbar-actions">
+                <a href="/register" class="btn-register">S'inscrire</a>
             </div>
+        </div>
+    </nav>
+
+    <!-- Container principal -->
+    <div class="login-container">
+
+        <!-- Colonne gauche - Premium Green -->
+        <div class="left-column">
             <div class="left-content">
-                <h1 class="left-title">Bon retour parmi nous</h1>
-                <p class="left-subtitle">Votre prochain repas est à portée de clic.</p>
+                <h1 class="left-title">
+                    Bon retour<br><span class="left-title-italic">parmi nous</span>.
+                </h1>
+                <p class="left-subtitle">
+                    Votre prochain repas est à portée de clic.
+                </p>
             </div>
         </div>
 
-        <!-- Right Panel -->
-        <div class="right-panel">
-            <div class="form-header">
-                <span class="form-label-small">Se connecter</span>
-                <h2 class="form-title">Bienvenue</h2>
-            </div>
-
-            <!-- Success/Error Banner -->
-            <div class="message-banner" id="messageBanner"></div>
-
-            <!-- Login Form -->
-            <form class="login-form" id="loginForm">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" class="form-input" required>
-                    <div class="error-message" id="emailError"></div>
+        <!-- Colonne droite - Formulaire -->
+        <div class="right-column">
+            <div class="form-wrapper">
+                <!-- En-tête formulaire -->
+                <div class="form-header">
+                    <span class="form-label-small">SE CONNECTER</span>
+                    <h2 class="form-title">Bienvenue</h2>
+                    <p class="form-subtitle">Connectez-vous pour retrouver vos commandes.</p>
                 </div>
 
-                <div class="form-group">
-                    <label for="password">Mot de passe</label>
-                    <div class="input-wrapper">
-                        <input type="password" id="password" name="password" class="form-input" required>
-                        <button type="button" class="toggle-password" data-target="password">&#128065;</button>
+                <!-- Message d'erreur/succès -->
+                <div class="message-banner" id="messageBanner" style="display: none;"></div>
+
+                <!-- Formulaire de connexion -->
+                <form id="loginForm" class="login-form">
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label class="form-label">EMAIL •</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            class="form-input"
+                            placeholder="vous@exemple.com"
+                            required
+                        >
                     </div>
-                    <div class="error-message" id="passwordError"></div>
-                </div>
 
-                <div class="forgot-password">
-                    <a href="#">Mot de passe oublié ?</a>
-                </div>
+                    <!-- Mot de passe -->
+                    <div class="form-group">
+                        <label class="form-label">MOT DE PASSE •</label>
+                        <div class="input-wrapper">
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="form-input"
+                                placeholder="Votre mot de passe"
+                                required
+                            >
+                            <button type="button" class="toggle-password" data-target="password">
+                                <svg class="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
 
-                <button type="submit" class="submit-btn" id="submitBtn">
-                    <span class="btn-text">Se connecter</span>
-                    <div class="spinner"></div>
-                </button>
+                    <!-- Mot de passe oublié -->
+                    <div class="forgot-password">
+                        <a href="#">Mot de passe oublié ?</a>
+                    </div>
 
-                <div class="bottom-link">
-                    Pas encore de compte ? <a href="/register">S'inscrire</a>
-                </div>
-            </form>
+                    <!-- Bouton soumettre -->
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <span class="submit-text">SE CONNECTER</span>
+                        <span class="submit-circle">
+                            <svg class="submit-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span>
+                    </button>
+
+                    <!-- Lien inscription -->
+                    <div class="bottom-link">
+                        Pas encore de compte ? <a href="/register">S'inscrire</a>
+                    </div>
+
+                </form>
+            </div>
         </div>
+
     </div>
 
     <script>
-        // Toggle password visibility
+        // ===== TOGGLE PASSWORD VISIBILITY =====
         document.querySelectorAll('.toggle-password').forEach(btn => {
             btn.addEventListener('click', function() {
                 const targetId = this.getAttribute('data-target');
@@ -440,15 +129,15 @@
 
                 if (input.type === 'password') {
                     input.type = 'text';
-                    this.innerHTML = '&#128584;';
+                    this.style.opacity = '1';
                 } else {
                     input.type = 'password';
-                    this.innerHTML = '&#128065;';
+                    this.style.opacity = '0.6';
                 }
             });
         });
 
-        // Form submission
+        // ===== FORM SUBMISSION =====
         const form = document.getElementById('loginForm');
         const submitBtn = document.getElementById('submitBtn');
         const messageBanner = document.getElementById('messageBanner');
@@ -456,27 +145,22 @@
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // Clear previous errors
-            document.querySelectorAll('.error-message').forEach(el => {
-                el.classList.remove('show');
-                el.textContent = '';
-            });
-            document.querySelectorAll('.form-input').forEach(el => {
-                el.classList.remove('error');
-            });
+            // masque le message precedent
             messageBanner.style.display = 'none';
 
-            // Get form data
+            // recupere les donnees du formulaire
             const formData = {
                 email: document.getElementById('email').value.trim(),
                 password: document.getElementById('password').value
             };
 
-            // Show loading
-            submitBtn.classList.add('loading');
+            // desactive le bouton et affiche loading
             submitBtn.disabled = true;
+            submitBtn.querySelector('.submit-text').textContent = 'CONNEXION...';
+            submitBtn.style.opacity = '0.7';
 
             try {
+                // appel API de connexion
                 const response = await fetch('/api/auth/login', {
                     method: 'POST',
                     headers: {
@@ -492,10 +176,8 @@
                     localStorage.setItem('dashfood_token', data.token);
                     localStorage.setItem('dashfood_user', JSON.stringify(data.user));
 
-                    // Show success message
-                    messageBanner.textContent = 'Connexion réussie ! Redirection...';
-                    messageBanner.className = 'message-banner success';
-                    messageBanner.style.display = 'block';
+                    // succes
+                    showMessage('Connexion réussie ! Redirection...', 'success');
 
                     // Role-based redirection - Système de navigation intelligent
                     setTimeout(() => {
@@ -523,26 +205,35 @@
                         }
                     }, 1000);
                 } else {
-                    // Show error message
-                    messageBanner.textContent = data.message || 'Une erreur est survenue';
-                    messageBanner.className = 'message-banner error';
-                    messageBanner.style.display = 'block';
+                    // erreur du serveur
+                    showMessage(data.message || 'Email ou mot de passe incorrect.', 'error');
 
-                    // Remove loading
-                    submitBtn.classList.remove('loading');
+                    // reactive le bouton
                     submitBtn.disabled = false;
+                    submitBtn.querySelector('.submit-text').textContent = 'SE CONNECTER';
+                    submitBtn.style.opacity = '1';
                 }
-            } catch (error) {
-                console.error('Error:', error);
-                messageBanner.textContent = 'Erreur de connexion au serveur';
-                messageBanner.className = 'message-banner error';
-                messageBanner.style.display = 'block';
 
-                // Remove loading
-                submitBtn.classList.remove('loading');
+            } catch (error) {
+                console.error('Erreur connexion:', error);
+                showMessage('Erreur de connexion au serveur. Veuillez réessayer.', 'error');
+
+                // reactive le bouton
                 submitBtn.disabled = false;
+                submitBtn.querySelector('.submit-text').textContent = 'SE CONNECTER';
+                submitBtn.style.opacity = '1';
             }
         });
+
+        // ===== AFFICHAGE MESSAGE =====
+        function showMessage(message, type) {
+            messageBanner.textContent = message;
+            messageBanner.className = `message-banner ${type}`;
+            messageBanner.style.display = 'block';
+
+            // scroll vers le haut pour voir le message
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
     </script>
 </body>
 </html>

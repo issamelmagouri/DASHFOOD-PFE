@@ -10,6 +10,10 @@ const authRoutes = require('./routes/authRoutes');
 const deliveryRoutes = require('./routes/deliveryRoutes');
 const dashpointsRoutes = require('./routes/dashpointsRoutes');
 const userRoutes = require('./routes/userRoutes');
+const contactRoutes = require('./routes/contactRoutes');
+const restaurantPartnerRoutes = require('./routes/restaurantPartnerRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+const restaurantRoutes = require('./routes/restaurantRoutes');
 
 const app = express();
 
@@ -30,6 +34,10 @@ app.use('/api/auth', authRoutes);
 app.use('/api/delivery', deliveryRoutes); // Routes pour les demandes de livreur
 app.use('/api/dashpoints', dashpointsRoutes); // Routes pour le programme de fidélité
 app.use('/api/users', userRoutes); // Routes pour le profil utilisateur
+app.use('/api/contact', contactRoutes); // Routes pour les messages de contact
+app.use('/api/restaurant-partner', restaurantPartnerRoutes); // Routes pour les candidatures restaurant
+app.use('/api/orders', orderRoutes); // Routes pour les commandes
+app.use('/api/restaurants', restaurantRoutes); // Routes pour les restaurants partenaires
 
 // Routes pour servir les pages HTML
 app.get('/', (req, res) => {
@@ -46,6 +54,18 @@ app.get('/register', (req, res) => {
 
 app.get('/devenir-livreur', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'devenir-livreur.html'));
+});
+
+app.get('/devenir-livreur.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'devenir-livreur.html'));
+});
+
+app.get('/devenir-restaurant', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'devenir-restaurant.html'));
+});
+
+app.get('/devenir-restaurant.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'devenir-restaurant.html'));
 });
 
 app.get('/admin-dashboard', (req, res) => {
@@ -96,6 +116,33 @@ app.get('/profile', (req, res) => {
 
 app.get('/profile.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'profile.html'));
+});
+
+// Route contact
+app.get('/contact', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'contact.html'));
+});
+
+app.get('/contact.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'contact.html'));
+});
+
+// Route mes commandes
+app.get('/orders', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'orders.html'));
+});
+
+app.get('/orders.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'orders.html'));
+});
+
+// Route restaurants
+app.get('/restaurants', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'restaurants.html'));
+});
+
+app.get('/restaurants.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'restaurants.html'));
 });
 
 // Démarrage du serveur

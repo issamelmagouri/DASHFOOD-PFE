@@ -3,13 +3,400 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DashFood - Contact</title>
+    <title>Contact - DashFood</title>
+    <meta name="description" content="Contactez l'équipe DashFood - Nous sommes à votre écoute 7j/7">
+    <link rel="icon" type="image/png" href="/assets/logos/logo.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/contact.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Page de contact -->
-    <!-- Formulaire de contact et informations de support -->
 
-    <script src="/js/main.js"></script>
+    <!-- Navbar Premium -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="/" class="navbar-logo">
+                    <img src="/assets/logos/logo.png" alt="DashFood" class="logo-img" style="height: 36px !important; width: auto !important;">
+                </a>
+
+                <!-- Actions de navigation - Dynamique selon statut connexion -->
+                <div class="navbar-actions">
+                    <!-- Boutons pour utilisateurs non connectés -->
+                    <div id="guestActions" class="guest-actions">
+                        <a href="/login" class="btn btn-outline">Connexion</a>
+                        <a href="/register" class="btn btn-primary">Inscription</a>
+                    </div>
+
+                    <!-- Bouton profil pour clients connectés (caché par défaut) -->
+                    <div id="clientProfile" class="client-profile" style="display: none;">
+                        <button class="profile-btn" id="profileBtn">
+                            <svg class="profile-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span class="profile-name" id="profileName">Client</span>
+                            <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+
+                        <!-- Dropdown Menu Premium -->
+                        <div class="profile-dropdown" id="profileDropdown">
+                            <div class="dropdown-header">
+                                <div class="dropdown-user-info">
+                                    <div class="dropdown-avatar">
+                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </div>
+                                    <div class="dropdown-user-text">
+                                        <div class="dropdown-user-name" id="dropdownFullName">Utilisateur</div>
+                                        <div class="dropdown-user-email" id="dropdownEmail">email@example.com</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="dropdown-divider"></div>
+
+                            <div class="dropdown-menu">
+                                <a href="/profile.html" class="dropdown-item">
+                                    <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <span>Mon profil</span>
+                                </a>
+
+                                <a href="/orders.html" class="dropdown-item">
+                                    <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <span>Mes commandes</span>
+                                </a>
+
+                                <a href="/dashpoints.html" class="dropdown-item">
+                                    <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <span>Mes DashPoints</span>
+                                </a>
+                            </div>
+
+                            <div class="dropdown-divider"></div>
+
+                            <button class="dropdown-item dropdown-logout" id="logoutBtn">
+                                <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <polyline points="16 17 21 12 16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <line x1="21" y1="12" x2="9" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <span>Déconnexion</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Container principal -->
+    <div class="contact-container">
+
+        <!-- Hero Section -->
+        <header class="contact-hero">
+            <div class="hero-content">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb">
+                    <a href="/">ACCUEIL</a>
+                    <span class="breadcrumb-separator">/</span>
+                    <span>CONTACT</span>
+                </nav>
+
+                <!-- Label premium -->
+                <div class="page-label">
+                    <span class="label-line"></span>
+                    <span class="label-text">CONTACT • À VOTRE ÉCOUTE</span>
+                </div>
+
+                <!-- Titre principal -->
+                <h1 class="page-title">
+                    Parlons de votre <span class="title-italic">expérience</span>.
+                </h1>
+
+                <!-- Description -->
+                <p class="page-description">
+                    Une question, une suggestion, un partenariat ? Écrivez-nous — nous revenons vers vous sous 24 heures.
+                </p>
+
+                <!-- Séparateur -->
+                <div class="hero-divider"></div>
+            </div>
+        </header>
+
+        <!-- Section principale -->
+        <main class="contact-main">
+            <div class="contact-grid">
+
+                <!-- Colonne gauche - Formulaire -->
+                <div class="form-column">
+                    <div class="form-card">
+                        <!-- En-tête formulaire -->
+                        <div class="form-header">
+                            <div class="section-label-wrapper">
+                                <span class="section-label-line"></span>
+                                <span class="section-label">ÉCRIVEZ-NOUS •</span>
+                            </div>
+                            <h2 class="form-title">
+                                Envoyez-nous <span class="form-title-italic">un message</span>
+                            </h2>
+                            <p class="form-subtitle">
+                                Remplissez ce formulaire et notre équipe vous répond par e-mail.
+                            </p>
+                        </div>
+
+                        <!-- Formulaire -->
+                        <form id="contactForm" class="contact-form">
+                            <!-- Nom complet -->
+                            <div class="form-group">
+                                <label class="form-label">NOM COMPLET •</label>
+                                <input
+                                    type="text"
+                                    id="fullName"
+                                    name="fullName"
+                                    class="form-input"
+                                    placeholder="Votre nom et prénom"
+                                    required
+                                >
+                            </div>
+
+                            <!-- Email et Sujet sur la même ligne -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">ADRESSE E-MAIL •</label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        class="form-input"
+                                        placeholder="vous@exemple.com"
+                                        required
+                                    >
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">SUJET •</label>
+                                    <select id="subject" name="subject" class="form-select" required>
+                                        <option value="">Sélectionnez...</option>
+                                        <option value="question">Question générale</option>
+                                        <option value="commande">Problème de commande</option>
+                                        <option value="partenariat">Partenariat</option>
+                                        <option value="restaurant">Devenir restaurant partenaire</option>
+                                        <option value="livreur">Devenir livreur</option>
+                                        <option value="feedback">Feedback / Suggestion</option>
+                                        <option value="autre">Autre</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Message -->
+                            <div class="form-group">
+                                <label class="form-label">MESSAGE •</label>
+                                <textarea
+                                    id="message"
+                                    name="message"
+                                    class="form-textarea"
+                                    rows="6"
+                                    placeholder="Décrivez votre demande en quelques lignes. Plus vous êtes précis, plus notre réponse sera rapide et utile..."
+                                    required
+                                ></textarea>
+                            </div>
+
+                            <!-- Footer formulaire -->
+                            <div class="form-footer">
+                                <p class="form-legal">
+                                    En envoyant ce message, vous acceptez notre <a href="#" class="legal-link">politique de confidentialité</a>.
+                                </p>
+
+                                <button type="submit" class="submit-btn">
+                                    <span class="submit-text">ENVOYER</span>
+                                    <span class="submit-circle">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Colonne droite - Coordonnées -->
+                <div class="info-column">
+                    <div class="info-card">
+                        <!-- En-tête coordonnées -->
+                        <div class="info-header">
+                            <div class="section-label-wrapper">
+                                <span class="section-label-line white"></span>
+                                <span class="section-label white">LA MAISON DASHFOOD •</span>
+                            </div>
+                            <h2 class="info-title">
+                                Nos <span class="info-title-italic">coordonnées</span>
+                            </h2>
+                            <p class="info-subtitle">
+                                Toujours joignables, du premier service au dernier dessert.
+                            </p>
+                        </div>
+
+                        <!-- Blocs d'informations -->
+                        <div class="info-blocks">
+
+                            <!-- Email Support -->
+                            <div class="info-block">
+                                <div class="info-icon-wrapper">
+                                    <svg class="info-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="2"/>
+                                        <path d="M22 6l-10 7L2 6" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                </div>
+                                <div class="info-content">
+                                    <p class="info-block-label">E-MAIL SUPPORT</p>
+                                    <a href="mailto:contact@dashfood.ma" class="info-block-value">contact@dashfood.ma</a>
+                                    <p class="info-block-detail">Réponse sous 24 heures</p>
+                                </div>
+                            </div>
+
+                            <!-- Téléphone -->
+                            <div class="info-block">
+                                <div class="info-icon-wrapper">
+                                    <svg class="info-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                </div>
+                                <div class="info-content">
+                                    <p class="info-block-label">TÉLÉPHONE</p>
+                                    <a href="tel:+212522000000" class="info-block-value">+212 5 22 00 00 00</a>
+                                    <p class="info-block-detail">7j/7, de 9h à 22h</p>
+                                </div>
+                            </div>
+
+                            <!-- Adresse -->
+                            <div class="info-block">
+                                <div class="info-icon-wrapper">
+                                    <svg class="info-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2"/>
+                                        <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                </div>
+                                <div class="info-content">
+                                    <p class="info-block-label">ADRESSE</p>
+                                    <p class="info-block-value address">12 Boulevard d'Anfa</p>
+                                    <p class="info-block-detail">20250 Casablanca, Maroc</p>
+                                </div>
+                            </div>
+
+                            <!-- Horaires -->
+                            <div class="info-block">
+                                <div class="info-icon-wrapper">
+                                    <svg class="info-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                                        <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                </div>
+                                <div class="info-content">
+                                    <p class="info-block-label">HORAIRES D'OUVERTURE</p>
+                                    <div class="schedule">
+                                        <div class="schedule-row">
+                                            <span class="schedule-day">Lundi — Vendredi</span>
+                                            <span class="schedule-hours">9h00 — 22h00</span>
+                                        </div>
+                                        <div class="schedule-row">
+                                            <span class="schedule-day">Samedi</span>
+                                            <span class="schedule-hours">10h00 — 23h00</span>
+                                        </div>
+                                        <div class="schedule-row">
+                                            <span class="schedule-day">Dimanche</span>
+                                            <span class="schedule-hours">11h00 — 22h00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+    </div>
+
+    <!-- Toast pour les notifications -->
+    <div id="contactToast" class="contact-toast" style="display: none;"></div>
+
+    <script src="/js/contact.js"></script>
+    <script>
+        // ===== NAVBAR AUTHENTICATION STATE =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('dashfood_token');
+            const userStr = localStorage.getItem('dashfood_user');
+
+            const guestActions = document.getElementById('guestActions');
+            const clientProfile = document.getElementById('clientProfile');
+            const profileBtn = document.getElementById('profileBtn');
+            const profileDropdown = document.getElementById('profileDropdown');
+            const logoutBtn = document.getElementById('logoutBtn');
+
+            if (token && userStr) {
+                const user = JSON.parse(userStr);
+
+                // Afficher le profil client
+                guestActions.style.display = 'none';
+                clientProfile.style.display = 'flex';
+
+                // Mettre à jour les informations utilisateur
+                document.getElementById('profileName').textContent = user.fullName || user.firstName || 'Client';
+                document.getElementById('dropdownFullName').textContent = user.fullName || user.firstName || 'Client';
+                document.getElementById('dropdownEmail').textContent = user.email || '';
+            } else {
+                // Afficher les boutons connexion/inscription
+                guestActions.style.display = 'flex';
+                clientProfile.style.display = 'none';
+            }
+
+            // Toggle dropdown
+            if (profileBtn) {
+                profileBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    profileDropdown.classList.toggle('show');
+                });
+            }
+
+            // Fermer dropdown en cliquant ailleurs
+            document.addEventListener('click', function(e) {
+                if (!clientProfile.contains(e.target)) {
+                    profileDropdown.classList.remove('show');
+                }
+            });
+
+            // Déconnexion
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function() {
+                    localStorage.removeItem('dashfood_token');
+                    localStorage.removeItem('dashfood_user');
+                    window.location.href = '/';
+                });
+            }
+        });
+    </script>
 </body>
 </html>

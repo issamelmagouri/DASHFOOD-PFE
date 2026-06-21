@@ -7,11 +7,7 @@
 
 const User = require('../models/User');
 
-/**
- * @route   GET /api/dashpoints/user
- * @desc    Récupère les données DashPoints de l'utilisateur connecté
- * @access  Private (Client uniquement)
- */
+ 
 exports.getUserDashPoints = async (req, res) => {
     try {
         // L'utilisateur connecté est disponible via req.user (ajouté par authMiddleware)
@@ -90,11 +86,7 @@ exports.getUserDashPoints = async (req, res) => {
     }
 };
 
-/**
- * @route   POST /api/dashpoints/redeem
- * @desc    Échange des DashPoints contre une récompense
- * @access  Private (Client uniquement)
- */
+
 exports.redeemDashPoints = async (req, res) => {
     try {
         const userId = req.user.id;
@@ -181,13 +173,7 @@ exports.redeemDashPoints = async (req, res) => {
  * ====================================
  */
 
-/**
- * Calcule le niveau de fidélité basé sur le total de points gagnés
- * RÈGLE : Le niveau dépend UNIQUEMENT de totalPointsEarned
- *
- * @param {Number} totalPointsEarned - Total des points accumulés depuis l'inscription
- * @returns {String} Le niveau correspondant : 'Bronze', 'Silver', 'Gold', ou 'Platinum'
- */
+
 function calculateLevelFromPoints(totalPointsEarned) {
     if (totalPointsEarned >= 15000) {
         return 'Platinum';
@@ -200,12 +186,7 @@ function calculateLevelFromPoints(totalPointsEarned) {
     }
 }
 
-/**
- * Calcule la progression vers le niveau suivant
- * @param {Number} totalPointsEarned - Total des points gagnés
- * @param {String} currentLevel - Niveau actuel (Bronze, Silver, Gold, Platinum)
- * @returns {Object} { percentage, text, pointsNeeded }
- */
+
 function calculateProgressToNextLevel(totalPointsEarned, currentLevel) {
     // Définition des seuils de niveaux
     const levels = {
@@ -241,14 +222,7 @@ function calculateProgressToNextLevel(totalPointsEarned, currentLevel) {
     };
 }
 
-/**
- * Ajoute des DashPoints à un utilisateur (utilisé après livraison)
- * Cette fonction peut être appelée depuis orderController.js
- *
- * @param {String} userId - ID de l'utilisateur
- * @param {Number} amount - Montant en MAD de la commande
- * @param {String} orderId - ID de la commande
- */
+
 exports.addPointsForOrder = async (userId, amount, orderId) => {
     try {
         const user = await User.findById(userId);

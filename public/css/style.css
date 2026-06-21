@@ -2712,3 +2712,105 @@ nav img {
         font-size: 34px !important;
     }
 }
+
+/* ===== BOUTON CONTACT FLOTTANT ===== */
+
+.floating-contact-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #8BC34A 0%, #7ab93c 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    box-shadow: 0 4px 16px rgba(139, 195, 74, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 999;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: floatContactAppear 0.6s ease-out 0.8s forwards, floatContactGently 3.5s ease-in-out 1.6s infinite;
+}
+
+.floating-contact-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(139, 195, 74, 0.4);
+    background: linear-gradient(135deg, #7ab93c 0%, #6da535 100%);
+    animation-play-state: running, paused;
+}
+
+.floating-contact-btn:active {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(139, 195, 74, 0.35);
+}
+
+.contact-icon {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    stroke-width: 2;
+}
+
+.contact-text {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+@keyframes floatContactAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes floatContactGently {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-3px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+/* Responsive mobile */
+@media (max-width: 768px) {
+    .floating-contact-btn {
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 16px;
+        font-size: 13px;
+        gap: 6px;
+    }
+
+    .contact-icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    .contact-text {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .floating-contact-btn {
+        bottom: 16px;
+        right: 16px;
+    }
+}

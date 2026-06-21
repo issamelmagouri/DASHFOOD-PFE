@@ -1,11 +1,11 @@
 /**
- * Gestion de la page "Devenir Livreur"
+ * Gestion de la page "Devenir Restaurant Partenaire"
  * - Vérifie si l'utilisateur est connecté
  * - Redirige selon le rôle
- * - Soumet le formulaire de candidature
+ * - Soumet le formulaire de candidature restaurant
  */
 
-// Vérifier le statut de connexion et le rôle au chargement de la page
+// Vérifier le statut de connexion et le rôle au chargement
 document.addEventListener('DOMContentLoaded', () => {
     checkUserStatus();
     setupForm();
@@ -27,31 +27,28 @@ function checkUserStatus() {
     try {
         const user = JSON.parse(userStr);
 
-        // Si livreur, rediriger vers livreur-dashboard
-        if (user.role === 'livreur') {
-            window.location.href = '/livreur-dashboard.html';
-            return;
-        }
-
-        // Si restaurant, afficher un message et empêcher l'accès
+        // Si déjà restaurant, rediriger vers dashboard
         if (user.role === 'restaurant') {
-            showMessage('error', 'Vous possédez déjà un compte restaurant. L\'espace livreur est réservé aux partenaires de livraison DashFood.');
-            // Désactiver le formulaire
+            window.location.href = '/restaurant-dashboard.html';
+            return;
+        }
+
+        // Si livreur, bloquer l'accès
+        if (user.role === 'livreur') {
+            showMessage('error', 'Vous possédez déjà un compte livreur. L\'espace restaurant est réservé aux établissements partenaires.');
             disableForm();
             return;
         }
 
-        // Si admin, afficher un message
+        // Si admin, bloquer l'accès
         if (user.role === 'admin') {
-            showMessage('info', 'Vous êtes connecté en tant qu\'administrateur. Cette page est destinée aux candidats livreurs.');
-            // Désactiver le formulaire
+            showMessage('info', 'Vous êtes connecté en tant qu\'administrateur. Cette page est destinée aux candidats restaurants.');
             disableForm();
             return;
         }
 
-        // Si client, laisser accéder au formulaire
+        // Si client, autoriser l'accès
         if (user.role === 'client') {
-            // Formulaire accessible
             console.log('Client connecté, accès au formulaire autorisé');
         }
 
@@ -67,9 +64,9 @@ function checkUserStatus() {
  * Désactive le formulaire
  */
 function disableForm() {
-    const form = document.getElementById('applicationForm');
+    const form = document.getElementById('restaurantForm');
     if (form) {
-        const inputs = form.querySelectorAll('input, select, button');
+        const inputs = form.querySelectorAll('input, select, textarea, button');
         inputs.forEach(input => {
             input.disabled = true;
         });
@@ -80,7 +77,7 @@ function disableForm() {
  * Configure le formulaire de candidature
  */
 function setupForm() {
-    const form = document.getElementById('applicationForm');
+    const form = document.getElementById('restaurantForm');
     const submitBtn = document.getElementById('submitBtn');
     const messageBanner = document.getElementById('messageBanner');
 
@@ -91,21 +88,28 @@ function setupForm() {
 
         // Récupérer les données du formulaire
         const formData = {
+            restaurantName: document.getElementById('restaurantName').value.trim(),
+            cuisineType: document.getElementById('cuisineType').value,
             city: document.getElementById('city').value.trim(),
-            age: document.getElementById('age').value,
-            transportType: document.getElementById('transportType').value,
-            experience: document.getElementById('experience').value,
-            availability: document.getElementById('availability').value
+            address: document.getElementById('address').value.trim(),
+            phone: document.getElementById('phone').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            openingHours: document.getElementById('openingHours').value.trim(),
+            description: document.getElementById('description').value.trim()
         };
 
-        // Validation
-        if (!formData.city || !formData.age || !formData.transportType || !formData.experience || !formData.availability) {
-            showMessage('error', 'Tous les champs sont requis');
+        // Validation basique
+        if (!formData.restaurantName || !formData.cuisineType || !formData.city ||
+            !formData.address || !formData.phone || !formData.email ||
+            !formData.openingHours || !formData.description) {
+            showMessage('error', 'Tous les champs sont obligatoires');
             return;
         }
 
-        if (formData.age < 18) {
-            showMessage('error', 'Vous devez avoir au moins 18 ans pour devenir livreur');
+        // Validation email
+        const emailRegex = /^\S+@\S+\.\S+$/;
+        if (!emailRegex.test(formData.email)) {
+            showMessage('error', 'Veuillez entrer une adresse e-mail valide');
             return;
         }
 
@@ -119,7 +123,7 @@ function setupForm() {
         try {
             const token = localStorage.getItem('dashfood_token');
 
-            const response = await fetch('/api/delivery/apply', {
+            const response = await fetch('/api/restaurant-partner/apply', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -131,21 +135,21 @@ function setupForm() {
             const data = await response.json();
 
             if (data.success) {
-                showMessage('success', data.message + ' Notre équipe examinera votre candidature sous 48h.');
+                showMessage('success', data.message + ' Notre équipe examinera votre candidature sous 48h et vous contactera par e-mail.');
                 // Réinitialiser le formulaire
                 form.reset();
 
-                // Rediriger vers la page d'accueil après 3 secondes
+                // Rediriger vers la page d'accueil après 4 secondes
                 setTimeout(() => {
                     window.location.href = '/';
-                }, 3000);
+                }, 4000);
             } else {
                 showMessage('error', data.message || 'Une erreur est survenue');
             }
 
         } catch (error) {
             console.error('Erreur lors de l\'envoi de la candidature:', error);
-            showMessage('error', 'Erreur de connexion au serveur');
+            showMessage('error', 'Erreur de connexion au serveur. Veuillez réessayer.');
         } finally {
             // Retirer le loading
             submitBtn.classList.remove('loading');

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Devenir Livreur - DashFood</title>
-    <meta name="description" content="Rejoignez l'équipe DashFood et devenez livreur partenaire">
+    <title>Devenir Restaurant Partenaire - DashFood</title>
+    <meta name="description" content="Rejoignez le réseau DashFood et développez votre activité">
     <link rel="icon" type="image/png" href="/assets/logos/logo.png">
 
     <!-- Google Fonts -->
@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/devenir-livreur.css">
+    <link rel="stylesheet" href="/css/devenir-restaurant.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -26,15 +26,13 @@
                     <img src="/assets/logos/logo.png" alt="DashFood" class="logo-img" style="height: 36px !important; width: auto !important;">
                 </a>
 
-                <!-- Actions de navigation - Dynamique selon statut connexion -->
+                <!-- Actions de navigation -->
                 <div class="navbar-actions">
-                    <!-- Boutons pour utilisateurs non connectés -->
                     <div id="guestActions" class="guest-actions">
                         <a href="/login" class="btn btn-outline">Connexion</a>
                         <a href="/register" class="btn btn-primary">Inscription</a>
                     </div>
 
-                    <!-- Bouton profil pour clients connectés (caché par défaut) -->
                     <div id="clientProfile" class="client-profile" style="display: none;">
                         <button class="profile-btn" id="profileBtn">
                             <svg class="profile-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -47,7 +45,6 @@
                             </svg>
                         </button>
 
-                        <!-- Dropdown Menu Premium -->
                         <div class="profile-dropdown" id="profileDropdown">
                             <div class="dropdown-header">
                                 <div class="dropdown-user-info">
@@ -110,28 +107,29 @@
     </nav>
 
     <!-- Container principal -->
-    <div class="delivery-container">
+    <div class="restaurant-container">
 
         <!-- Hero Section -->
-        <section class="delivery-hero">
+        <section class="restaurant-hero">
             <div class="hero-grid">
-                <!-- Colonne gauche - Contenu -->
+                <!-- Colonne gauche -->
                 <div class="hero-content">
                     <div class="hero-label">
                         <span class="label-line"></span>
-                        <span class="label-text">REJOIGNEZ NOS COURSIERS</span>
+                        <span class="label-text">RESTAURANTS PARTENAIRES</span>
+                        <span class="label-line"></span>
                     </div>
 
                     <h1 class="hero-title">
-                        Livrez avec <span class="hero-title-italic">DashFood</span>.
+                        Rejoignez <span class="hero-title-italic">DashFood</span>.
                     </h1>
 
                     <p class="hero-description">
-                        Rejoignez notre équipe de livreurs et gagnez de l'argent selon votre disponibilité. Travaillez quand vous voulez, où vous voulez.
+                        Développez votre activité avec DashFood et recevez davantage de commandes. Rejoignez notre réseau de restaurants partenaires.
                     </p>
 
                     <a href="#formulaire" class="hero-btn">
-                        <span class="btn-text">POSTULER MAINTENANT</span>
+                        <span class="btn-text">DEVENIR PARTENAIRE</span>
                         <span class="btn-circle">
                             <svg class="btn-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -140,15 +138,28 @@
                     </a>
                 </div>
 
-                <!-- Colonne droite - Image -->
-                <div class="hero-image">
-                    <img src="/assets/images/delivery-rider.png" alt="Livreur DashFood" onerror="this.style.display='none'">
+                <!-- Colonne droite - Upload zone -->
+                <div class="hero-upload">
+                    <div class="upload-zone" id="uploadZone">
+                        <svg class="upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" stroke-width="2"/>
+                            <polyline points="21 15 16 10 5 21" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <p class="upload-text">
+                            Déposez une photo de votre restaurant ou de votre chef
+                        </p>
+                        <p class="upload-browse">
+                            or <span class="browse-link">browse files</span>
+                        </p>
+                        <input type="file" id="restaurantImage" accept="image/*" style="display: none;">
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Section Avantages -->
-        <section class="delivery-benefits">
+        <section class="restaurant-benefits">
             <div class="section-header">
                 <div class="section-label-wrapper">
                     <span class="section-line"></span>
@@ -156,10 +167,10 @@
                     <span class="section-line"></span>
                 </div>
                 <h2 class="section-title">
-                    Pourquoi devenir livreur <span class="title-italic">DashFood</span> ?
+                    Pourquoi rejoindre <span class="title-italic">DashFood</span> ?
                 </h2>
                 <p class="section-subtitle">
-                    Des avantages concrets pour votre quotidien.
+                    Trois engagements concrets pour faire grandir votre maison.
                 </p>
             </div>
 
@@ -169,84 +180,43 @@
                     <div class="benefit-icon">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-                            <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
                         </svg>
                     </div>
-                    <h3 class="benefit-title">Horaires flexibles</h3>
-                    <p class="benefit-text">
-                        Choisissez vos horaires de travail et travaillez selon votre disponibilité.
-                    </p>
+                    <h3 class="benefit-label">RAYONNEMENT</h3>
+                    <h4 class="benefit-title">Plus de <span class="benefit-italic">visibilité</span></h4>
                 </div>
 
                 <!-- Avantage 2 -->
                 <div class="benefit-card">
                     <div class="benefit-icon">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" stroke="currentColor" stroke-width="2"/>
+                            <rect x="8" y="2" width="8" height="4" rx="1" ry="1" stroke="currentColor" stroke-width="2"/>
                         </svg>
                     </div>
-                    <h3 class="benefit-title">Revenus attractifs</h3>
-                    <p class="benefit-text">
-                        Gagnez jusqu'à 15–20 €/heure avec les pourboires et bonus inclus.
-                    </p>
+                    <h3 class="benefit-label">CROISSANCE</h3>
+                    <h4 class="benefit-title">Plus de <span class="benefit-italic">commandes</span></h4>
                 </div>
 
                 <!-- Avantage 3 -->
                 <div class="benefit-card">
                     <div class="benefit-icon">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <line x1="1" y1="10" x2="23" y2="10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <rect x="3" y="3" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                            <rect x="14" y="3" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                            <rect x="14" y="14" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                            <rect x="3" y="14" width="7" height="7" stroke="currentColor" stroke-width="2"/>
                         </svg>
                     </div>
-                    <h3 class="benefit-title">Paiements rapides</h3>
-                    <p class="benefit-text">
-                        Recevez vos paiements chaque semaine directement sur votre compte.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section Étapes -->
-        <section class="delivery-steps">
-            <div class="section-header">
-                <h2 class="section-title">
-                    Trois étapes pour <span class="title-italic">commencer</span>.
-                </h2>
-            </div>
-
-            <div class="steps-grid">
-                <!-- Étape 1 -->
-                <div class="step-card">
-                    <div class="step-number">1</div>
-                    <h3 class="step-title">Postulez <span class="step-italic">en ligne</span></h3>
-                    <p class="step-text">
-                        Remplissez le formulaire de candidature ci-dessous avec vos informations.
-                    </p>
-                </div>
-
-                <!-- Étape 2 -->
-                <div class="step-card">
-                    <div class="step-number">2</div>
-                    <h3 class="step-title">Validation <span class="step-italic">du profil</span></h3>
-                    <p class="step-text">
-                        Notre équipe examine votre candidature sous 48h maximum.
-                    </p>
-                </div>
-
-                <!-- Étape 3 -->
-                <div class="step-card">
-                    <div class="step-number">3</div>
-                    <h3 class="step-title">Commencez <span class="step-italic">à livrer</span></h3>
-                    <p class="step-text">
-                        Une fois validé, téléchargez l'app et commencez à gagner de l'argent.
-                    </p>
+                    <h3 class="benefit-label">PILOTAGE</h3>
+                    <h4 class="benefit-title">Gestion <span class="benefit-italic">simplifiée</span></h4>
                 </div>
             </div>
         </section>
 
         <!-- Section Formulaire -->
-        <section class="delivery-form-section" id="formulaire">
+        <section class="restaurant-form-section" id="formulaire">
             <div class="form-container">
                 <div class="form-header">
                     <div class="section-label-wrapper">
@@ -258,7 +228,7 @@
                         Formulaire de <span class="title-italic">candidature</span>
                     </h2>
                     <p class="form-subtitle">
-                        Remplissez ce formulaire pour rejoindre DashFood.
+                        Remplissez ce formulaire pour rejoindre le réseau DashFood.
                     </p>
                 </div>
 
@@ -267,66 +237,114 @@
                     <div class="message-banner" id="messageBanner" style="display: none;"></div>
 
                     <!-- Formulaire -->
-                    <form id="applicationForm" class="application-form">
-                        <!-- Ville -->
+                    <form id="restaurantForm" class="restaurant-form">
+                        <!-- Nom du restaurant -->
                         <div class="form-group">
-                            <label class="form-label">VILLE •</label>
+                            <label class="form-label">NOM DU RESTAURANT •</label>
                             <input
                                 type="text"
-                                id="city"
-                                name="city"
+                                id="restaurantName"
+                                name="restaurantName"
                                 class="form-input"
-                                placeholder="Paris"
+                                placeholder="Le nom de votre établissement"
                                 required
                             >
                         </div>
 
-                        <!-- Ligne: Âge + Moyen de transport -->
+                        <!-- Ligne: Type cuisine + Ville -->
                         <div class="form-row">
                             <div class="form-group">
-                                <label class="form-label">ÂGE •</label>
+                                <label class="form-label">TYPE DE CUISINE •</label>
+                                <select id="cuisineType" name="cuisineType" class="form-select" required>
+                                    <option value="">Sélectionnez...</option>
+                                    <option value="Française">Française</option>
+                                    <option value="Italienne">Italienne</option>
+                                    <option value="Asiatique">Asiatique</option>
+                                    <option value="Mexicaine">Mexicaine</option>
+                                    <option value="Méditerranéenne">Méditerranéenne</option>
+                                    <option value="Fast-food">Fast-food</option>
+                                    <option value="Végétarienne">Végétarienne</option>
+                                    <option value="Autre">Autre</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">VILLE •</label>
                                 <input
-                                    type="number"
-                                    id="age"
-                                    name="age"
+                                    type="text"
+                                    id="city"
+                                    name="city"
                                     class="form-input"
-                                    placeholder="70"
-                                    min="18"
+                                    placeholder="Casablanca, Rabat, Marrakech..."
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <!-- Adresse -->
+                        <div class="form-group">
+                            <label class="form-label">ADRESSE COMPLÈTE •</label>
+                            <input
+                                type="text"
+                                id="address"
+                                name="address"
+                                class="form-input"
+                                placeholder="N°, rue, quartier"
+                                required
+                            >
+                        </div>
+
+                        <!-- Ligne: Téléphone + Email -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">TÉLÉPHONE PROFESSIONNEL •</label>
+                                <input
+                                    type="tel"
+                                    id="phone"
+                                    name="phone"
+                                    class="form-input"
+                                    placeholder="+212 5 22 00 00 00"
                                     required
                                 >
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">MOYEN DE TRANSPORT •</label>
-                                <select id="transportType" name="transportType" class="form-select" required>
-                                    <option value="">Sélectionnez...</option>
-                                    <option value="velo">Vélo</option>
-                                    <option value="scooter">Scooter</option>
-                                    <option value="voiture">Voiture</option>
-                                </select>
+                                <label class="form-label">EMAIL PROFESSIONNEL •</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    class="form-input"
+                                    placeholder="contact@votre-resto.ma"
+                                    required
+                                >
                             </div>
                         </div>
 
-                        <!-- Ligne: Expérience + Disponibilité -->
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">EXPÉRIENCE EN LIVRAISON •</label>
-                                <select id="experience" name="experience" class="form-select" required>
-                                    <option value="">Sélectionnez...</option>
-                                    <option value="oui">Oui</option>
-                                    <option value="non">Non</option>
-                                </select>
-                            </div>
+                        <!-- Horaires -->
+                        <div class="form-group">
+                            <label class="form-label">HORAIRES D'OUVERTURE •</label>
+                            <input
+                                type="text"
+                                id="openingHours"
+                                name="openingHours"
+                                class="form-input"
+                                placeholder="Ex. Lun-Dim, 11h00 — 23h00"
+                                required
+                            >
+                        </div>
 
-                            <div class="form-group">
-                                <label class="form-label">DISPONIBILITÉ •</label>
-                                <select id="availability" name="availability" class="form-select" required>
-                                    <option value="">Sélectionnez...</option>
-                                    <option value="temps-plein">Temps plein</option>
-                                    <option value="temps-partiel">Temps partiel</option>
-                                    <option value="week-ends">Week-ends uniquement</option>
-                                </select>
-                            </div>
+                        <!-- Description -->
+                        <div class="form-group">
+                            <label class="form-label">DESCRIPTION DU RESTAURANT •</label>
+                            <textarea
+                                id="description"
+                                name="description"
+                                class="form-textarea"
+                                placeholder="Présentez votre maison : spécialités, ambiance, ce qui vous distingue..."
+                                rows="5"
+                                required
+                            ></textarea>
                         </div>
 
                         <!-- Bouton -->
@@ -346,9 +364,9 @@
 
     </div>
 
-    <script src="/js/devenir-livreur.js"></script>
+    <script src="/js/devenir-restaurant.js"></script>
     <script>
-        // ===== NAVBAR AUTHENTICATION STATE =====
+        // Navbar authentication state
         document.addEventListener('DOMContentLoaded', function() {
             const token = localStorage.getItem('dashfood_token');
             const userStr = localStorage.getItem('dashfood_user');
@@ -361,22 +379,16 @@
 
             if (token && userStr) {
                 const user = JSON.parse(userStr);
-
-                // Afficher le profil client
                 guestActions.style.display = 'none';
                 clientProfile.style.display = 'flex';
-
-                // Mettre à jour les informations utilisateur
                 document.getElementById('profileName').textContent = user.fullName || user.firstName || 'Client';
                 document.getElementById('dropdownFullName').textContent = user.fullName || user.firstName || 'Client';
                 document.getElementById('dropdownEmail').textContent = user.email || '';
             } else {
-                // Afficher les boutons connexion/inscription
                 guestActions.style.display = 'flex';
                 clientProfile.style.display = 'none';
             }
 
-            // Toggle dropdown
             if (profileBtn) {
                 profileBtn.addEventListener('click', function(e) {
                     e.stopPropagation();
@@ -384,20 +396,55 @@
                 });
             }
 
-            // Fermer dropdown en cliquant ailleurs
             document.addEventListener('click', function(e) {
                 if (!clientProfile.contains(e.target)) {
                     profileDropdown.classList.remove('show');
                 }
             });
 
-            // Déconnexion
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', function() {
                     localStorage.removeItem('dashfood_token');
                     localStorage.removeItem('dashfood_user');
                     window.location.href = '/';
                 });
+            }
+        });
+
+        // Upload zone interaction
+        const uploadZone = document.getElementById('uploadZone');
+        const fileInput = document.getElementById('restaurantImage');
+
+        uploadZone.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const fileName = this.files[0].name;
+                uploadZone.querySelector('.upload-text').textContent = `Fichier sélectionné : ${fileName}`;
+                uploadZone.style.borderColor = '#8BC34A';
+            }
+        });
+
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.style.borderColor = '#8BC34A';
+            uploadZone.style.backgroundColor = 'rgba(139, 195, 74, 0.05)';
+        });
+
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.style.borderColor = '#E5E0D3';
+            uploadZone.style.backgroundColor = '#FDFCF8';
+        });
+
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.style.borderColor = '#E5E0D3';
+            uploadZone.style.backgroundColor = '#FDFCF8';
+
+            if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                fileInput.files = e.dataTransfer.files;
+                const fileName = e.dataTransfer.files[0].name;
+                uploadZone.querySelector('.upload-text').textContent = `Fichier sélectionné : ${fileName}`;
             }
         });
     </script>
