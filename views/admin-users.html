@@ -3,15 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DashFood - Gestion utilisateurs</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <title>Utilisateurs - Admin DashFood</title>
+    <link rel="icon" type="image/png" href="/assets/logos/logo.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS Admin -->
     <link rel="stylesheet" href="/css/admin.css">
 </head>
 <body>
-    <!-- Gestion des utilisateurs -->
-    <!-- Liste, modification, suppression des utilisateurs -->
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-logo">
+                <img src="/assets/logos/logo.png" alt="DashFood">
+                <div>
+                    <div class="sidebar-logo-text">DashFood</div>
+                    <div class="sidebar-admin-badge">ADMIN</div>
+                </div>
+            </div>
 
-    <script src="/js/main.js"></script>
+            <div class="sidebar-section-title">ADMINISTRATION</div>
+
+            <nav class="sidebar-menu">
+                <a href="/admin-dashboard.html" class="sidebar-menu-item" id="menu-dashboard">
+                    <i class="fas fa-th-large"></i>
+                    <span>Tableau de bord</span>
+                </a>
+                <a href="/admin-users.html" class="sidebar-menu-item" id="menu-users">
+                    <i class="fas fa-users"></i>
+                    <span>Utilisateurs</span>
+                </a>
+                <a href="/admin-restaurants.html" class="sidebar-menu-item" id="menu-restaurants">
+                    <i class="fas fa-utensils"></i>
+                    <span>Restaurants</span>
+                </a>
+                <a href="/admin-livreurs.html" class="sidebar-menu-item" id="menu-livreurs">
+                    <i class="fas fa-motorcycle"></i>
+                    <span>Livreurs</span>
+                </a>
+                <a href="/admin-orders.html" class="sidebar-menu-item" id="menu-orders">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>Commandes</span>
+                </a>
+                <a href="/admin-statistics.html" class="sidebar-menu-item" id="menu-statistics">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Statistiques</span>
+                </a>
+            </nav>
+
+            <button class="sidebar-logout" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Déconnexion</span>
+            </button>
+
+            <div class="sidebar-user">
+                <div class="sidebar-user-avatar">A</div>
+                <div class="sidebar-user-info">
+                    <div class="sidebar-user-name">Admin DashFood</div>
+                    <div class="sidebar-user-role">Super administrateur</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Header -->
+            <header class="admin-header">
+                <div class="admin-header-left">
+                    <h1>Utilisateurs</h1>
+                    <p>Gérez les comptes clients, livreurs, restaurants et administrateurs.</p>
+                </div>
+                <div class="admin-header-right">
+                    <div class="admin-date">
+                        <i class="far fa-calendar"></i>
+                        <span id="currentDate">mardi 23 juin 2026</span>
+                    </div>
+                    <div class="admin-notifications">
+                        <i class="far fa-bell"></i>
+                        <span class="notification-badge"></span>
+                    </div>
+                    <div class="admin-user-avatar">A</div>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <div class="admin-content">
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-card-icon blue">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-label">Total Utilisateurs</div>
+                        <div class="stat-card-value" id="totalUsers">-</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-card-icon blue">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-label">Clients</div>
+                        <div class="stat-card-value" id="totalClients">-</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-card-icon green">
+                                <i class="fas fa-motorcycle"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-label">Livreurs</div>
+                        <div class="stat-card-value" id="totalLivreurs">-</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-card-icon gold">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-label">Restaurants</div>
+                        <div class="stat-card-value" id="totalRestaurants">-</div>
+                    </div>
+                </div>
+
+                <!-- Tableau Utilisateurs -->
+                <section class="admin-section">
+                    <div class="section-header">
+                        <div class="section-title-wrapper">
+                            <h2 class="section-title">Liste des utilisateurs</h2>
+                        </div>
+                    </div>
+
+                    <!-- Barre de recherche et filtres -->
+                    <div style="display: flex; gap: 16px; margin-bottom: 24px;">
+                        <div style="flex: 1; position: relative;">
+                            <i class="fas fa-search" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #999;"></i>
+                            <input
+                                type="text"
+                                id="searchInput"
+                                placeholder="Rechercher par nom ou email..."
+                                style="width: 100%; padding: 12px 16px 12px 44px; border: 1px solid #E5E7EB; border-radius: 10px; font-size: 14px; font-family: var(--font-body);"
+                            >
+                        </div>
+                        <select id="roleFilter" style="padding: 12px 16px; border: 1px solid #E5E7EB; border-radius: 10px; font-size: 14px; font-family: var(--font-body); min-width: 180px;">
+                            <option value="">Tous les rôles</option>
+                            <option value="client">Client</option>
+                            <option value="restaurant">Restaurant</option>
+                            <option value="livreur">Livreur</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                        <select id="statusFilter" style="padding: 12px 16px; border: 1px solid #E5E7EB; border-radius: 10px; font-size: 14px; font-family: var(--font-body); min-width: 180px;">
+                            <option value="">Tous les statuts</option>
+                            <option value="active">Actif</option>
+                            <option value="blocked">Bloqué</option>
+                        </select>
+                    </div>
+
+                    <!-- Tableau -->
+                    <table class="premium-table">
+                        <thead>
+                            <tr>
+                                <th>UTILISATEUR</th>
+                                <th>EMAIL</th>
+                                <th>TÉLÉPHONE</th>
+                                <th>RÔLE</th>
+                                <th>STATUT</th>
+                                <th>INSCRIPTION</th>
+                                <th>ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <tr>
+                                <td colspan="7" style="text-align: center; padding: 40px;">Chargement...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/admin-common.js"></script>
     <script src="/js/admin-users.js"></script>
 </body>
 </html>

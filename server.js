@@ -14,6 +14,7 @@ const contactRoutes = require('./routes/contactRoutes');
 const restaurantPartnerRoutes = require('./routes/restaurantPartnerRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const restaurantRoutes = require('./routes/restaurantRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
 
@@ -38,9 +39,14 @@ app.use('/api/contact', contactRoutes); // Routes pour les messages de contact
 app.use('/api/restaurant-partner', restaurantPartnerRoutes); // Routes pour les candidatures restaurant
 app.use('/api/orders', orderRoutes); // Routes pour les commandes
 app.use('/api/restaurants', restaurantRoutes); // Routes pour les restaurants partenaires
+app.use('/api/admin', adminRoutes); // Routes pour l'administration
 
 // Routes pour servir les pages HTML
 app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'index.html'));
+});
+
+app.get('/index.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
@@ -66,6 +72,15 @@ app.get('/devenir-restaurant', (req, res) => {
 
 app.get('/devenir-restaurant.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'devenir-restaurant.html'));
+});
+
+// Routes admin
+app.get('/admin-login', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'admin-login.html'));
+});
+
+app.get('/admin-login.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'admin-login.html'));
 });
 
 app.get('/admin-dashboard', (req, res) => {

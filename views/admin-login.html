@@ -3,15 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DashFood - Admin Login</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/admin.css">
+    <title>Connexion Admin - DashFood</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/admin-login.css">
 </head>
 <body>
-    <!-- Page de connexion administrateur -->
-    <!-- Authentification spécifique admin -->
+    <div class="admin-login-container">
+        <!-- Logo DashFood -->
+        <a href="/" class="logo-link">
+            <img src="/assets/logos/logo.png" alt="DashFood Logo" class="logo-image">
+        </a>
 
-    <script src="/js/main.js"></script>
-    <script src="/js/auth.js"></script>
+        <!-- Carte de connexion -->
+        <div class="login-card">
+            <!-- Badge -->
+            <div class="admin-badge">
+                <i class="fas fa-lock"></i>
+                <span>ESPACE ADMINISTRATEUR</span>
+            </div>
+
+            <!-- Titre -->
+            <h1 class="login-title">
+                Connexion <span class="italic">Admin</span>
+            </h1>
+
+            <!-- Sous-titre -->
+            <p class="login-subtitle">
+                Accédez à votre espace de gestion DashFood.
+            </p>
+
+            <!-- Formulaire -->
+            <form id="adminLoginForm" class="login-form">
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email" class="form-label">EMAIL ADMINISTRATEUR</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope input-icon-left"></i>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            class="form-input"
+                            placeholder="admin@dashfood.ma"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <!-- Mot de passe -->
+                <div class="form-group">
+                    <label for="password" class="form-label">MOT DE PASSE</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock input-icon-left"></i>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="form-input"
+                            placeholder="••••••••"
+                            required
+                        >
+                        <button type="button" class="toggle-password" id="togglePassword">
+                            <i class="far fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Message d'erreur -->
+                <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+                <!-- Bouton connexion -->
+                <button type="submit" class="btn-login" id="loginBtn">
+                    <span class="btn-text">SE CONNECTER</span>
+                    <span class="btn-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+                </button>
+            </form>
+
+            <!-- Lien retour -->
+            <a href="/index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Retour à l'accueil
+            </a>
+        </div>
+
+        <!-- Texte sécurisé -->
+        <div class="security-text">
+            <i class="fas fa-shield-alt"></i>
+            Connexion sécurisée & chiffrée
+        </div>
+    </div>
+
+    <!-- Loading overlay -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Connexion en cours...</p>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="/js/admin-login.js"></script>
 </body>
 </html>

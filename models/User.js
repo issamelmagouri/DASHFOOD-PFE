@@ -41,6 +41,11 @@ const userSchema = new mongoose.Schema({
     enum: ['client', 'admin', 'restaurant', 'livreur'],
     default: 'client'
   },
+  status: {
+    type: String,
+    enum: ['active', 'blocked'],
+    default: 'active'
+  },
   createdAt: {
     type: Date,
     default: Date.now
