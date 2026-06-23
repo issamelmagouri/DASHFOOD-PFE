@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurants - Admin DashFood</title>
+    <title>Statistiques - Admin DashFood</title>
     <link rel="icon" type="image/png" href="/assets/logos/logo.png">
 
     <!-- Google Fonts -->
@@ -77,8 +77,8 @@
             <!-- Header -->
             <header class="admin-header">
                 <div class="admin-header-left">
-                    <h1>Restaurants</h1>
-                    <p>Gérez les candidatures et les restaurants partenaires actifs.</p>
+                    <h1>Statistiques</h1>
+                    <p>Analyses détaillées de la plateforme DashFood.</p>
                 </div>
                 <div class="admin-header-right">
                     <div class="admin-date">
@@ -95,8 +95,50 @@
 
             <!-- Content -->
             <div class="admin-content">
+                <!-- Boutons export -->
+                <div style="display: flex; justify-content: flex-end; gap: 12px; margin-bottom: 24px;">
+                    <button onclick="exportPDF()" style="padding: 12px 24px; background: #EF4444; color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-family: var(--font-body); display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-file-pdf"></i>
+                        Exporter PDF
+                    </button>
+                    <button onclick="exportExcel()" style="padding: 12px 24px; background: #10B981; color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-family: var(--font-body); display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-file-excel"></i>
+                        Exporter Excel
+                    </button>
+                </div>
+
                 <!-- Stats Cards -->
                 <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-card-icon gold">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-label">Revenu Total</div>
+                        <div class="stat-card-value" id="totalRevenue">-</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-card-icon dark-green">
+                                <i class="fas fa-shopping-bag"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-label">Total Commandes</div>
+                        <div class="stat-card-value" id="totalOrders">-</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-card-icon blue">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-label">Total Utilisateurs</div>
+                        <div class="stat-card-value" id="totalUsers">-</div>
+                    </div>
+
                     <div class="stat-card">
                         <div class="stat-card-header">
                             <div class="stat-card-icon gold">
@@ -106,108 +148,69 @@
                         <div class="stat-card-label">Total Restaurants</div>
                         <div class="stat-card-value" id="totalRestaurants">-</div>
                     </div>
-
-                    <div class="stat-card">
-                        <div class="stat-card-header">
-                            <div class="stat-card-icon blue">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                        </div>
-                        <div class="stat-card-label">Candidatures en attente</div>
-                        <div class="stat-card-value" id="pendingRestaurants">-</div>
-                    </div>
-
-                    <div class="stat-card">
-                        <div class="stat-card-header">
-                            <div class="stat-card-icon green">
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                        </div>
-                        <div class="stat-card-label">Restaurants actifs</div>
-                        <div class="stat-card-value" id="activeRestaurants">-</div>
-                    </div>
-
-                    <div class="stat-card">
-                        <div class="stat-card-header">
-                            <div class="stat-card-icon red">
-                                <i class="fas fa-pause-circle"></i>
-                            </div>
-                        </div>
-                        <div class="stat-card-label">Restaurants suspendus</div>
-                        <div class="stat-card-value" id="suspendedRestaurants">-</div>
-                    </div>
                 </div>
 
-                <!-- Candidatures en attente -->
+                <!-- Répartition des commandes -->
                 <section class="admin-section">
                     <div class="section-header">
                         <div class="section-title-wrapper">
-                            <div class="section-badge">— EN ATTENTE</div>
-                            <h2 class="section-title">Candidatures restaurants</h2>
+                            <div class="section-badge">— ANALYSE</div>
+                            <h2 class="section-title">Répartition des commandes par statut</h2>
+                        </div>
+                    </div>
+
+                    <div id="orderDistribution" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+                        <!-- Chargé dynamiquement -->
+                    </div>
+                </section>
+
+                <!-- Top 10 Restaurants -->
+                <section class="admin-section">
+                    <div class="section-header">
+                        <div class="section-title-wrapper">
+                            <div class="section-badge">— CLASSEMENT</div>
+                            <h2 class="section-title">Top 10 Restaurants par revenu</h2>
                         </div>
                     </div>
 
                     <table class="premium-table">
                         <thead>
                             <tr>
+                                <th>RANG</th>
                                 <th>RESTAURANT</th>
-                                <th>CONTACT</th>
-                                <th>TÉLÉPHONE</th>
-                                <th>ADRESSE</th>
-                                <th>DATE CANDIDATURE</th>
-                                <th>ACTIONS</th>
+                                <th>NB. COMMANDES</th>
+                                <th>REVENU TOTAL</th>
                             </tr>
                         </thead>
-                        <tbody id="requestsTableBody">
+                        <tbody id="topRestaurantsTable">
                             <tr>
-                                <td colspan="6" style="text-align: center; padding: 40px;">Chargement...</td>
+                                <td colspan="4" style="text-align: center; padding: 40px;">Chargement...</td>
                             </tr>
                         </tbody>
                     </table>
                 </section>
 
-                <!-- Restaurants partenaires -->
+                <!-- Top 10 Livreurs -->
                 <section class="admin-section">
                     <div class="section-header">
                         <div class="section-title-wrapper">
-                            <h2 class="section-title">Restaurants partenaires</h2>
+                            <div class="section-badge">— CLASSEMENT</div>
+                            <h2 class="section-title">Top 10 Livreurs par revenus</h2>
                         </div>
                     </div>
 
-                    <!-- Barre de recherche et filtres -->
-                    <div style="display: flex; gap: 16px; margin-bottom: 24px;">
-                        <div style="flex: 1; position: relative;">
-                            <i class="fas fa-search" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #999;"></i>
-                            <input
-                                type="text"
-                                id="searchInput"
-                                placeholder="Rechercher par nom de restaurant..."
-                                style="width: 100%; padding: 12px 16px 12px 44px; border: 1px solid #E5E7EB; border-radius: 10px; font-size: 14px; font-family: var(--font-body);"
-                            >
-                        </div>
-                        <select id="statusFilter" style="padding: 12px 16px; border: 1px solid #E5E7EB; border-radius: 10px; font-size: 14px; font-family: var(--font-body); min-width: 180px;">
-                            <option value="">Tous les statuts</option>
-                            <option value="active">Actif</option>
-                            <option value="suspended">Suspendu</option>
-                        </select>
-                    </div>
-
-                    <!-- Tableau -->
                     <table class="premium-table">
                         <thead>
                             <tr>
-                                <th>RESTAURANT</th>
-                                <th>CONTACT</th>
-                                <th>TÉLÉPHONE</th>
-                                <th>ADRESSE</th>
-                                <th>STATUT</th>
-                                <th>INSCRIPTION</th>
-                                <th>ACTIONS</th>
+                                <th>RANG</th>
+                                <th>LIVREUR</th>
+                                <th>NB. LIVRAISONS</th>
+                                <th>REVENUS TOTAUX</th>
                             </tr>
                         </thead>
-                        <tbody id="restaurantsTableBody">
+                        <tbody id="topLivreursTable">
                             <tr>
-                                <td colspan="7" style="text-align: center; padding: 40px;">Chargement...</td>
+                                <td colspan="4" style="text-align: center; padding: 40px;">Chargement...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -218,6 +221,6 @@
 
     <!-- Scripts -->
     <script src="/js/admin-common.js"></script>
-    <script src="/js/admin-restaurants.js"></script>
+    <script src="/js/admin-statistics.js"></script>
 </body>
 </html>

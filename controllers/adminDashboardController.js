@@ -332,6 +332,122 @@ exports.getAllRestaurants = async (req, res) => {
     }
 };
 
+// Récupère un restaurant par ID
+exports.getRestaurantById = async (req, res) => {
+    try {
+        const restaurant = await User.findById(req.params.id).select('-password');
+
+        if (!restaurant || restaurant.role !== 'restaurant') {
+            return res.status(404).json({
+                success: false,
+                message: 'Restaurant non trouvé'
+            });
+        }
+
+        res.json({
+            success: true,
+            restaurant
+        });
+
+    } catch (error) {
+        console.error('Erreur get restaurant:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Erreur serveur'
+        });
+    }
+};
+
+// Suspend un restaurant
+exports.suspendRestaurant = async (req, res) => {
+    try {
+        const restaurant = await User.findByIdAndUpdate(
+            req.params.id,
+            { status: 'suspended' },
+            { new: true }
+        ).select('-password');
+
+        if (!restaurant || restaurant.role !== 'restaurant') {
+            return res.status(404).json({
+                success: false,
+                message: 'Restaurant non trouvé'
+            });
+        }
+
+        res.json({
+            success: true,
+            message: 'Restaurant suspendu avec succès',
+            restaurant
+        });
+
+    } catch (error) {
+        console.error('Erreur suspend restaurant:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Erreur serveur'
+        });
+    }
+};
+
+// Active un restaurant
+exports.activateRestaurant = async (req, res) => {
+    try {
+        const restaurant = await User.findByIdAndUpdate(
+            req.params.id,
+            { status: 'active' },
+            { new: true }
+        ).select('-password');
+
+        if (!restaurant || restaurant.role !== 'restaurant') {
+            return res.status(404).json({
+                success: false,
+                message: 'Restaurant non trouvé'
+            });
+        }
+
+        res.json({
+            success: true,
+            message: 'Restaurant activé avec succès',
+            restaurant
+        });
+
+    } catch (error) {
+        console.error('Erreur activate restaurant:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Erreur serveur'
+        });
+    }
+};
+
+// Supprime un restaurant
+exports.deleteRestaurant = async (req, res) => {
+    try {
+        const restaurant = await User.findById(req.params.id);
+
+        if (!restaurant || restaurant.role !== 'restaurant') {
+            return res.status(404).json({
+                success: false,
+                message: 'Restaurant non trouvé'
+            });
+        }
+
+        await User.findByIdAndDelete(req.params.id);
+
+        res.json({
+            success: true,
+            message: 'Restaurant supprimé avec succès'
+        });
+
+    } catch (error) {
+        console.error('Erreur delete restaurant:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Erreur serveur'
+        });
+    }
+};
+
 // ==================== LIVREURS ====================
 
 // Récupère toutes les candidatures livreur
@@ -442,6 +558,122 @@ exports.getAllLivreurs = async (req, res) => {
     }
 };
 
+// Récupère un livreur par ID
+exports.getLivreurById = async (req, res) => {
+    try {
+        const livreur = await User.findById(req.params.id).select('-password');
+
+        if (!livreur || livreur.role !== 'livreur') {
+            return res.status(404).json({
+                success: false,
+                message: 'Livreur non trouvé'
+            });
+        }
+
+        res.json({
+            success: true,
+            livreur
+        });
+
+    } catch (error) {
+        console.error('Erreur get livreur:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Erreur serveur'
+        });
+    }
+};
+
+// Suspend un livreur
+exports.suspendLivreur = async (req, res) => {
+    try {
+        const livreur = await User.findByIdAndUpdate(
+            req.params.id,
+            { status: 'suspended' },
+            { new: true }
+        ).select('-password');
+
+        if (!livreur || livreur.role !== 'livreur') {
+            return res.status(404).json({
+                success: false,
+                message: 'Livreur non trouvé'
+            });
+        }
+
+        res.json({
+            success: true,
+            message: 'Livreur suspendu avec succès',
+            livreur
+        });
+
+    } catch (error) {
+        console.error('Erreur suspend livreur:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Erreur serveur'
+        });
+    }
+};
+
+// Active un livreur
+exports.activateLivreur = async (req, res) => {
+    try {
+        const livreur = await User.findByIdAndUpdate(
+            req.params.id,
+            { status: 'active' },
+            { new: true }
+        ).select('-password');
+
+        if (!livreur || livreur.role !== 'livreur') {
+            return res.status(404).json({
+                success: false,
+                message: 'Livreur non trouvé'
+            });
+        }
+
+        res.json({
+            success: true,
+            message: 'Livreur activé avec succès',
+            livreur
+        });
+
+    } catch (error) {
+        console.error('Erreur activate livreur:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Erreur serveur'
+        });
+    }
+};
+
+// Supprime un livreur
+exports.deleteLivreur = async (req, res) => {
+    try {
+        const livreur = await User.findById(req.params.id);
+
+        if (!livreur || livreur.role !== 'livreur') {
+            return res.status(404).json({
+                success: false,
+                message: 'Livreur non trouvé'
+            });
+        }
+
+        await User.findByIdAndDelete(req.params.id);
+
+        res.json({
+            success: true,
+            message: 'Livreur supprimé avec succès'
+        });
+
+    } catch (error) {
+        console.error('Erreur delete livreur:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Erreur serveur'
+        });
+    }
+};
+
 // ==================== COMMANDES ====================
 
 // Récupère toutes les commandes
@@ -523,52 +755,68 @@ exports.getStatistics = async (req, res) => {
         ]);
 
         // Top 10 restaurants performants
-        const topRestaurants = await Order.aggregate([
+        const topRestaurantsRaw = await Order.aggregate([
             { $match: { status: 'delivered' } },
             {
                 $group: {
                     _id: '$restaurantId',
-                    orders: { $sum: 1 },
-                    revenue: { $sum: '$totalAmount' }
+                    orderCount: { $sum: 1 },
+                    totalRevenue: { $sum: '$totalAmount' }
                 }
             },
-            { $sort: { revenue: -1 } },
+            { $sort: { totalRevenue: -1 } },
             { $limit: 10 },
             {
                 $lookup: {
                     from: 'users',
                     localField: '_id',
                     foreignField: '_id',
-                    as: 'restaurant'
+                    as: 'restaurantData'
                 }
             }
         ]);
 
+        // Format topRestaurants
+        const topRestaurants = topRestaurantsRaw.map(item => ({
+            restaurantName: item.restaurantData[0]?.restaurantName || item.restaurantData[0]?.fullName || 'Restaurant inconnu',
+            name: item.restaurantData[0]?.restaurantName || item.restaurantData[0]?.fullName || 'Restaurant inconnu',
+            orderCount: item.orderCount,
+            totalRevenue: item.totalRevenue
+        }));
+
         // Top 10 livreurs actifs
-        const topLivreurs = await Order.aggregate([
+        const topLivreursRaw = await Order.aggregate([
             { $match: { status: 'delivered', driverId: { $exists: true } } },
             {
                 $group: {
                     _id: '$driverId',
-                    deliveries: { $sum: 1 },
-                    earnings: { $sum: '$driverEarning' }
+                    deliveryCount: { $sum: 1 },
+                    totalEarnings: { $sum: '$driverEarning' }
                 }
             },
-            { $sort: { earnings: -1 } },
+            { $sort: { totalEarnings: -1 } },
             { $limit: 10 },
             {
                 $lookup: {
                     from: 'users',
                     localField: '_id',
                     foreignField: '_id',
-                    as: 'driver'
+                    as: 'livreurData'
                 }
             }
         ]);
 
+        // Format topLivreurs
+        const topLivreurs = topLivreursRaw.map(item => ({
+            fullName: item.livreurData[0]?.fullName || 'Livreur inconnu',
+            name: item.livreurData[0]?.fullName || 'Livreur inconnu',
+            deliveryCount: item.deliveryCount,
+            totalEarnings: item.totalEarnings
+        }));
+
         res.json({
             success: true,
-            statistics: {
+            stats: {
                 totalRevenue,
                 totalOrders,
                 totalUsers,

@@ -32,6 +32,22 @@ const userSchema = new mongoose.Schema({
   dateOfBirth: {
     type: Date
   },
+  // Adresse de livraison avec géolocalisation
+  deliveryAddress: {
+    label: {
+      type: String,
+      default: 'Mon adresse'
+    },
+    address: {
+      type: String
+    },
+    latitude: {
+      type: Number
+    },
+    longitude: {
+      type: Number
+    }
+  },
   password: {
     type: String,
     required: [true, 'Le mot de passe est requis']

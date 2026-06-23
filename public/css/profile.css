@@ -480,6 +480,38 @@ body {
     box-shadow: 0 4px 12px rgba(139, 195, 74, 0.3);
 }
 
+/* Bouton geolocalisation */
+.geolocation-btn {
+    padding: 0.875rem 1.75rem;
+    background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+    border: none;
+    border-radius: 50px;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.25);
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.geolocation-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #357ABD 0%, #2868A8 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(74, 144, 226, 0.35);
+}
+
+.geolocation-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
 /* ===== ADRESSE ===== */
 
 .address-card {

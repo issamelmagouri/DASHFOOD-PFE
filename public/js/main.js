@@ -100,28 +100,241 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // ===== Hero Search - Uber Eats Style =====
-    const locationInput = document.querySelector('.location-input');
-    const confirmBtn = document.querySelector('.confirm-btn');
+    // ===== Hero Search - Address Bar avec Géolocalisation =====
+    const homeAddressInput = document.getElementById('homeAddressInput');
+    const homeLocationBtn = document.getElementById('homeLocationBtn');
+    const homeLocationBtnText = document.getElementById('homeLocationBtnText');
+    const homeConfirmAddressBtn = document.getElementById('homeConfirmAddressBtn');
 
-    if (confirmBtn && locationInput) {
-        confirmBtn.addEventListener('click', function() {
-            const address = locationInput.value.trim();
-            if (address) {
-                window.location.href = `/restaurants.html?address=${encodeURIComponent(address)}`;
-            } else {
+    // Variables pour stocker la position GPS
+    let currentHomeLatitude = null;
+    let currentHomeLongitude = null;
+
+    // ===== Fonction Reverse Geocoding =====
+    async function reverseGeocode(latitude, longitude) {
+        try {
+            const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&accept-language=fr`;
+
+            const response = await fetch(url, {
+                headers: {
+                    'User-Agent': 'DashFood/1.0' // Nominatim requiert un User-Agent
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Erreur reverse geocoding');
+            }
+
+            const data = await response.json();
+            console.log('Reverse geocoding response:', data);
+
+            // Extraction adresse courte - Priorité : road > pedestrian > footway > neighbourhood > suburb > city
+            const address = data.address || {};
+
+            let shortAddress =
+                address.road ||
+                address.pedestrian ||
+                address.footway ||
+                address.neighbourhood ||
+                address.suburb ||
+                address.city ||
+                address.town ||
+                address.village ||
+                'Adresse détectée';
+
+            console.log('Adresse courte extraite:', shortAddress);
+            return shortAddress;
+
+        } catch (error) {
+            console.error('Erreur reverse geocoding:', error);
+            return 'Adresse détectée'; // Fallback en cas d'erreur
+        }
+    }
+
+    // ===== Bouton "Ma position" - Géolocalisation =====
+    if (homeLocationBtn) {
+        homeLocationBtn.addEventListener('click', function() {
+            console.log('Bouton Ma position cliqué');
+
+            // Vérifie si l'utilisateur est connecté
+            const token = localStorage.getItem('dashfood_token');
+            if (!token) {
+                showToast('Veuillez vous connecter pour enregistrer votre position', 'warning');
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 2000);
+                return;
+            }
+
+            // Vérifie si la géolocalisation est supportée
+            if (!navigator.geolocation) {
+                showToast('La géolocalisation n\'est pas supportée par votre navigateur', 'error');
+                return;
+            }
+
+            // Change le texte du bouton
+            homeLocationBtnText.textContent = 'Localisation...';
+            homeLocationBtn.disabled = true;
+
+            // Options pour la géolocalisation
+            const options = {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
+            };
+
+            // Demande la position
+            navigator.geolocation.getCurrentPosition(
+                // Succès
+                async (position) => {
+                    currentHomeLatitude = position.coords.latitude;
+                    currentHomeLongitude = position.coords.longitude;
+
+                    console.log('Position récupérée', currentHomeLatitude, currentHomeLongitude);
+
+                    // Conversion latitude/longitude en adresse courte
+                    homeLocationBtnText.textContent = 'Récupération...';
+                    const shortAddress = await reverseGeocode(currentHomeLatitude, currentHomeLongitude);
+
+                    // Remplit l'input avec l'adresse courte (ex: "Rue de Fès")
+                    homeAddressInput.value = shortAddress;
+                    console.log('Adresse affichée:', shortAddress);
+
+                    // Enregistre automatiquement l'adresse via l'API
+                    try {
+                        const response = await fetch('/api/users/me/address', {
+                            method: 'PUT',
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                label: 'Domicile',
+                                address: shortAddress, // Adresse courte (ex: "Rue de Fès")
+                                latitude: currentHomeLatitude,
+                                longitude: currentHomeLongitude
+                            })
+                        });
+
+                        const data = await response.json();
+
+                        if (data.success) {
+                            showToast('Position enregistrée avec succès', 'success');
+                            homeLocationBtnText.textContent = '✓ Enregistrée';
+
+                            // Met à jour le localStorage
+                            localStorage.setItem('dashfood_user', JSON.stringify(data.user));
+
+                            setTimeout(() => {
+                                homeLocationBtnText.textContent = 'Ma position';
+                                homeLocationBtn.disabled = false;
+                            }, 2000);
+                        } else {
+                            showToast('Erreur lors de l\'enregistrement: ' + data.message, 'error');
+                            homeLocationBtnText.textContent = 'Ma position';
+                            homeLocationBtn.disabled = false;
+                        }
+                    } catch (error) {
+                        console.error('Erreur enregistrement adresse:', error);
+                        showToast('Erreur lors de l\'enregistrement', 'error');
+                        homeLocationBtnText.textContent = 'Ma position';
+                        homeLocationBtn.disabled = false;
+                    }
+                },
+                // Erreur
+                (error) => {
+                    let errorMessage = 'Impossible d\'obtenir votre position';
+
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            errorMessage = 'Autorisation de localisation refusée';
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            errorMessage = 'Informations de localisation non disponibles';
+                            break;
+                        case error.TIMEOUT:
+                            errorMessage = 'La demande de localisation a expiré';
+                            break;
+                    }
+
+                    console.error('Erreur géolocalisation:', error);
+                    showToast(errorMessage, 'error');
+                    homeLocationBtnText.textContent = 'Ma position';
+                    homeLocationBtn.disabled = false;
+                },
+                options
+            );
+        });
+    }
+
+    // ===== Bouton "Confirmer" - Enregistrement adresse manuelle =====
+    if (homeConfirmAddressBtn && homeAddressInput) {
+        homeConfirmAddressBtn.addEventListener('click', async function() {
+            console.log('Bouton Confirmer cliqué');
+            const address = homeAddressInput.value.trim();
+
+            if (!address) {
                 showToast('Veuillez entrer une adresse de livraison', 'warning');
+                return;
+            }
+
+            // Vérifie si l'utilisateur est connecté
+            const token = localStorage.getItem('dashfood_token');
+            if (!token) {
+                // Si pas connecté, redirige simplement vers restaurants.html
+                window.location.href = `/restaurants.html?address=${encodeURIComponent(address)}`;
+                return;
+            }
+
+            // Si connecté, enregistre l'adresse via l'API
+            try {
+                const response = await fetch('/api/users/me/address', {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        label: 'Domicile',
+                        address: address,
+                        latitude: currentHomeLatitude,  // null si pas de géolocalisation
+                        longitude: currentHomeLongitude  // null si pas de géolocalisation
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showToast('Adresse enregistrée avec succès', 'success');
+
+                    // Met à jour le localStorage
+                    localStorage.setItem('dashfood_user', JSON.stringify(data.user));
+
+                    // Redirige vers restaurants.html après 1 seconde
+                    setTimeout(() => {
+                        window.location.href = `/restaurants.html?address=${encodeURIComponent(address)}`;
+                    }, 1000);
+                } else {
+                    showToast('Erreur lors de l\'enregistrement: ' + data.message, 'error');
+                    // Redirige quand même
+                    setTimeout(() => {
+                        window.location.href = `/restaurants.html?address=${encodeURIComponent(address)}`;
+                    }, 1500);
+                }
+            } catch (error) {
+                console.error('Erreur enregistrement adresse:', error);
+                showToast('Erreur lors de l\'enregistrement', 'error');
+                // Redirige quand même
+                setTimeout(() => {
+                    window.location.href = `/restaurants.html?address=${encodeURIComponent(address)}`;
+                }, 1500);
             }
         });
 
-        locationInput.addEventListener('keypress', function(e) {
+        // Enter key sur l'input
+        homeAddressInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                const address = this.value.trim();
-                if (address) {
-                    window.location.href = `/restaurants.html?address=${encodeURIComponent(address)}`;
-                } else {
-                    showToast('Veuillez entrer une adresse de livraison', 'warning');
-                }
+                homeConfirmAddressBtn.click();
             }
         });
     }

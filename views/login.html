@@ -182,11 +182,19 @@
                     // Role-based redirection - Système de navigation intelligent
                     setTimeout(() => {
                         const role = data.user.role;
+                        const savedRedirect = localStorage.getItem('redirectAfterLogin');
+                        const safeRedirect = savedRedirect &&
+                            savedRedirect.startsWith('/') &&
+                            !savedRedirect.startsWith('//')
+                            ? savedRedirect
+                            : null;
+
+                        localStorage.removeItem('redirectAfterLogin');
 
                         switch(role) {
                             case 'client':
-                                // Les clients accèdent à la page d'accueil avec navbar dynamique
-                                window.location.href = '/';
+                                // Reprendre la navigation demandée avant la connexion.
+                                window.location.href = safeRedirect || '/';
                                 break;
                             case 'admin':
                                 // Les admins accèdent directement à leur dashboard

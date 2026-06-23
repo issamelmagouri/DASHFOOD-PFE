@@ -5,17 +5,22 @@
 
 // Vérifier si l utilisateur est connecté
 function isLoggedIn() {
-    // Vérifier si un token existe dans le localStorage
-    const token = localStorage.getItem('authToken');
-    const user = localStorage.getItem('user');
-
-    return !!(token && user);
+    // La page de connexion enregistre le JWT sous cette clé.
+    return Boolean(localStorage.getItem('dashfood_token'));
 }
 
 // Récupérer utilisateur connecté
 function getCurrentUser() {
-    const userStr = localStorage.getItem('user');
-    return userStr ? JSON.parse(userStr) : null;
+    const userStr = localStorage.getItem('dashfood_user');
+
+    if (!userStr) return null;
+
+    try {
+        return JSON.parse(userStr);
+    } catch (error) {
+        console.error('Données utilisateur invalides dans localStorage:', error);
+        return null;
+    }
 }
 
 // Sauvegarder les informations de utilisateur
@@ -29,16 +34,16 @@ function saveAuthData(token, user) {
     console.log('👤 User nom:', user?.nom || user?.prenom || 'N/A');
     console.log('💰 DashPoints:', user?.dashPoints || 0);
 
-    localStorage.setItem('authToken', token);
-    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('dashfood_token', token);
+    localStorage.setItem('dashfood_user', JSON.stringify(user));
 
     // Vérification immédiate
-    const savedToken = localStorage.getItem('authToken');
-    const savedUser = localStorage.getItem('user');
+    const savedToken = localStorage.getItem('dashfood_token');
+    const savedUser = localStorage.getItem('dashfood_user');
 
     console.log('✅ Sauvegarde localStorage:');
-    console.log('  - authToken sauvegardé:', !!savedToken);
-    console.log('  - user sauvegardé:', !!savedUser);
+    console.log('  - dashfood_token sauvegardé:', !!savedToken);
+    console.log('  - dashfood_user sauvegardé:', !!savedUser);
     console.log('╚════════════════════════════════════════╝');
     console.log('');
 }
@@ -50,11 +55,11 @@ function logout() {
     console.log('║          DÉCONNEXION EN COURS          ║');
     console.log('╚════════════════════════════════════════╝');
 
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('user');
+    localStorage.removeItem('dashfood_token');
+    localStorage.removeItem('dashfood_user');
 
-    console.log('✅ authToken supprimé');
-    console.log('✅ user supprimé');
+    console.log('✅ dashfood_token supprimé');
+    console.log('✅ dashfood_user supprimé');
     console.log('→ Redirection vers homepage...');
     console.log('╚════════════════════════════════════════╝');
     console.log('');
@@ -76,13 +81,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Afficher un message
                 showToast('Vous devez être connecté pour accéder à cette fonctionnalité', 'warning');
 
-                // Sauvegarder l'URL actuelle pour rediriger après connexion
-                const currentUrl = window.location.pathname + window.location.search;
-                localStorage.setItem('redirectAfterLogin', currentUrl);
+                // Mémoriser la destination demandée pour y revenir après connexion.
+                const destination = element instanceof HTMLAnchorElement
+                    ? element.pathname + element.search + element.hash
+                    : window.location.pathname + window.location.search;
+                localStorage.setItem('redirectAfterLogin', destination);
 
                 // Rediriger vers la page de connexion après un court délai
                 setTimeout(() => {
-                    window.location.href = '/login.html';
+                    window.location.href = '/login';
                 }, 1000);
 
                 return false;
@@ -177,7 +184,7 @@ function addToCart(item) {
     if (!isLoggedIn()) {
         showToast('Vous devez être connecté pour ajouter des articles au panier', 'warning');
         setTimeout(() => {
-            window.location.href = '/login.html';
+            window.location.href = '/login';
         }, 1000);
         return false;
     }

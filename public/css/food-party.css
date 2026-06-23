@@ -1,0 +1,92 @@
+.food-party-page {
+    background: var(--bg-cream);
+}
+
+.food-party-page-hero {
+    padding-top: 2rem;
+    background: var(--bg-cream);
+}
+
+.food-party-page-hero .food-party-banner {
+    min-height: min(720px, calc(100vh - 150px));
+}
+
+.food-party-how {
+    padding: clamp(4rem, 8vw, 7rem) 0;
+    background: var(--bg-white);
+}
+
+.food-party-how-label {
+    display: block;
+    margin-bottom: 1rem;
+    color: var(--primary-pink);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.food-party-how h2 {
+    max-width: 720px;
+    margin-bottom: 3rem;
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 5vw, 4rem);
+    line-height: 1.12;
+}
+
+.food-party-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+
+.food-party-step {
+    min-height: 240px;
+    padding: 2rem;
+    border: 1px solid var(--border-light);
+    border-radius: 24px;
+    background: var(--bg-cream);
+    transition: var(--transition);
+}
+
+.food-party-step:hover {
+    border-color: rgba(243, 23, 83, 0.28);
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-5px);
+}
+
+.food-party-step > span {
+    color: var(--primary-pink);
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-style: italic;
+}
+
+.food-party-step h3 {
+    margin: 3rem 0 0.75rem;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+}
+
+.food-party-step p {
+    color: var(--text-gray);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+    .food-party-page-hero {
+        padding-top: 1rem;
+    }
+
+    .food-party-steps {
+        grid-template-columns: 1fr;
+    }
+
+    .food-party-step {
+        min-height: auto;
+    }
+
+    .food-party-step h3 {
+        margin-top: 2rem;
+    }
+}

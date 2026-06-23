@@ -122,10 +122,32 @@ function displayUserData() {
 
     document.getElementById('displayCity').textContent = currentUser.city || '-';
 
-    // section adresse
-    const addressText = currentUser.address || '-';
-    const cityText = currentUser.city || '';
-    document.getElementById('displayAddress').innerHTML = `${addressText}<br>${cityText}`;
+    // section adresse de livraison
+    if (currentUser.deliveryAddress && currentUser.deliveryAddress.address) {
+        // Affiche deliveryAddress si disponible
+        const label = currentUser.deliveryAddress.label || 'Mon adresse';
+        const address = currentUser.deliveryAddress.address || '-';
+        const lat = currentUser.deliveryAddress.latitude;
+        const lng = currentUser.deliveryAddress.longitude;
+
+        document.getElementById('displayAddressLabel').textContent = label;
+        document.getElementById('displayAddress').textContent = address;
+
+        // Affiche coordonnées GPS si disponibles
+        if (lat && lng) {
+            document.getElementById('displayCoordinates').textContent = `📍 Coordonnées: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+            document.getElementById('displayCoordinates').style.display = 'block';
+        } else {
+            document.getElementById('displayCoordinates').style.display = 'none';
+        }
+    } else {
+        // Fallback sur ancienne adresse si deliveryAddress pas encore défini
+        const addressText = currentUser.address || '-';
+        const cityText = currentUser.city || '';
+        document.getElementById('displayAddressLabel').textContent = 'Mon adresse';
+        document.getElementById('displayAddress').innerHTML = `${addressText}<br>${cityText}`;
+        document.getElementById('displayCoordinates').style.display = 'none';
+    }
 
     // preferences switches
     if (currentUser.preferences) {
@@ -148,6 +170,9 @@ function setupEventListeners() {
     document.getElementById('editAddressBtn').addEventListener('click', enterEditModeAddress);
     document.getElementById('cancelAddressBtn').addEventListener('click', cancelEditAddress);
     document.getElementById('saveAddressBtn').addEventListener('click', saveAddress);
+
+    // bouton geolocalisation
+    document.getElementById('getLocationBtn').addEventListener('click', getCurrentLocation);
 
     // switches preferences
     document.getElementById('prefNotifications').addEventListener('change', updatePreference);
@@ -281,39 +306,148 @@ async function savePersonalInfo() {
 
 // ===== MODE EDITION ADRESSE =====
 
+let currentLatitude = null;
+let currentLongitude = null;
+
 function enterEditModeAddress() {
     document.getElementById('addressReadMode').style.display = 'none';
     document.getElementById('addressEditMode').style.display = 'block';
 
-    // remplit les inputs
-    document.getElementById('editAddress').value = currentUser.address || '';
-    document.getElementById('editAddressCity').value = currentUser.city || '';
+    // Remplit les inputs avec deliveryAddress si disponible, sinon ancienne adresse
+    if (currentUser.deliveryAddress && currentUser.deliveryAddress.address) {
+        document.getElementById('editAddressLabel').value = currentUser.deliveryAddress.label || 'Mon adresse';
+        document.getElementById('editAddress').value = currentUser.deliveryAddress.address || '';
+        currentLatitude = currentUser.deliveryAddress.latitude || null;
+        currentLongitude = currentUser.deliveryAddress.longitude || null;
+
+        // Affiche les coordonnées si disponibles
+        if (currentLatitude && currentLongitude) {
+            document.getElementById('coordinatesDisplay').style.display = 'block';
+            document.getElementById('displayLatLng').value = `Lat: ${currentLatitude.toFixed(6)}, Lng: ${currentLongitude.toFixed(6)}`;
+        } else {
+            document.getElementById('coordinatesDisplay').style.display = 'none';
+        }
+    } else {
+        // Fallback sur ancienne adresse
+        document.getElementById('editAddressLabel').value = 'Mon adresse';
+        document.getElementById('editAddress').value = currentUser.address || '';
+        currentLatitude = null;
+        currentLongitude = null;
+        document.getElementById('coordinatesDisplay').style.display = 'none';
+    }
 }
 
 function cancelEditAddress() {
     document.getElementById('addressReadMode').style.display = 'block';
     document.getElementById('addressEditMode').style.display = 'none';
+    // Reset coordonnées temporaires
+    currentLatitude = null;
+    currentLongitude = null;
+}
+
+// ===== GEOLOCALISATION =====
+
+function getCurrentLocation() {
+    const btn = document.getElementById('getLocationBtn');
+    const btnText = document.getElementById('locationBtnText');
+
+    // Vérifie si la géolocalisation est supportée
+    if (!navigator.geolocation) {
+        alert('La géolocalisation n\'est pas supportée par votre navigateur');
+        return;
+    }
+
+    // Change le texte du bouton
+    btnText.textContent = 'Localisation en cours...';
+    btn.disabled = true;
+
+    // Options pour la géolocalisation
+    const options = {
+        enableHighAccuracy: true, // Précision maximale
+        timeout: 10000, // Timeout de 10 secondes
+        maximumAge: 0 // Ne pas utiliser le cache
+    };
+
+    // Demande la position
+    navigator.geolocation.getCurrentPosition(
+        // Succès
+        (position) => {
+            currentLatitude = position.coords.latitude;
+            currentLongitude = position.coords.longitude;
+
+            // Affiche les coordonnées
+            document.getElementById('coordinatesDisplay').style.display = 'block';
+            document.getElementById('displayLatLng').value = `Lat: ${currentLatitude.toFixed(6)}, Lng: ${currentLongitude.toFixed(6)}`;
+
+            // Restaure le bouton
+            btnText.textContent = '✓ Position obtenue';
+            setTimeout(() => {
+                btnText.textContent = 'Ma position';
+                btn.disabled = false;
+            }, 2000);
+
+            console.log('Position obtenue:', currentLatitude, currentLongitude);
+        },
+        // Erreur
+        (error) => {
+            let errorMessage = 'Impossible d\'obtenir votre position';
+
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    errorMessage = 'Vous avez refusé l\'accès à votre position. Veuillez autoriser la géolocalisation dans les paramètres de votre navigateur.';
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    errorMessage = 'Informations de localisation non disponibles.';
+                    break;
+                case error.TIMEOUT:
+                    errorMessage = 'La demande de localisation a expiré.';
+                    break;
+            }
+
+            alert(errorMessage);
+            console.error('Erreur géolocalisation:', error);
+
+            // Restaure le bouton
+            btnText.textContent = 'Ma position';
+            btn.disabled = false;
+        },
+        options
+    );
 }
 
 async function saveAddress() {
+    const label = document.getElementById('editAddressLabel').value.trim();
     const address = document.getElementById('editAddress').value.trim();
-    const city = document.getElementById('editAddressCity').value.trim();
 
-    if (!address || !city) {
-        alert('Veuillez remplir l\'adresse et la ville');
+    if (!address) {
+        alert('Veuillez remplir l\'adresse');
+        return;
+    }
+
+    if (!label) {
+        alert('Veuillez donner un nom à cette adresse (ex: Domicile, Bureau)');
         return;
     }
 
     try {
         const token = localStorage.getItem('dashfood_token');
 
-        const response = await fetch('/api/users/address', {
+        // Prépare les données à envoyer
+        const addressData = {
+            label: label,
+            address: address,
+            latitude: currentLatitude,
+            longitude: currentLongitude
+        };
+
+        // Appel à la nouvelle route PUT /api/users/me/address
+        const response = await fetch('/api/users/me/address', {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ address, city })
+            body: JSON.stringify(addressData)
         });
 
         const data = await response.json();
@@ -325,13 +459,13 @@ async function saveAddress() {
             displayUserData();
             cancelEditAddress();
 
-            alert('Adresse mise à jour avec succès!');
+            alert('Adresse de livraison mise à jour avec succès!');
         } else {
             alert('Erreur: ' + data.message);
         }
     } catch (error) {
         console.error('Erreur sauvegarde adresse:', error);
-        alert('Une erreur est survenue');
+        alert('Une erreur est survenue lors de la mise à jour de l\'adresse');
     }
 }
 

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Party - DashFood</title>
+    <meta name="description" content="Créez une commande DashFood commune avec vos proches, même à distance.">
+    <link rel="icon" type="image/png" href="/assets/logos/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/food-party.css">
+
+    <script>
+        if (!localStorage.getItem('dashfood_token')) {
+            localStorage.setItem('redirectAfterLogin', '/foodparty.html');
+            window.location.replace('/login');
+        }
+    </script>
+</head>
+<body class="food-party-page">
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="/" class="navbar-logo" aria-label="Retour à l'accueil DashFood">
+                    <img src="/assets/logos/logo.png" alt="DashFood" class="logo-img" style="height: 36px !important; width: auto !important;">
+                </a>
+
+                <div class="navbar-actions">
+                    <div id="guestActions" class="guest-actions">
+                        <a href="/login" class="btn btn-outline">Connexion</a>
+                        <a href="/register" class="btn btn-primary">Inscription</a>
+                    </div>
+
+                    <div id="clientProfile" class="client-profile" style="display: none;">
+                        <button class="profile-btn" id="profileBtn" type="button">
+                            <svg class="profile-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span class="profile-name" id="profileName">Client</span>
+                            <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+
+                        <div class="profile-dropdown" id="profileDropdown">
+                            <div class="dropdown-header">
+                                <div class="dropdown-user-info">
+                                    <div class="dropdown-avatar">
+                                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                    </div>
+                                    <div class="dropdown-user-text">
+                                        <div class="dropdown-user-name" id="dropdownFullName">Utilisateur</div>
+                                        <div class="dropdown-user-email" id="dropdownEmail"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-menu">
+                                <a href="/profile.html" class="dropdown-item">Mon profil</a>
+                                <a href="/orders.html" class="dropdown-item">Mes commandes</a>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <button class="dropdown-item dropdown-logout" id="logoutBtn" type="button">Déconnexion</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="food-party-section food-party-page-hero" aria-labelledby="food-party-page-title">
+            <div class="food-party-banner">
+                <div class="food-party-overlay" aria-hidden="true"></div>
+                <div class="food-party-content">
+                    <span class="food-party-badge">FOOD PARTY</span>
+                    <h1 class="food-party-heading" id="food-party-page-title">Une seule commande.<br>Toutes vos envies.</h1>
+                    <p class="food-party-description">
+                        Invitez vos proches, composez votre repas ensemble et laissez DashFood rassembler toutes les envies dans une commande commune.
+                    </p>
+                    <a href="/restaurants.html" class="food-party-cta">
+                        <span>Choisir un restaurant</span>
+                        <span class="food-party-cta-arrow" aria-hidden="true">→</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="food-party-how" aria-labelledby="food-party-how-title">
+            <div class="container">
+                <span class="food-party-how-label">SIMPLE ET CONVIVIAL</span>
+                <h2 id="food-party-how-title">La table est prête en trois étapes</h2>
+                <div class="food-party-steps">
+                    <article class="food-party-step">
+                        <span>01</span>
+                        <h3>Créez votre groupe</h3>
+                        <p>Choisissez un restaurant et lancez votre Food Party.</p>
+                    </article>
+                    <article class="food-party-step">
+                        <span>02</span>
+                        <h3>Invitez vos proches</h3>
+                        <p>Partagez l'invitation avec les personnes de votre choix.</p>
+                    </article>
+                    <article class="food-party-step">
+                        <span>03</span>
+                        <h3>Commandez ensemble</h3>
+                        <p>Chacun ajoute ses plats, puis une seule commande est envoyée.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="/js/navbar.js"></script>
+</body>
+</html>

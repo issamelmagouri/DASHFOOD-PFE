@@ -126,9 +126,9 @@
                             <svg class="pin-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#F31753"/>
                             </svg>
-                            <input type="text" placeholder="Entrez votre adresse de livraison" class="location-input">
+                            <input type="text" id="homeAddressInput" placeholder="Entrez votre adresse de livraison" class="location-input">
                             <div class="vertical-divider"></div>
-                            <button class="position-btn">
+                            <button class="position-btn" id="homeLocationBtn">
                                 <svg class="gps-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="12" cy="12" r="8" stroke="#8BC34A" stroke-width="2" fill="none"/>
                                     <circle cx="12" cy="12" r="3" fill="#8BC34A"/>
@@ -137,9 +137,9 @@
                                     <line x1="2" y1="12" x2="6" y2="12" stroke="#8BC34A" stroke-width="2"/>
                                     <line x1="18" y1="12" x2="22" y2="12" stroke="#8BC34A" stroke-width="2"/>
                                 </svg>
-                                Ma position
+                                <span id="homeLocationBtnText">Ma position</span>
                             </button>
-                            <button class="confirm-btn">Confirmer →</button>
+                            <button class="confirm-btn" id="homeConfirmAddressBtn">Confirmer →</button>
                         </div>
 
                         <div class="hero-action-cards">
@@ -252,6 +252,28 @@
                         <!-- La carte sera injectée ici par JavaScript -->
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Food Party - Commande groupée -->
+    <section class="food-party-section" aria-labelledby="food-party-title">
+        <div class="food-party-banner">
+            <div class="food-party-overlay" aria-hidden="true"></div>
+
+            <div class="food-party-content">
+                <span class="food-party-badge">FOOD PARTY</span>
+                <h2 class="food-party-heading" id="food-party-title">
+                    Commandez ensemble,<br>même à distance
+                </h2>
+                <p class="food-party-description">
+                    Invitez vos amis ou votre famille à rejoindre une commande commune.
+                    Chacun ajoute ses plats préférés et une seule commande est envoyée au restaurant.
+                </p>
+                <a href="/foodparty.html" class="food-party-cta" data-auth-required="true">
+                    <span>Découvrir</span>
+                    <span class="food-party-cta-arrow" aria-hidden="true">→</span>
+                </a>
             </div>
         </div>
     </section>

@@ -54,6 +54,11 @@ app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'login.html'));
 });
 
+// Alias de compatibilité pour les anciens liens et caches navigateur
+app.get('/login.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'login.html'));
+});
+
 app.get('/register', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'register.html'));
 });
@@ -89,6 +94,46 @@ app.get('/admin-dashboard', (req, res) => {
 
 app.get('/admin-dashboard.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'admin-dashboard.html'));
+});
+
+app.get('/admin-users', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'admin-users.html'));
+});
+
+app.get('/admin-users.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'admin-users.html'));
+});
+
+app.get('/admin-restaurants', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'admin-restaurants.html'));
+});
+
+app.get('/admin-restaurants.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'admin-restaurants.html'));
+});
+
+app.get('/admin-livreurs', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'admin-livreurs.html'));
+});
+
+app.get('/admin-livreurs.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'admin-livreurs.html'));
+});
+
+app.get('/admin-orders', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'admin-orders.html'));
+});
+
+app.get('/admin-orders.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'admin-orders.html'));
+});
+
+app.get('/admin-statistics', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'admin-statistics.html'));
+});
+
+app.get('/admin-statistics.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'admin-statistics.html'));
 });
 
 // Routes livreur
@@ -158,6 +203,11 @@ app.get('/restaurants', (req, res) => {
 
 app.get('/restaurants.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'restaurants.html'));
+});
+
+// Route Food Party
+app.get(['/foodparty', '/foodparty.html', '/food-party', '/food-party.html'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'food-party.html'));
 });
 
 // Démarrage du serveur
