@@ -329,7 +329,7 @@ function attachCardEvents() {
  * Redirige vers la page menu du restaurant
  */
 function viewRestaurantMenu(restaurantId) {
-    window.location.href = `/restaurant-menu.html?restaurantId=${restaurantId}`;
+    window.location.href = `/restaurant-menu.html?id=${encodeURIComponent(restaurantId)}`;
 }
 
 /**

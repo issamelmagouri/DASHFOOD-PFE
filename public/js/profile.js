@@ -127,19 +127,13 @@ function displayUserData() {
         // Affiche deliveryAddress si disponible
         const label = currentUser.deliveryAddress.label || 'Mon adresse';
         const address = currentUser.deliveryAddress.address || '-';
-        const lat = currentUser.deliveryAddress.latitude;
-        const lng = currentUser.deliveryAddress.longitude;
 
         document.getElementById('displayAddressLabel').textContent = label;
         document.getElementById('displayAddress').textContent = address;
 
-        // Affiche coordonnées GPS si disponibles
-        if (lat && lng) {
-            document.getElementById('displayCoordinates').textContent = `📍 Coordonnées: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
-            document.getElementById('displayCoordinates').style.display = 'block';
-        } else {
-            document.getElementById('displayCoordinates').style.display = 'none';
-        }
+        // Ne pas afficher les coordonnées GPS si une adresse courte existe
+        // Les coordonnées restent stockées en base mais ne sont pas visibles
+        document.getElementById('displayCoordinates').style.display = 'none';
     } else {
         // Fallback sur ancienne adresse si deliveryAddress pas encore défini
         const addressText = currentUser.address || '-';
@@ -347,7 +341,48 @@ function cancelEditAddress() {
 
 // ===== GEOLOCALISATION =====
 
-function getCurrentLocation() {
+// Fonction Reverse Geocoding - identique à main.js
+async function reverseGeocode(latitude, longitude) {
+    try {
+        const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&accept-language=fr`;
+
+        const response = await fetch(url, {
+            headers: {
+                'User-Agent': 'DashFood/1.0'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Erreur reverse geocoding');
+        }
+
+        const data = await response.json();
+        console.log('Reverse geocoding response:', data);
+
+        // Extraction adresse courte - Priorité : road > pedestrian > footway > neighbourhood > suburb > city
+        const address = data.address || {};
+
+        let shortAddress =
+            address.road ||
+            address.pedestrian ||
+            address.footway ||
+            address.neighbourhood ||
+            address.suburb ||
+            address.city ||
+            address.town ||
+            address.village ||
+            'Adresse détectée';
+
+        console.log('Adresse courte extraite:', shortAddress);
+        return shortAddress;
+
+    } catch (error) {
+        console.error('Erreur reverse geocoding:', error);
+        return 'Adresse détectée';
+    }
+}
+
+async function getCurrentLocation() {
     const btn = document.getElementById('getLocationBtn');
     const btnText = document.getElementById('locationBtnText');
 
@@ -363,21 +398,29 @@ function getCurrentLocation() {
 
     // Options pour la géolocalisation
     const options = {
-        enableHighAccuracy: true, // Précision maximale
-        timeout: 10000, // Timeout de 10 secondes
-        maximumAge: 0 // Ne pas utiliser le cache
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
     };
 
     // Demande la position
     navigator.geolocation.getCurrentPosition(
         // Succès
-        (position) => {
+        async (position) => {
             currentLatitude = position.coords.latitude;
             currentLongitude = position.coords.longitude;
 
-            // Affiche les coordonnées
-            document.getElementById('coordinatesDisplay').style.display = 'block';
-            document.getElementById('displayLatLng').value = `Lat: ${currentLatitude.toFixed(6)}, Lng: ${currentLongitude.toFixed(6)}`;
+            console.log('Position obtenue:', currentLatitude, currentLongitude);
+
+            // Conversion en adresse courte
+            btnText.textContent = 'Récupération adresse...';
+            const shortAddress = await reverseGeocode(currentLatitude, currentLongitude);
+
+            // Remplit automatiquement le champ adresse avec l'adresse courte
+            document.getElementById('editAddress').value = shortAddress;
+
+            // Ne plus afficher les coordonnées GPS - elles restent en mémoire pour l'enregistrement
+            document.getElementById('coordinatesDisplay').style.display = 'none';
 
             // Restaure le bouton
             btnText.textContent = '✓ Position obtenue';
@@ -386,7 +429,7 @@ function getCurrentLocation() {
                 btn.disabled = false;
             }, 2000);
 
-            console.log('Position obtenue:', currentLatitude, currentLongitude);
+            console.log('Adresse courte:', shortAddress);
         },
         // Erreur
         (error) => {

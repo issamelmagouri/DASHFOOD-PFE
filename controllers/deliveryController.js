@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Delivery = require('../models/Delivery');
+const Order = require('../models/Order');
 
 /**
  * Soumettre une candidature pour devenir livreur
@@ -289,6 +290,14 @@ exports.acceptDelivery = async (req, res) => {
     // assigne la livraison au livreur
     delivery.assignedDriver = driverId;
     await delivery.updateStatus('accepted');
+    await Order.findByIdAndUpdate(delivery.orderId, {
+      $set: {
+        assignedDriver: driverId,
+        deliveryStatus: 'accepted',
+        status: 'confirmed',
+        'tracking.lastStatusUpdate': new Date()
+      }
+    });
 
     res.json({
       success: true,

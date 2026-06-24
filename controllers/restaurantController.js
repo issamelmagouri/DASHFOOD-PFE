@@ -1,4 +1,15 @@
 const Restaurant = require('../models/Restaurant');
+const MenuItem = require('../models/MenuItem');
+
+function normalizeEmbeddedCategory(value) {
+    const category = String(value || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    if (category.includes('entree')) return 'entrees';
+    if (category.includes('burger')) return 'burgers';
+    if (category.includes('pizza')) return 'pizzas';
+    if (category.includes('dessert')) return 'desserts';
+    if (category.includes('boisson')) return 'boissons';
+    return 'plats-principaux';
+}
 
 /**
  * Récupère tous les restaurants avec filtres optionnels
@@ -110,9 +121,13 @@ exports.getRestaurantById = async (req, res) => {
             });
         }
 
+        const restaurantObject = restaurant.toObject();
+        restaurantObject.cuisine = restaurant.cuisine || restaurant.cuisineType;
+        restaurantObject.isOpen = restaurant.isOpen !== false;
+
         res.json({
             success: true,
-            restaurant
+            restaurant: restaurantObject
         });
 
     } catch (error) {
@@ -207,7 +222,7 @@ exports.getRestaurantMenu = async (req, res) => {
         const { id } = req.params;
 
         const restaurant = await Restaurant.findById(id)
-            .select('name cuisineType menuItems');
+            .select('name cuisine cuisineType isActive menuItems');
 
         if (!restaurant) {
             return res.status(404).json({
@@ -216,11 +231,34 @@ exports.getRestaurantMenu = async (req, res) => {
             });
         }
 
+        const collectionItems = await MenuItem.find({ restaurant: id, available: true })
+            .populate('restaurant', 'name deliveryFee freeDelivery')
+            .sort({ category: 1, name: 1 });
+        const menuItems = collectionItems.length
+            ? collectionItems
+            : (restaurant.menuItems || []).filter((item) => item.isAvailable !== false).map((item) => ({
+                _id: item._id,
+                name: item.name,
+                description: item.description || '',
+                price: item.price,
+                image: item.image || '/assets/images/restaurant-kitchen.png',
+                category: normalizeEmbeddedCategory(item.category),
+                restaurant: {
+                    _id: restaurant._id,
+                    name: restaurant.name,
+                    deliveryFee: restaurant.deliveryFee,
+                    freeDelivery: restaurant.freeDelivery
+                },
+                available: item.isAvailable !== false,
+                badge: item.badge
+            }));
+
         res.json({
             success: true,
             restaurantName: restaurant.name,
-            cuisineType: restaurant.cuisineType,
-            menuItems: restaurant.menuItems || []
+            cuisineType: restaurant.cuisine || restaurant.cuisineType,
+            count: menuItems.length,
+            menuItems
         });
 
     } catch (error) {

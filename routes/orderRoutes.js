@@ -7,6 +7,7 @@ const authMiddleware = require('../middleware/authMiddleware');
 
 // Créer une nouvelle commande
 router.post('/', authMiddleware, orderController.createOrder);
+router.post('/create', authMiddleware, orderController.createOrderFromCart);
 
 // Récupérer les commandes de l'utilisateur connecté
 router.get('/my-orders', authMiddleware, orderController.getMyOrders);

@@ -1,18 +1,41 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DashFood - Suivi commande</title>
-    <link rel="stylesheet" href="/css/style.css">
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Suivez votre livraison DashFood en temps reel.">
+  <title>Suivi de commande - DashFood</title>
+  <link rel="icon" type="image/png" href="/assets/logos/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/restaurants.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="/css/tracking.css">
 </head>
-<body>
-    <!-- Page de suivi de commande -->
-    <!-- Suivi en temps réel et position du livreur -->
-
-    <script src="/js/main.js"></script>
-    <script src="/js/suivi.js"></script>
-    <script src="/js/maps.js"></script>
-    <script src="/js/notifications.js"></script>
+<body class="tracking-page">
+  <nav class="navbar"><div class="container"><div class="navbar-content">
+    <a href="/" class="navbar-logo"><img src="/assets/logos/logo.png" alt="DashFood"></a>
+    <div class="navbar-links"><a href="/" class="nav-link">Accueil</a><a href="/restaurants" class="nav-link">Restaurants</a><a href="/catalogue" class="nav-link">Catalogue</a><a href="/orders" class="nav-link active">Mes commandes</a></div>
+    <div class="navbar-actions"><a href="/orders" class="tracking-back">Retour aux commandes</a></div>
+  </div></div></nav>
+  <main class="tracking-shell">
+    <header class="tracking-header"><div><span class="tracking-eyebrow">LIVRAISON EN DIRECT</span><h1>Votre commande arrive.</h1><p id="trackingSubtitle">Connexion au coursier en cours…</p></div><div class="tracking-live"><span></span>Temps réel</div></header>
+    <div class="tracking-alert" id="trackingAlert" hidden></div>
+    <section class="tracking-layout" id="trackingContent">
+      <div class="tracking-map-card"><div id="trackingMap" class="tracking-map" aria-label="Carte de suivi de la livraison"></div><div class="tracking-map-legend"><span><i class="legend-courier"></i>Coursier</span><span><i class="legend-client"></i>Votre adresse</span></div></div>
+      <aside class="tracking-panel">
+        <div class="tracking-order-label">COMMANDE <strong id="trackingOrderNumber">—</strong></div>
+        <div class="tracking-status-card"><div class="tracking-status-icon">🛵</div><div><small>STATUT</small><h2 id="trackingStatus">Chargement…</h2></div></div>
+        <div class="tracking-metrics"><div><small>ARRIVÉE ESTIMÉE</small><strong><span id="trackingEta">—</span> min</strong></div><div><small>DISTANCE RESTANTE</small><strong><span id="trackingDistance">—</span> km</strong></div></div>
+        <div class="tracking-address"><small>ADRESSE DE LIVRAISON</small><p id="trackingAddress">—</p></div>
+        <ol class="tracking-timeline" id="trackingTimeline">
+          <li data-status="accepted"><span></span><div><strong>Commande acceptée</strong><small>Le coursier prend en charge la livraison</small></div></li>
+          <li data-status="picked_up"><span></span><div><strong>Commande récupérée</strong><small>Le repas a quitté le restaurant</small></div></li>
+          <li data-status="on_the_way"><span></span><div><strong>En route</strong><small>Suivez sa position sur la carte</small></div></li>
+          <li data-status="delivered"><span></span><div><strong>Livrée</strong><small>Bon appétit !</small></div></li>
+        </ol>
+      </aside>
+    </section>
+  </main>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script><script src="/socket.io/socket.io.js"></script><script src="/js/tracking-map.js"></script><script src="/js/suivi.js"></script>
 </body>
 </html>

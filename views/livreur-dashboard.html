@@ -12,9 +12,11 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 
     <!-- CSS -->
     <link rel="stylesheet" href="/css/livreur-dashboard.css">
+    <link rel="stylesheet" href="/css/tracking.css">
 </head>
 <body>
     <!-- Sidebar -->
@@ -242,6 +244,9 @@
     <div class="toast-container" id="toastContainer"></div>
 
     <!-- JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/tracking-map.js"></script>
     <script src="/js/livreur-dashboard.js"></script>
 </body>
 </html>

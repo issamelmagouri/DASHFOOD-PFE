@@ -1795,3 +1795,5 @@ body {
         justify-content: center;
     }
 }
+/* Carte GPS temps reel de la livraison active */
+.courier-tracking-block{margin:24px 0;padding:18px;border:1px solid #e5e0d3;border-radius:22px;background:#fbfaf6}.courier-tracking-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:14px}.courier-tracking-heading span{color:#f31753;font-size:10px;font-weight:800;letter-spacing:1.5px}.courier-tracking-heading h4{margin:4px 0 0;color:#294a31;font:600 22px 'Playfair Display',serif}.gps-live{display:flex;align-items:center;gap:8px;color:#294a31;font-size:12px;font-weight:800}.gps-live i{width:9px;height:9px;border-radius:50%;background:#41a960;box-shadow:0 0 0 5px rgba(65,169,96,.13)}.courier-tracking-map{height:360px;border-radius:17px;overflow:hidden;background:#e9eee8}@media(max-width:700px){.courier-tracking-map{height:300px}.courier-tracking-heading{align-items:flex-start;flex-direction:column}}

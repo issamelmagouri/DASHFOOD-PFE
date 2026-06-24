@@ -84,12 +84,118 @@
                     <span class="food-party-badge">FOOD PARTY</span>
                     <h1 class="food-party-heading" id="food-party-page-title">Une seule commande.<br>Toutes vos envies.</h1>
                     <p class="food-party-description">
-                        Invitez vos proches, composez votre repas ensemble et laissez DashFood rassembler toutes les envies dans une commande commune.
+                        Invitez vos proches, composez votre repas ensemble et recevez chacun vos plats directement à votre adresse.
                     </p>
-                    <a href="/restaurants.html" class="food-party-cta">
+                    <button type="button" class="food-party-cta" id="openFoodPartyWorkspace">
                         <span>Choisir un restaurant</span>
                         <span class="food-party-cta-arrow" aria-hidden="true">→</span>
-                    </a>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="food-party-workspace" id="foodPartyWorkspace" aria-labelledby="food-party-workspace-title">
+            <div class="container">
+                <div class="food-party-workspace-heading">
+                    <div>
+                        <span class="food-party-how-label">VOTRE TABLE</span>
+                        <h2 id="food-party-workspace-title">Composez le menu ensemble</h2>
+                    </div>
+                    <p>Choisissez une adresse, partagez le code et retrouvez en direct les envies de chacun.</p>
+                </div>
+
+                <div class="food-party-alert" id="foodPartyAlert" role="status" aria-live="polite" hidden></div>
+
+                <div class="food-party-start" id="foodPartyStart">
+                    <article class="food-party-panel food-party-create-panel">
+                        <span class="food-party-panel-kicker">Créer une table</span>
+                        <h3>Quel restaurant met-on au centre ?</h3>
+                        <p id="selectedRestaurantText">Aucun restaurant sélectionné.</p>
+                        <div class="food-party-address-choice">
+                            <label for="createDeliveryAddress">Votre adresse de livraison</label>
+                            <textarea id="createDeliveryAddress" rows="2" placeholder="Chargement de votre adresse…" readonly></textarea>
+                            <label class="food-party-confirm-check"><input id="createAddressConfirmed" type="checkbox" disabled> Adresse du profil confirmée.</label>
+                            <a class="food-party-profile-address-link" id="createAddressProfileLink" href="/profile.html" hidden>Ajouter une adresse dans mon profil</a>
+                        </div>
+                        <div class="food-party-start-actions">
+                            <button class="food-party-button food-party-button-secondary" id="chooseRestaurantButton" type="button">Choisir un restaurant</button>
+                            <button class="food-party-button" id="createPartyButton" type="button" disabled>Créer une Food Party</button>
+                        </div>
+                    </article>
+
+                    <article class="food-party-panel food-party-join-panel">
+                        <span class="food-party-panel-kicker">Rejoindre des amis</span>
+                        <h3>Vous avez déjà un code ?</h3>
+                        <form class="food-party-code-form" id="joinPartyForm">
+                            <label class="sr-only" for="joinCodeInput">Code d'invitation</label>
+                            <input id="joinCodeInput" name="inviteCode" maxlength="8" autocomplete="off" placeholder="EX. 8FJ2K7LP" required>
+                            <label class="food-party-address-choice food-party-address-choice-wide" for="joinDeliveryAddress">
+                                <span>Votre adresse de livraison</span>
+                                <textarea id="joinDeliveryAddress" rows="2" placeholder="Chargement de votre adresse…" readonly required></textarea>
+                            </label>
+                            <label class="food-party-confirm-check food-party-address-choice-wide"><input id="joinAddressConfirmed" type="checkbox" disabled> Adresse du profil confirmée.</label>
+                            <a class="food-party-profile-address-link food-party-address-choice-wide" id="joinAddressProfileLink" href="/profile.html" hidden>Ajouter une adresse dans mon profil</a>
+                            <button class="food-party-button" id="joinPartyButton" type="submit" disabled>Rejoindre</button>
+                        </form>
+                    </article>
+                </div>
+
+                <div class="food-party-restaurant-picker" id="restaurantPicker" hidden>
+                    <div class="food-party-section-title">
+                        <div><span class="food-party-panel-kicker">Restaurants disponibles</span><h3>Choisissez votre table</h3></div>
+                        <button class="food-party-close" id="closeRestaurantPicker" type="button" aria-label="Fermer la liste">×</button>
+                    </div>
+                    <div class="food-party-loading" id="restaurantLoading">Chargement des restaurants…</div>
+                    <div class="food-party-restaurant-grid" id="restaurantGrid"></div>
+                </div>
+
+                <div class="food-party-active" id="activeParty" hidden>
+                    <div class="food-party-party-header">
+                        <div>
+                            <span class="food-party-panel-kicker">Invitation</span>
+                            <div class="food-party-invite-line">
+                                <strong id="inviteCode">—</strong>
+                                <button class="food-party-button food-party-button-small" id="copyInviteLink" type="button">Copier le lien</button>
+                            </div>
+                            <p id="partyRestaurantName"></p>
+                        </div>
+                        <button class="food-party-text-button food-party-danger" id="cancelPartyButton" type="button" hidden>Annuler la Food Party</button>
+                    </div>
+
+                    <div class="food-party-layout">
+                        <div class="food-party-menu-column">
+                            <article class="food-party-panel food-party-participants-panel">
+                                <div class="food-party-section-title">
+                                    <div><span class="food-party-panel-kicker">Les convives</span><h3>Participants</h3></div>
+                                    <span class="food-party-count" id="participantCount">0</span>
+                                </div>
+                                <div class="food-party-participants" id="participantList"></div>
+                            </article>
+                            <div class="food-party-menu-heading"><span class="food-party-panel-kicker">À partager</span><h3>Le menu</h3></div>
+                            <div class="food-party-menu-grid" id="menuGrid"></div>
+                        </div>
+
+                        <aside class="food-party-panel food-party-cart" aria-labelledby="common-cart-title">
+                            <div class="food-party-section-title">
+                                <div><span class="food-party-panel-kicker">Commande commune</span><h3 id="common-cart-title">Notre panier</h3></div>
+                                <span class="food-party-count" id="cartCount">0</span>
+                            </div>
+                            <div class="food-party-cart-items" id="cartItems"></div>
+                            <div class="food-party-cart-footer">
+                                <div class="food-party-total"><span>Total</span><strong id="partyTotal">0,00 MAD</strong></div>
+                                <div class="food-party-address" id="deliveryAddressGroup">
+                                    <label for="deliveryAddress">Ma livraison personnelle</label>
+                                    <textarea id="deliveryAddress" rows="2" placeholder="Votre adresse de livraison" readonly></textarea>
+                                    <label class="food-party-confirm-check"><input id="activeAddressConfirmed" type="checkbox" disabled> Adresse du profil confirmée.</label>
+                                    <button class="food-party-button food-party-button-secondary food-party-confirm-address" id="confirmAddressButton" type="button" disabled>Utiliser l'adresse de mon profil</button>
+                                    <p class="food-party-address-status" id="addressStatus"></p>
+                                    <a class="food-party-profile-address-link" id="activeAddressProfileLink" href="/profile.html" hidden>Ajouter une adresse dans mon profil</a>
+                                </div>
+                                <button class="food-party-button food-party-checkout" id="checkoutPartyButton" type="button">Créer les livraisons</button>
+                                <p class="food-party-host-note" id="hostOnlyNote" hidden>Seul l'hôte peut valider la commande.</p>
+                            </div>
+                        </aside>
+                    </div>
                 </div>
             </div>
         </section>
@@ -112,7 +218,7 @@
                     <article class="food-party-step">
                         <span>03</span>
                         <h3>Commandez ensemble</h3>
-                        <p>Chacun ajoute ses plats, puis une seule commande est envoyée.</p>
+                        <p>Chacun ajoute ses plats et reçoit sa propre livraison à l'adresse confirmée.</p>
                     </article>
                 </div>
             </div>
@@ -120,5 +226,6 @@
     </main>
 
     <script src="/js/navbar.js"></script>
+    <script src="/js/food-party.js"></script>
 </body>
 </html>

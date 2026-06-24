@@ -1,9 +1,113 @@
 const Order = require('../models/Order');
 const User = require('../models/User');
+const mongoose = require('mongoose');
+const Cart = require('../models/Cart');
+
+async function creditNormalOrderDashPoints(orderId) {
+  const session = await mongoose.startSession();
+  let pointsAwarded = 0;
+  try {
+    await session.withTransaction(async () => {
+      const order = await Order.findOneAndUpdate({
+        _id: orderId,
+        status: 'delivered',
+        dashPointsEligible: { $ne: false },
+        dashPointsAwarded: { $ne: true }
+      }, {
+        $set: { dashPointsAwarded: true, dashPointsAwardedAt: new Date() }
+      }, { new: true, session });
+
+      if (!order || order.dashPointsEarned <= 0) return;
+      const user = await User.findById(order.userId).session(session);
+      if (!user) throw new Error('Utilisateur introuvable pour l’attribution des DashPoints');
+      user.addDashPoints(
+        order.dashPointsEarned,
+        `Commande de ${order.totalAmount} MAD`,
+        order._id
+      );
+      await user.save({ session });
+      pointsAwarded = order.dashPointsEarned;
+    });
+    return pointsAwarded;
+  } finally {
+    await session.endSession();
+  }
+}
+
+// Reutilisee par le suivi coursier; la mise a jour atomique empeche tout double credit.
+exports.creditNormalOrderDashPoints = creditNormalOrderDashPoints;
 
 /**
  * Créer une nouvelle commande
  */
+exports.createOrderFromCart = async (req, res) => {
+  const session = await mongoose.startSession();
+  try {
+    const paymentMethod = req.body.paymentMethod || 'cash_on_delivery';
+    if (!['cash_on_delivery', 'card'].includes(paymentMethod)) {
+      return res.status(400).json({ success: false, message: 'Mode de paiement invalide' });
+    }
+
+    let createdOrder;
+    await session.withTransaction(async () => {
+      const [cart, user] = await Promise.all([
+        Cart.findOne({ user: req.user.id }).session(session),
+        User.findById(req.user.id).select('deliveryAddress').session(session)
+      ]);
+      if (!cart?.items.length) {
+        const error = new Error('Votre panier est vide');
+        error.statusCode = 400;
+        throw error;
+      }
+      const deliveryAddress = String(user?.deliveryAddress?.address || '').trim();
+      if (!deliveryAddress) {
+        const error = new Error('Veuillez ajouter une adresse dans votre profil');
+        error.statusCode = 400;
+        throw error;
+      }
+
+      const orders = await Order.create([{
+        userId: req.user.id,
+        restaurantId: cart.items[0].restaurant,
+        restaurantName: cart.items[0].restaurantName,
+        items: cart.items.map((item) => ({
+          menuItem: item.menuItem,
+          restaurant: item.restaurant,
+          name: item.name,
+          image: item.image,
+          price: item.price,
+          quantity: item.quantity
+        })),
+        subtotal: cart.subtotal,
+        deliveryFee: cart.deliveryFee,
+        total: cart.total,
+        totalAmount: cart.total,
+        deliveryAddress,
+        deliveryCoordinates: {
+          latitude: user.deliveryAddress?.latitude,
+          longitude: user.deliveryAddress?.longitude
+        },
+        paymentMethod,
+        status: 'pending',
+        sourceType: 'normal',
+        estimatedDeliveryTime: new Date(Date.now() + 45 * 60000)
+      }], { session });
+      createdOrder = orders[0];
+      await Cart.deleteOne({ _id: cart._id }, { session });
+    });
+
+    return res.status(201).json({ success: true, message: 'Commande créée avec succès', order: createdOrder });
+  } catch (error) {
+    console.error('Erreur création commande depuis panier:', error);
+    return res.status(error.statusCode || 500).json({
+      success: false,
+      message: error.statusCode ? error.message : 'Erreur lors de la création de la commande'
+    });
+  } finally {
+    await session.endSession();
+  }
+};
+
 exports.createOrder = async (req, res) => {
   try {
     const { restaurantId, restaurantName, items, totalAmount, deliveryAddress, notes } = req.body;
@@ -158,11 +262,13 @@ exports.updateOrderStatus = async (req, res) => {
     await order.save();
 
     // Si la commande est livrée, créditer les DashPoints à l'utilisateur
-    if (status === 'delivered') {
-      const user = await User.findById(order.userId);
-      if (user) {
-        user.dashPoints = (user.dashPoints || 0) + order.dashPointsEarned;
-        await user.save();
+    // Les livraisons individuelles Food Party ne créditent jamais leurs participants.
+    // Le bonus global a déjà été attribué une fois à l'hôte lors du checkout Food Party.
+    if (status === 'delivered' && order.dashPointsEligible !== false) {
+      const pointsAwarded = await creditNormalOrderDashPoints(order._id);
+      if (pointsAwarded > 0) {
+        order.dashPointsAwarded = true;
+        order.dashPointsAwardedAt = new Date();
       }
     }
 

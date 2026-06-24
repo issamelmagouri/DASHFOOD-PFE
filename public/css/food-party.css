@@ -2,6 +2,10 @@
     background: var(--bg-cream);
 }
 
+.food-party-page [hidden] {
+    display: none !important;
+}
+
 .food-party-page-hero {
     padding-top: 2rem;
     background: var(--bg-cream);
@@ -73,6 +77,85 @@
     line-height: 1.7;
 }
 
+.food-party-workspace { padding: clamp(4rem, 8vw, 7rem) 0; background: var(--bg-cream); }
+.food-party-workspace-heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2.5rem; }
+.food-party-workspace-heading h2 { max-width: 720px; font-family: var(--font-display); font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1.08; }
+.food-party-workspace-heading > p { max-width: 470px; color: var(--text-gray); line-height: 1.7; }
+.food-party-alert { margin-bottom: 1.5rem; padding: 1rem 1.25rem; border: 1px solid rgba(30,122,75,.2); border-radius: 16px; color: #17613b; background: #eef9f2; }
+.food-party-alert.is-error { border-color: rgba(190,36,64,.2); color: #a51e38; background: #fff0f3; }
+.food-party-start { display: grid; grid-template-columns: 1.2fr .8fr; gap: 1.25rem; }
+.food-party-panel, .food-party-restaurant-picker, .food-party-party-header { border: 1px solid var(--border-light); border-radius: 26px; background: var(--bg-white); box-shadow: 0 18px 50px rgba(36,28,24,.05); }
+.food-party-panel, .food-party-restaurant-picker { padding: clamp(1.4rem, 3vw, 2rem); }
+.food-party-panel-kicker { display: block; margin-bottom: .7rem; color: var(--primary-pink); font-size: .7rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; }
+.food-party-panel h3, .food-party-section-title h3, .food-party-menu-heading h3 { font-family: var(--font-display); font-size: clamp(1.45rem, 3vw, 2rem); }
+.food-party-create-panel > p, .food-party-join-panel > p { margin: .7rem 0 1.5rem; color: var(--text-gray); }
+.food-party-start-actions, .food-party-code-form, .food-party-invite-line { display: flex; align-items: center; flex-wrap: wrap; gap: .75rem; }
+.food-party-button, .food-party-text-button, .food-party-close { border: 0; font: inherit; cursor: pointer; }
+.food-party-cta { cursor: pointer; }
+.food-party-button { min-height: 48px; padding: .75rem 1.25rem; border-radius: 999px; color: #fff; font-weight: 700; background: var(--primary-pink); transition: var(--transition); }
+.food-party-button:hover:not(:disabled), .food-party-button:focus-visible:not(:disabled) { box-shadow: 0 10px 25px rgba(243,23,83,.2); transform: translateY(-2px); }
+.food-party-button:disabled { cursor: not-allowed; opacity: .45; }
+.food-party-button-secondary { border: 1px solid var(--border-light); color: var(--text-dark); background: #fff; }
+.food-party-button-small { min-height: 40px; padding: .55rem 1rem; font-size: .82rem; }
+.food-party-code-form > input, .food-party-address textarea { width: 100%; border: 1px solid var(--border-light); border-radius: 14px; color: var(--text-dark); background: var(--bg-cream); outline: none; }
+.food-party-address-choice { display: grid; gap: .55rem; margin: 1rem 0 1.25rem; color: var(--text-dark); font-size: .82rem; font-weight: 700; }
+.food-party-address-choice textarea { width: 100%; padding: .8rem; border: 1px solid var(--border-light); border-radius: 14px; color: var(--text-dark); background: var(--bg-cream); resize: vertical; outline: none; }
+.food-party-address-choice-wide { flex: 1 0 100%; margin: .25rem 0; }
+.food-party-confirm-check { display: flex; align-items: flex-start; gap: .55rem; color: var(--text-gray); font-size: .8rem; font-weight: 500; line-height: 1.4; }
+.food-party-confirm-check input { width: auto; min-height: auto; margin-top: .15rem; accent-color: var(--primary-pink); }
+.food-party-code-form > input { flex: 1 1 190px; min-height: 48px; padding: 0 1rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+.food-party-code-form > input:focus, .food-party-address textarea:focus { border-color: var(--primary-pink); box-shadow: 0 0 0 3px rgba(243,23,83,.08); }
+.food-party-restaurant-picker { margin-top: 1.25rem; }
+.food-party-section-title, .food-party-party-header, .food-party-total { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.food-party-close { width: 42px; height: 42px; border-radius: 50%; color: var(--text-dark); font-size: 1.7rem; background: var(--bg-cream); }
+.food-party-loading, .food-party-empty { padding: 2rem 0; color: var(--text-gray); text-align: center; }
+.food-party-restaurant-grid, .food-party-menu-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; margin-top: 1.5rem; }
+.food-party-restaurant-card, .food-party-menu-card { overflow: hidden; border: 1px solid var(--border-light); border-radius: 20px; background: #fff; }
+.food-party-restaurant-card img, .food-party-menu-card img { width: 100%; height: 160px; object-fit: cover; background: #eee; }
+.food-party-restaurant-card-content, .food-party-menu-card-content { padding: 1.1rem; }
+.food-party-restaurant-card h4, .food-party-menu-card h4 { margin-bottom: .35rem; font-family: var(--font-display); font-size: 1.2rem; }
+.food-party-restaurant-card p, .food-party-menu-card p { min-height: 2.7em; color: var(--text-gray); font-size: .85rem; line-height: 1.5; }
+.food-party-card-footer { display: flex; align-items: center; justify-content: space-between; gap: .75rem; margin-top: 1rem; }
+.food-party-card-footer strong { white-space: nowrap; }
+.food-party-active { margin-top: 1.25rem; }
+.food-party-party-header { padding: 1.5rem 2rem; }
+.food-party-invite-line strong { font-family: var(--font-display); font-size: clamp(2rem,5vw,3.5rem); letter-spacing: .08em; }
+.food-party-party-header p { color: var(--text-gray); }
+.food-party-text-button { padding: .5rem; color: var(--text-gray); background: transparent; text-decoration: underline; }
+.food-party-danger { color: #b21f3d; }
+.food-party-layout { display: grid; grid-template-columns: minmax(0,1fr) minmax(320px,.45fr); align-items: start; gap: 1.25rem; margin-top: 1.25rem; }
+.food-party-participants-panel { margin-bottom: 2rem; }
+.food-party-count { display: grid; min-width: 34px; height: 34px; place-items: center; border-radius: 50%; color: var(--primary-pink); font-weight: 800; background: rgba(243,23,83,.08); }
+.food-party-participants { display: flex; flex-wrap: wrap; gap: .65rem; margin-top: 1.25rem; }
+.food-party-participant { display: inline-flex; align-items: center; gap: .55rem; padding: .55rem .8rem; border-radius: 999px; background: var(--bg-cream); }
+.food-party-avatar { display: grid; width: 28px; height: 28px; place-items: center; border-radius: 50%; color: #fff; font-size: .75rem; font-weight: 800; background: var(--primary-pink); }
+.food-party-menu-heading { margin-bottom: -.5rem; }
+.food-party-menu-card .food-party-button { min-height: 40px; padding: .55rem 1rem; font-size: .82rem; }
+.food-party-cart { position: sticky; top: 95px; }
+.food-party-cart-items { max-height: 440px; margin-top: 1rem; overflow: auto; }
+.food-party-cart-item { padding: 1rem 0; border-bottom: 1px solid var(--border-light); }
+.food-party-cart-item-main, .food-party-cart-item-actions { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+.food-party-cart-item small { display: block; margin-top: .25rem; color: var(--text-gray); }
+.food-party-cart-item-actions { margin-top: .75rem; }
+.food-party-quantity { display: inline-flex; align-items: center; overflow: hidden; border: 1px solid var(--border-light); border-radius: 999px; }
+.food-party-quantity button { width: 32px; height: 32px; border: 0; background: var(--bg-cream); cursor: pointer; }
+.food-party-quantity button:disabled { cursor: default; opacity: .35; }
+.food-party-quantity span { min-width: 30px; text-align: center; }
+.food-party-remove { border: 0; color: #b21f3d; font-size: .8rem; background: transparent; cursor: pointer; }
+.food-party-cart-footer { margin-top: 1.25rem; }
+.food-party-total { padding-top: 1.25rem; border-top: 1px solid var(--border-light); font-size: 1.1rem; }
+.food-party-total strong { font-family: var(--font-display); font-size: 1.5rem; }
+.food-party-address { display: block; margin-top: 1.25rem; font-size: .82rem; font-weight: 700; }
+.food-party-address small { color: var(--text-gray); font-weight: 400; }
+.food-party-address textarea { margin-top: .5rem; padding: .8rem; resize: vertical; }
+.food-party-confirm-address { width: 100%; margin-top: .8rem; }
+.food-party-address-status { margin-top: .6rem; color: #a51e38; font-size: .78rem; }
+.food-party-address-status.is-confirmed { color: #17613b; }
+.food-party-profile-address-link { color: var(--primary-pink); font-size: .82rem; font-weight: 700; text-decoration: underline; }
+.food-party-checkout { width: 100%; margin-top: 1rem; }
+.food-party-host-note { margin-top: .8rem; color: var(--text-gray); font-size: .8rem; text-align: center; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
 @media (max-width: 768px) {
     .food-party-page-hero {
         padding-top: 1rem;
@@ -89,4 +172,15 @@
     .food-party-step h3 {
         margin-top: 2rem;
     }
+
+    .food-party-workspace-heading, .food-party-party-header { align-items: flex-start; flex-direction: column; }
+    .food-party-start, .food-party-layout, .food-party-restaurant-grid, .food-party-menu-grid { grid-template-columns: 1fr; }
+    .food-party-cart { position: static; }
+    .food-party-menu-card, .food-party-restaurant-card { display: grid; grid-template-columns: 110px 1fr; }
+    .food-party-menu-card img, .food-party-restaurant-card img { height: 100%; min-height: 150px; }
+}
+
+@media (max-width: 440px) {
+    .food-party-menu-card, .food-party-restaurant-card { display: block; }
+    .food-party-menu-card img, .food-party-restaurant-card img { height: 170px; }
 }

@@ -1,0 +1,48 @@
+.catalogue-page { background: #f7f5ee; }
+.catalogue-page [hidden] { display: none !important; }
+.catalogue-shell { width: min(1320px, calc(100% - 6rem)); margin: 0 auto; }
+.catalogue-hero { margin-top: 77px; padding: clamp(4rem, 8vw, 7rem) 0; color: #fff; background: linear-gradient(125deg, #243f2b 0%, #375c3c 62%, #69806b 100%); overflow: hidden; }
+.catalogue-hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; align-items: center; gap: 4rem; }
+.catalogue-eyebrow { display: block; margin-bottom: 1rem; color: #ef9bae; font-size: .72rem; font-weight: 800; letter-spacing: 2.5px; }
+.catalogue-hero h1 { margin: 0; font: 500 clamp(4rem, 9vw, 7.5rem)/.95 'Playfair Display', serif; }
+.catalogue-hero p { max-width: 650px; margin: 1.5rem 0 2rem; color: rgba(255,255,255,.76); font-size: 1.05rem; line-height: 1.75; }
+.catalogue-search { display: flex; align-items: center; gap: .8rem; max-width: 610px; min-height: 58px; padding: 0 1.2rem; border-radius: 999px; background: #fff; box-shadow: 0 16px 45px rgba(0,0,0,.18); }
+.catalogue-search svg { width: 21px; color: #2c4a2e; }
+.catalogue-search input { flex: 1; border: 0; outline: 0; color: #17162e; font: 500 .95rem 'Inter', sans-serif; }
+.catalogue-hero-art { display: grid; min-height: 270px; place-items: center; padding: 2rem; border: 1px solid rgba(255,255,255,.2); border-radius: 120px 28px 120px 28px; background: linear-gradient(rgba(28,55,34,.3),rgba(28,55,34,.5)), url('/assets/images/chefprepare .png') center/cover; box-shadow: 0 35px 70px rgba(18,35,22,.28); }
+.catalogue-hero-art span { color: #fff; font: 500 clamp(1.5rem,3vw,2.3rem)/1.25 'Playfair Display', serif; text-align: center; }
+.catalogue-hero-art em { color: #dbe9a9; }
+.catalogue-category-bar { position: sticky; top: 76px; z-index: 80; border-bottom: 1px solid #e5e0d3; background: rgba(253,252,248,.94); backdrop-filter: blur(15px); }
+.catalogue-categories { display: flex; gap: .65rem; padding-top: 1rem; padding-bottom: 1rem; overflow-x: auto; scrollbar-width: none; }
+.catalogue-categories::-webkit-scrollbar { display: none; }
+.catalogue-category { flex: 0 0 auto; min-height: 42px; padding: .65rem 1.15rem; border: 1px solid #ded9cc; border-radius: 999px; color: #52524f; font: 700 .82rem 'Inter',sans-serif; background: #fff; cursor: pointer; transition: .25s ease; }
+.catalogue-category:hover { border-color: #2c4a2e; color: #2c4a2e; transform: translateY(-2px); }
+.catalogue-category.active { border-color: #2c4a2e; color: #fff; background: #2c4a2e; box-shadow: 0 8px 20px rgba(44,74,46,.2); }
+.catalogue-main { min-height: 60vh; padding: clamp(4rem,7vw,6.5rem) 0; }
+.catalogue-heading-row { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2rem; }
+.catalogue-heading-row h2 { margin: 0; color: #17162e; font: 500 clamp(2.4rem,5vw,4rem)/1 'Playfair Display',serif; }
+.catalogue-heading-row p { color: #77756f; font-weight: 600; }
+.catalogue-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1.4rem; }
+.meal-card { overflow: hidden; border: 1px solid #e5e0d3; border-radius: 26px; background: #fff; box-shadow: 0 12px 35px rgba(46,42,35,.06); transition: transform .3s ease, box-shadow .3s ease; }
+.meal-card:hover { transform: translateY(-7px); box-shadow: 0 22px 55px rgba(46,42,35,.12); }
+.meal-image-wrap { position: relative; height: 220px; overflow: hidden; background: #ece9df; }
+.meal-image { width: 100%; height: 100%; object-fit: cover; transition: transform .45s ease; }
+.meal-card:hover .meal-image { transform: scale(1.05); }
+.meal-category-label { position: absolute; top: 1rem; left: 1rem; padding: .48rem .75rem; border-radius: 999px; color: #fff; font-size: .68rem; font-weight: 800; letter-spacing: .8px; text-transform: uppercase; background: #f31753; }
+.meal-content { padding: 1.35rem; }
+.meal-restaurant { margin-bottom: .45rem; color: #69806b; font-size: .74rem; font-weight: 800; letter-spacing: .8px; text-transform: uppercase; }
+.meal-card h3 { margin: 0; color: #17162e; font: 600 1.55rem/1.2 'Playfair Display',serif; }
+.meal-description { min-height: 3.2em; margin: .65rem 0 1.25rem; color: #77756f; font-size: .87rem; line-height: 1.65; }
+.meal-footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 1rem; border-top: 1px solid #eeeae1; }
+.meal-price { color: #2c4a2e; font: 700 1.25rem 'Playfair Display',serif; white-space: nowrap; }
+.meal-add { min-height: 42px; padding: .65rem 1.15rem; border: 0; border-radius: 999px; color: #fff; font: 800 .8rem 'Inter',sans-serif; background: #f31753; cursor: pointer; transition: .25s ease; }
+.meal-add:hover { background: #d91247; box-shadow: 0 9px 22px rgba(243,23,83,.23); transform: translateY(-2px); }
+.meal-add.added { background: #2c4a2e; }
+.catalogue-loader, .catalogue-empty { grid-column: 1/-1; padding: 5rem 1rem; color: #77756f; text-align: center; }
+.catalogue-loader span { display: block; width: 40px; height: 40px; margin: 0 auto 1rem; border: 3px solid #ded9cc; border-top-color: #f31753; border-radius: 50%; animation: catalogue-spin .8s linear infinite; }
+.catalogue-message { margin-bottom: 1.5rem; padding: 1rem 1.2rem; border-radius: 14px; color: #9e1d39; background: #fff0f3; }
+.catalogue-toast { position: fixed; right: 1.5rem; bottom: 1.5rem; z-index: 1100; max-width: 330px; padding: 1rem 1.25rem; border-radius: 16px; color: #fff; font-weight: 700; background: #2c4a2e; box-shadow: 0 15px 45px rgba(0,0,0,.2); }
+@keyframes catalogue-spin { to { transform: rotate(360deg); } }
+@media (max-width: 1050px) { .catalogue-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } .catalogue-hero-grid { grid-template-columns: 1fr; } .catalogue-hero-art { display: none; } }
+@media (max-width: 768px) { .catalogue-shell { width: min(100% - 2rem,1320px); } .catalogue-hero { margin-top: 72px; padding: 4rem 0; } .catalogue-category-bar { top: 71px; } .catalogue-heading-row { align-items: flex-start; flex-direction: column; gap: .75rem; } }
+@media (max-width: 580px) { .catalogue-grid { grid-template-columns: 1fr; } .meal-card { display: grid; grid-template-columns: 115px 1fr; border-radius: 20px; } .meal-image-wrap { height: 100%; min-height: 205px; } .meal-content { padding: 1rem; } .meal-card h3 { font-size: 1.25rem; } .meal-description { min-height: 0; } .meal-footer { align-items: flex-start; flex-direction: column; } .meal-add { width: 100%; } }

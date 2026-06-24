@@ -3,14 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DashFood - Catalogue</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <meta name="description" content="Découvrez tous les plats disponibles sur DashFood.">
+    <title>Catalogue - DashFood</title>
+    <link rel="icon" type="image/png" href="/assets/logos/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/restaurants.css">
+    <link rel="stylesheet" href="/css/catalogue.css">
 </head>
-<body>
-    <!-- Page catalogue -->
-    <!-- Liste et filtrage des restaurants disponibles -->
+<body class="catalogue-page">
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="/" class="navbar-logo" aria-label="Accueil DashFood"><img src="/assets/logos/logo.png" alt="DashFood"></a>
+                <div class="navbar-links">
+                    <a href="/" class="nav-link">Accueil</a>
+                    <a href="/restaurants" class="nav-link">Restaurants</a>
+                    <a href="/catalogue" class="nav-link active">Catalogue</a>
+                    <a href="/dashpoints" class="nav-link">DashPoints</a>
+                    <a href="/contact" class="nav-link">Contact</a>
+                </div>
+                <div class="navbar-actions">
+                    <a href="/panier" class="cart-btn" id="cartBtn" aria-label="Voir mon panier">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+                    <div id="guestActions" class="guest-actions">
+                        <a href="/login" class="btn-secondary">Connexion</a>
+                        <a href="/register" class="btn-primary">Inscription</a>
+                    </div>
+                    <div id="clientProfile" class="client-profile" style="display:none">
+                        <button class="profile-btn" id="profileBtn" type="button">
+                            <div class="profile-avatar">U</div><span id="profileName">Utilisateur</span>
+                            <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div class="profile-dropdown" id="profileDropdown">
+                            <div class="dropdown-header"><div class="dropdown-avatar">U</div><div class="dropdown-user-info"><div class="dropdown-name" id="dropdownFullName">Utilisateur</div><div class="dropdown-email" id="dropdownEmail"></div></div></div>
+                            <div class="dropdown-menu">
+                                <a href="/profile" class="dropdown-item">Mon profil</a>
+                                <a href="/orders" class="dropdown-item">Mes commandes</a>
+                                <a href="/dashpoints" class="dropdown-item">Mes DashPoints</a>
+                                <button class="dropdown-item logout-btn" id="logoutBtn" type="button">Déconnexion</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-    <script src="/js/main.js"></script>
+    <header class="catalogue-hero">
+        <div class="catalogue-shell catalogue-hero-grid">
+            <div>
+                <span class="catalogue-eyebrow">TOUTES LES SAVEURS DASHFOOD</span>
+                <h1>Catalogue</h1>
+                <p>Explorez les assiettes de nos restaurants partenaires et composez votre prochain repas en quelques clics.</p>
+                <label class="catalogue-search" for="catalogueSearch">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                    <input id="catalogueSearch" type="search" placeholder="Rechercher un repas" autocomplete="off">
+                </label>
+            </div>
+            <div class="catalogue-hero-art" aria-hidden="true"><span>Des plats choisis avec soin,<br><em>pour toutes vos envies.</em></span></div>
+        </div>
+    </header>
+
+    <div class="catalogue-category-bar" aria-label="Catégories de repas">
+        <div class="catalogue-shell catalogue-categories" id="categoryFilters">
+            <button class="catalogue-category active" type="button" data-category="all">Tous</button>
+            <button class="catalogue-category" type="button" data-category="entrees">Entrées</button>
+            <button class="catalogue-category" type="button" data-category="plats-principaux">Plats principaux</button>
+            <button class="catalogue-category" type="button" data-category="burgers">Burgers</button>
+            <button class="catalogue-category" type="button" data-category="pizzas">Pizzas</button>
+            <button class="catalogue-category" type="button" data-category="desserts">Desserts</button>
+            <button class="catalogue-category" type="button" data-category="boissons">Boissons</button>
+        </div>
+    </div>
+
+    <main class="catalogue-main">
+        <div class="catalogue-shell">
+            <div class="catalogue-heading-row">
+                <div><span class="catalogue-eyebrow">À LA CARTE</span><h2 id="catalogueHeading">Tous les repas</h2></div>
+                <p id="catalogueCount" aria-live="polite">Chargement…</p>
+            </div>
+            <div class="catalogue-message" id="catalogueMessage" role="status" hidden></div>
+            <div class="catalogue-grid" id="menuItemsGrid" aria-live="polite">
+                <div class="catalogue-loader"><span></span><p>La cuisine prépare le catalogue…</p></div>
+            </div>
+        </div>
+    </main>
+
+    <div class="catalogue-toast" id="catalogueToast" role="status" aria-live="polite" hidden></div>
+    <script src="/js/navbar.js"></script>
     <script src="/js/catalogue.js"></script>
 </body>
 </html>

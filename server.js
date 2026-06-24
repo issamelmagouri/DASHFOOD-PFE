@@ -3,6 +3,8 @@
 
 require('dotenv').config();
 const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io');
 const path = require('path');
 const cors = require('cors');
 const connectDB = require('./config/db');
@@ -15,8 +17,19 @@ const restaurantPartnerRoutes = require('./routes/restaurantPartnerRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const restaurantRoutes = require('./routes/restaurantRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const foodPartyRoutes = require('./routes/foodPartyRoutes');
+const menuItemRoutes = require('./routes/menuItemRoutes');
+const cartRoutes = require('./routes/cartRoutes');
+const trackingRoutes = require('./routes/trackingRoutes');
+const configureSocket = require('./config/socket');
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: { origin: true, credentials: true }
+});
+configureSocket(io);
+app.set('io', io);
 
 // Connect to MongoDB
 connectDB();
@@ -40,6 +53,10 @@ app.use('/api/restaurant-partner', restaurantPartnerRoutes); // Routes pour les 
 app.use('/api/orders', orderRoutes); // Routes pour les commandes
 app.use('/api/restaurants', restaurantRoutes); // Routes pour les restaurants partenaires
 app.use('/api/admin', adminRoutes); // Routes pour l'administration
+app.use('/api/food-party', foodPartyRoutes); // Commandes groupées Food Party
+app.use('/api/menuitems', menuItemRoutes); // Catalogue global des repas
+app.use('/api/cart', cartRoutes); // Panier persistant du client
+app.use('/api/tracking', trackingRoutes); // Suivi GPS temps reel des livraisons
 
 // Routes pour servir les pages HTML
 app.get('/', (req, res) => {
@@ -205,12 +222,36 @@ app.get('/restaurants.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'restaurants.html'));
 });
 
+// Route menu restaurant
+app.get('/restaurant-menu', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'restaurant-menu.html'));
+});
+
+app.get('/restaurant-menu.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'restaurant-menu.html'));
+});
+
+// Route Catalogue
+app.get(['/catalogue', '/catalogue.html'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'catalogue.html'));
+});
+
+// Route panier utilisée par la navbar Restaurants/Catalogue
+app.get(['/panier', '/panier.html'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'panier.html'));
+});
+
+// Suivi de commande client avec carte temps reel
+app.get(['/suivi-commande', '/suivi-commande.html'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'suivi-commande.html'));
+});
+
 // Route Food Party
 app.get(['/foodparty', '/foodparty.html', '/food-party', '/food-party.html'], (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'food-party.html'));
 });
 
 // Démarrage du serveur
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Serveur DashFood démarré sur http://localhost:${PORT}`);
 });

@@ -4,7 +4,7 @@
  */
 
 // Mode demo si la base de donnees est vide
-const DEMO_MODE = true;
+const DEMO_MODE = false;
 
 // Variables globales
 let currentDeliveryId = null;
@@ -198,6 +198,14 @@ function displayCurrentDelivery(delivery) {
 
     section.style.display = 'block';
 
+    const orderId = typeof delivery.orderId === 'object' ? delivery.orderId._id : delivery.orderId;
+    const phoneDigits = String(delivery.clientPhone || '').replace(/\D/g, '');
+    const nextAction = {
+        accepted: { status: 'picked_up', label: 'Commande récupérée', icon: 'fa-box' },
+        picked_up: { status: 'on_the_way', label: 'Démarrer la livraison', icon: 'fa-motorcycle' },
+        on_the_way: { status: 'delivered', label: 'Confirmer la livraison', icon: 'fa-check-circle' }
+    }[delivery.status];
+
     // Determiner le statut et le libelle
     let statusLabel = '';
     let showDeliverButton = false;
@@ -237,7 +245,7 @@ function displayCurrentDelivery(delivery) {
                 <i class="fas fa-motorcycle"></i>
             </div>
             <div class="delivery-number-large">LIVRAISON N°</div>
-            <div class="delivery-id-large">DF-${delivery.orderId ? delivery.orderId.toString().slice(-4) : '2826'}</div>
+            <div class="delivery-id-large">DF-${orderId ? orderId.toString().slice(-4) : '----'}</div>
             <div class="delivery-status-badge-large">
                 <span class="status-dot"></span>
                 ${statusLabel}
@@ -291,17 +299,22 @@ function displayCurrentDelivery(delivery) {
                     </div>
                     <div class="delivery-info-item">
                         <span class="delivery-info-key">Distance</span>
-                        <span class="delivery-info-val">${delivery.distanceKm} km</span>
+                        <span class="delivery-info-val"><span id="courierTrackingDistance">${delivery.distanceKm || '—'}</span> km</span>
                     </div>
                     <div class="delivery-info-item">
                         <span class="delivery-info-key">Temps estimé</span>
-                        <span class="delivery-info-val">${estimatedTime} min</span>
+                        <span class="delivery-info-val"><span id="courierTrackingEta">${estimatedTime}</span> min</span>
                     </div>
                     <div class="delivery-info-item">
                         <span class="delivery-info-key">Statut</span>
                         <span class="delivery-info-val">${statusLabel}</span>
                     </div>
                 </div>
+            </div>
+
+            <div class="courier-tracking-block">
+                <div class="courier-tracking-heading"><div><span>ITINÉRAIRE EN DIRECT</span><h4>Vers l'adresse du client</h4></div><div class="gps-live"><i></i> GPS actif</div></div>
+                <div id="courierTrackingMap" class="courier-tracking-map" aria-label="Itinéraire de livraison"></div>
             </div>
 
             <!-- Timeline -->
@@ -355,7 +368,7 @@ function displayCurrentDelivery(delivery) {
                     <button class="btn-contact" onclick="window.location.href='tel:${delivery.clientPhone}'">
                         <i class="fas fa-phone"></i>
                     </button>
-                    <button class="btn-contact">
+                    <button class="btn-contact" onclick="window.open('https://wa.me/${phoneDigits}', '_blank', 'noopener')" title="Contacter sur WhatsApp">
                         <i class="fas fa-comment"></i>
                     </button>
                 </div>
@@ -364,18 +377,19 @@ function displayCurrentDelivery(delivery) {
             <!-- Actions : Livrer et Annuler -->
             ${showDeliverButton ? `
                 <div class="delivery-actions-premium">
-                    <button class="btn-cancel-delivery" onclick="handleStatusUpdate('${delivery._id}', 'cancelled')">
+                    <button class="btn-cancel-delivery" onclick="handleStatusUpdate('${orderId}', 'cancelled')">
                         <i class="fas fa-times-circle"></i>
                         Annuler livraison
                     </button>
-                    <button class="btn-deliver" onclick="handleStatusUpdate('${delivery._id}', 'delivered')">
-                        <i class="fas fa-check-circle"></i>
-                        Livrer
-                    </button>
+                    ${nextAction ? `<button class="btn-deliver" onclick="handleStatusUpdate('${orderId}', '${nextAction.status}')"><i class="fas ${nextAction.icon}"></i>${nextAction.label}</button>` : ''}
                 </div>
             ` : ''}
         </div>
     `;
+
+    if (orderId && window.DashFoodTracking) {
+        setTimeout(() => window.DashFoodTracking.initCourierMap(orderId).catch(error => showToast('GPS indisponible', error.message, 'error')), 0);
+    }
 }
 
 function hideCurrentDelivery() {
@@ -582,8 +596,8 @@ async function confirmAcceptDelivery() {
     }
 }
 
-function handleStatusUpdate(deliveryId, newStatus) {
-    pendingStatusUpdate = { deliveryId, newStatus };
+function handleStatusUpdate(orderId, newStatus) {
+    pendingStatusUpdate = { orderId, newStatus };
     openStatusModal(newStatus);
 }
 
@@ -643,7 +657,7 @@ function closeStatusModal() {
 async function confirmStatusUpdate() {
     if (!pendingStatusUpdate) return;
 
-    const { deliveryId, newStatus } = pendingStatusUpdate;
+    const { orderId, newStatus } = pendingStatusUpdate;
 
     showLoading();
 
@@ -666,7 +680,7 @@ async function confirmStatusUpdate() {
         }
 
         const token = localStorage.getItem('dashfood_token');
-        const response = await fetch(`/api/delivery/status/${deliveryId}`, {
+        const response = await fetch(`/api/tracking/order/${orderId}/status`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`,

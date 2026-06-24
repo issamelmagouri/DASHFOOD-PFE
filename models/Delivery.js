@@ -35,6 +35,12 @@ const deliverySchema = new mongoose.Schema({
     },
 
     // Informations restaurant
+    restaurantId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Restaurant',
+        required: true
+    },
+
     restaurantName: {
         type: String,
         required: true

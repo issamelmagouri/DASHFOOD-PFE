@@ -11,6 +11,11 @@ const DEMO_MODE = true;
 let allOrders = [];
 let currentFilter = 'all';
 
+function getOrderDashPoints(order) {
+    if (order.dashPointsEligible === false) return 0;
+    return order.dashPointsEarned ?? Math.floor(order.totalAmount || 0);
+}
+
 // Au chargement de la page
 document.addEventListener('DOMContentLoaded', () => {
     checkAuthentication();
@@ -353,11 +358,11 @@ function createActiveOrderCard(order) {
                         </div>
                         <div class="delivery-total-item">
                             <div class="delivery-total-label">DASHPOINTS</div>
-                            <div class="delivery-points-value">+${order.dashPointsEarned || Math.floor(order.totalAmount)} <span class="delivery-points-label">pts</span></div>
+                            <div class="delivery-points-value">+${getOrderDashPoints(order)} <span class="delivery-points-label">pts</span></div>
                         </div>
                     </div>
 
-                    <button class="delivery-track-btn">
+                    <button class="delivery-track-btn" onclick="window.location.href='/suivi-commande.html?orderId=${order._id}'">
                         SUIVRE
                         <div class="btn-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
@@ -387,13 +392,15 @@ function createHistoryOrderCard(order) {
         `<div class="order-item-row">${item.quantity}× ${item.name}</div>`
     ).join('');
 
-    const pointsBadge = order.status === 'delivered'
+    const pointsBadge = order.status === 'delivered' && order.dashPointsEligible === false
+        ? `<div class="order-points-label-cancelled">DashPoints Food Party attribués uniquement à l'hôte</div>`
+        : order.status === 'delivered'
         ? `<div class="order-points-badge">
                 <svg viewBox="0 0 24 24" fill="none">
                     <circle cx="12" cy="12" r="9" fill="currentColor" opacity="0.2"/>
                     <path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 </svg>
-                <span class="points-earned">+${order.dashPointsEarned || Math.floor(order.totalAmount)}</span> DashPoints gagnés
+                <span class="points-earned">+${getOrderDashPoints(order)}</span> DashPoints gagnés
             </div>`
         : `<div class="order-points-label-cancelled">DashPoints non comptabilisés</div>`;
 

@@ -20,6 +20,11 @@ const restaurantSchema = new mongoose.Schema({
         trim: true
     },
 
+    cuisine: {
+        type: String,
+        trim: true
+    },
+
     category: {
         type: String,
         required: [true, 'La catégorie est requise'],
@@ -110,6 +115,11 @@ const restaurantSchema = new mongoose.Schema({
         default: true
     },
 
+    isOpen: {
+        type: Boolean,
+        default: true
+    },
+
     // Menu
     menuItems: [{
         name: { type: String, required: true },
@@ -117,6 +127,10 @@ const restaurantSchema = new mongoose.Schema({
         price: { type: Number, required: true },
         category: String,
         image: String,
+        badge: {
+            type: String,
+            enum: ['nouveau', 'populaire', 'promo']
+        },
         isAvailable: { type: Boolean, default: true }
     }],
 
